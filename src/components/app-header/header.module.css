@@ -1,0 +1,23 @@
+.box {
+  display: flex;
+  justify-content: space-around;
+  
+}
+
+.menuLeft {
+   display: flex;
+   justify-content: space-around;
+}
+
+
+
+
+.logo{
+/* flex-grow: 50%;*/
+ 
+}
+
+.menuRight {
+  display: flex;
+  justify-content: space-around;
+}

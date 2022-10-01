@@ -1,0 +1,14 @@
+li {
+  list-style-type: none; 
+}
+
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 700px;
+}
+
+.column {
+  
+}

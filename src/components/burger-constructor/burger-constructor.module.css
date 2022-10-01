@@ -1,0 +1,15 @@
+li {
+  list-style-type: none; 
+}
+
+
+.row {
+  display: flex;
+}
+
+.liRow {
+  display: flex;
+  height: 100px;
+}
+
+
