@@ -2,7 +2,7 @@ import React from 'react';
 import { Tab, Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import Ingridient from '../burger-ingredient/burger-ingredient';
-
+import PropTypes from 'prop-types';
 
 const BurgerIngredients = (props) => {
 
@@ -40,5 +40,14 @@ const BurgerIngredients = (props) => {
     </div>
   )
 }
+
+const itemPropTypes = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
+});
+
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(itemPropTypes).isRequired
+};
 
 export default BurgerIngredients;
