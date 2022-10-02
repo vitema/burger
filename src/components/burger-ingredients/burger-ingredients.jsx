@@ -12,27 +12,32 @@ const BurgerIngredients = (props) => {
     "main": "Начинки"
   }
 
-  const [current, setCurrent] = React.useState('bun')
-
+  const [current, setCurrent] = React.useState('bun');
   return (
-    <section>
-
-      <p className="text text_type_main-large">Соберите бургер</p>
+    <div className={styles.box}>
+      <p className="text text_type_main-large mt-10">Соберите бургер</p>
       <div className={styles.tabBox}>
-        {Object.keys(availableTypes).map((key, index) => (
-          <Tab key = {key} value={key} active={current === key} onClick={setCurrent}>{availableTypes[key]}</Tab>
+        {Object.keys(availableTypes).map((key) => (
+          <Tab class="mt-5" key={key} value={key} active={current === key} onClick={setCurrent}>{availableTypes[key]}</Tab>
         ))}
       </div>
 
-      <div>
+      <div className={styles.ingridientsBox}>
         {
           Object.keys(availableTypes).map((key, index) => (
-            <Ingridient key={index} type={availableTypes[key]} data={props.data.filter(x => x.type == key)} />
+            <React.Fragment key={index}>
+              <p className="text text_type_main-medium mt-10">{availableTypes[key]}</p>
+              <ul className={styles.row}>
+                {
+                  props.data.filter(x => x.type == key).map(item => (
+                    <Ingridient key={item._id} item={item} />
+                  ))}
+              </ul>
+            </React.Fragment>
           ))
         }
-
       </div>
-    </section>
+    </div>
   )
 }
 

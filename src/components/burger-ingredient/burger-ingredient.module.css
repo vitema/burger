@@ -1,14 +1,25 @@
 li {
-  list-style-type: none; 
-}
-
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  width: 700px;
+  list-style-type: none;
 }
 
 .column {
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 25%;
+}
+
+.imgBox {
+  position: relative;
+  margin: 0px 16px 0px 16px;
+}
+
+.priceBox {
+  display: flex;
+  align-items: center;
+}
+
+.textBox {
+  height: 48px;
+  text-align: center;
 }

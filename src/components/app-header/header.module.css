@@ -1,23 +1,28 @@
 .box {
   display: flex;
-  justify-content: space-around;
-  
+  justify-content: center;
+  padding: 16px 8px 16px 0px;
 }
 
 .menuLeft {
-   display: flex;
-   justify-content: space-around;
+    display: flex;
 }
 
-
-
-
-.logo{
-/* flex-grow: 50%;*/
- 
+.logo {
+  margin-right: 110px;
+  margin-right: 280px;
+  margin-left: 170px;
 }
 
 .menuRight {
   display: flex;
   justify-content: space-around;
+}
+
+.menuItem {
+  display: flex;
+  align-items:center; 
+  height: 20px;
+  padding: 8px;
+  margin: 5px;
 }

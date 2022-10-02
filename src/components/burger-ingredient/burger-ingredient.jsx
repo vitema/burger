@@ -1,25 +1,27 @@
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './burger-ingredient.module.css';
 import React from 'react';
+import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import styles from './burger-ingredient.module.css';
 
-const BurgerIngredient = ({ type, data }) => {
+const BurgerIngredient = ({ item }) => {
+
+  //todo remove after realize drag&drop method
+  const testBunId = '60666c42cc7b410027a1a9b1';
+  const [count, setCount] = React.useState(item._id === testBunId ? 1 : 0);
 
   return (
-    <>
-      <p className="text text_type_main-medium">{type}</p>
-      <ul className={styles.row}>
-        {
-          data.map(item => (
-            <React.Fragment key={item._id}>
-              <li className={styles.column}>
-                <img src={item.image} />
-                <p className="text text_type_digits-default">{item.price} <CurrencyIcon type="primary" /></p>
-                <p className="text text_type_main-small">{item.name}</p>
-              </li>
-            </React.Fragment>
-          ))}
-      </ul>
-    </>
+    <li className={styles.column}>
+      <div className={styles.imgBox}><img src={item.image} />
+        {count > 0 && <Counter count={count} size="default" />}
+      </div>
+
+      <div className={styles.priceBox}>
+        <span className="text text_type_digits-default mt-1 mb-1 pr-2">{item.price}</span>
+        <CurrencyIcon type="primary" />
+      </div>
+
+       <div className={styles.textBox}><p className="text text_type_main-small">{item.name}</p></div>
+
+    </li>
   )
 }
 
