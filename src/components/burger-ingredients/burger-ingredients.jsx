@@ -20,7 +20,7 @@ const BurgerIngredients = (props) => {
       <p className="text text_type_main-large">Соберите бургер</p>
       <div className={styles.tabBox}>
         {Object.keys(availableTypes).map((key, index) => (
-          <Tab value={key} active={current === key} onClick={setCurrent}>{availableTypes[key]}</Tab>
+          <Tab key = {key} value={key} active={current === key} onClick={setCurrent}>{availableTypes[key]}</Tab>
         ))}
       </div>
 
