@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import Ingridient from "../burger-ingredient/burger-ingredient";
 import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
+import IngredientDetails from "../ingridient-details/ingredient-details";
+
+import Modal from "../modal/modal";
 
 const BurgerIngredients = (props) => {
   const availableTypes = {
@@ -13,6 +16,34 @@ const BurgerIngredients = (props) => {
   };
 
   const [current, setCurrent] = React.useState("bun");
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [selectedItem, selectItem] = React.useState(null);
+
+  const parentRef = React.createRef(null);
+
+  const handleOpenModal = (item) => {
+    setModalVisible(true);
+    selectItem(item);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  const escFunction = useCallback((event) => {
+    if (event.key === "Escape") {
+      handleCloseModal();
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, []);
+
   return (
     <div className={styles.box}>
       <p className="text text_type_main-large mt-10">Соберите бургер</p>
@@ -30,7 +61,11 @@ const BurgerIngredients = (props) => {
         ))}
       </div>
 
-      <div className={styles.ingridientsBox}>
+      <div
+        className={styles.ingridientsBox}
+        ref={parentRef}
+        id="ingridientsBox"
+      >
         {Object.keys(availableTypes).map((key, index) => (
           <React.Fragment key={index}>
             <p className="text text_type_main-medium mt-10">
@@ -40,11 +75,26 @@ const BurgerIngredients = (props) => {
               {props.data
                 .filter((x) => x.type == key)
                 .map((item) => (
-                  <Ingridient key={item._id} item={item} />
+                  <Ingridient
+                    key={item._id}
+                    item={item}
+                    onClick={() => handleOpenModal(item)}
+                    modalRoot={parentRef}
+                  />
                 ))}
             </ul>
           </React.Fragment>
         ))}
+
+        {modalVisible && (
+          <Modal
+            header="Детали ингридиента"
+            onClose={handleCloseModal}
+            modalRoot={parentRef}
+          >
+            <IngredientDetails item={selectedItem} />
+          </Modal>
+        )}
       </div>
     </div>
   );
