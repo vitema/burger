@@ -1,0 +1,19 @@
+.box {
+  display: flex;
+  width: 520px;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.componentsRow {
+  display: flex;
+  justify-content: center;
+}
+
+.componentsColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}

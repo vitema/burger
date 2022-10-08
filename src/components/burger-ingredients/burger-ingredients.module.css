@@ -12,12 +12,13 @@
 .ingridientsBox::-webkit-scrollbar {
   width: 8px;
 }
+
 .ingridientsBox::-webkit-scrollbar-track {
-  background-color: rgb(152, 107, 194);
+  background-color: #2f2f37;
 }
 
 .ingridientsBox::-webkit-scrollbar-thumb {
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8);
+  background-color: #8585ad;
 }
 
 .row {

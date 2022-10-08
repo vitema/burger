@@ -1,0 +1,24 @@
+.box {
+  display: flex;
+  width: 520px;
+  margin: 0px 0px 60px 0px;
+  align-items: center;
+  flex-direction: column;
+}
+
+.componentsRow {
+  display: flex;
+  justify-content: center;
+}
+
+.componentsColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.statusImg {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}

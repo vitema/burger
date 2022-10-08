@@ -4,15 +4,14 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredient.module.css";
+import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
 
-const BurgerIngredient = ({ item }) => {
-  //todo remove after realize drag&drop method
-  const testBunId = "60666c42cc7b410027a1a9b1";
-  const [count, setCount] = React.useState(item._id === testBunId ? 1 : 0);
+const BurgerIngredient = ({ item, onClick }) => {
+  const [count, setCount] = React.useState(Math.floor(Math.random() * 2));
 
   return (
-    <li className={styles.column}>
+    <li className={styles.column} onClick={onClick}>
       <div className={styles.imgBox}>
         <img src={item.image} alt={item.name} />
         {count > 0 && <Counter count={count} size="default" />}
@@ -33,7 +32,8 @@ const BurgerIngredient = ({ item }) => {
 };
 
 BurgerIngredient.propTypes = {
-  item: ingredientType.isRequired
+  item: ingredientType.isRequired,
+  onClick : PropTypes.func.isRequired
 };
 
 export default BurgerIngredient;

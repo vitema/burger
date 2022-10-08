@@ -5,7 +5,7 @@
 }
 
 .menuLeft {
-    display: flex;
+  display: flex;
 }
 
 .logo {
@@ -21,7 +21,7 @@
 
 .menuItem {
   display: flex;
-  align-items:center; 
+  align-items: center;
   height: 20px;
   padding: 8px;
   margin: 5px;

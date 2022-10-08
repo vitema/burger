@@ -4,6 +4,9 @@ import styles from "./burger-ingredients.module.css";
 import Ingridient from "../burger-ingredient/burger-ingredient";
 import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
+import IngredientDetails from "../ingridient-details/ingredient-details";
+import Modal from "../modal/modal";
+import useModal from "../../hooks/useModal";
 
 const BurgerIngredients = (props) => {
   const availableTypes = {
@@ -13,6 +16,10 @@ const BurgerIngredients = (props) => {
   };
 
   const [current, setCurrent] = React.useState("bun");
+  const [selectedItem, selectItem] = React.useState(null);
+
+  const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
+
   return (
     <div className={styles.box}>
       <p className="text text_type_main-large mt-10">Соберите бургер</p>
@@ -30,7 +37,7 @@ const BurgerIngredients = (props) => {
         ))}
       </div>
 
-      <div className={styles.ingridientsBox}>
+      <div className={styles.ingridientsBox} id="ingridientsBox">
         {Object.keys(availableTypes).map((key, index) => (
           <React.Fragment key={index}>
             <p className="text text_type_main-medium mt-10">
@@ -40,12 +47,24 @@ const BurgerIngredients = (props) => {
               {props.data
                 .filter((x) => x.type == key)
                 .map((item) => (
-                  <Ingridient key={item._id} item={item} />
+                  <Ingridient
+                    key={item._id}
+                    item={item}
+                    onClick={() => {
+                      handleOpenModal();
+                      selectItem(item);
+                    }}
+                  />
                 ))}
             </ul>
           </React.Fragment>
         ))}
       </div>
+      {modalVisible && (
+        <Modal header="Детали ингридиента" onClose={handleCloseModal}>
+          <IngredientDetails item={selectedItem} />
+        </Modal>
+      )}
     </div>
   );
 };
