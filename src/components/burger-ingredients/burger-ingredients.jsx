@@ -63,13 +63,12 @@ const BurgerIngredients = (props) => {
             </ul>
           </React.Fragment>
         ))}
-
-        {modalVisible && (
-          <Modal header="Детали ингридиента" onClose={handleCloseModal}>
-            <IngredientDetails item={selectedItem} />
-          </Modal>
-        )}
       </div>
+      {modalVisible && (
+        <Modal header="Детали ингридиента" onClose={handleCloseModal}>
+          <IngredientDetails item={selectedItem} />
+        </Modal>
+      )}
     </div>
   );
 };
