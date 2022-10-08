@@ -45,11 +45,11 @@ function App() {
         </div>
       ) : (
         <>
-        <p>Loading Please wait...</p>
-        <h1>{state.error.message}</h1>
+          <p>Loading Please wait...</p>
+          <h1>{state.error.message}</h1>
         </>
       )}
-      
+
       <div id="modal"></div>
     </>
   );

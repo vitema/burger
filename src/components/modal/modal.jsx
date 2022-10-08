@@ -1,10 +1,13 @@
 import ReactDOM from "react-dom";
 import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import ModalOverlay from "./modal-overlay";
+import ModalOverlay from "../modal-overlay/modal-overlay";
+import useKeyDown from "../../hooks/useKeyDown";
 
 const Modal = ({ children, header, onClose }) => {
   const modalRoot = document.getElementById("modal");
+
+  useKeyDown("Escape", onClose);
 
   return (
     modalRoot &&

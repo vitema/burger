@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -8,7 +8,7 @@ import {
 import styles from "./burger-constructor.module.css";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
-import useKeyDown from "../../hooks/useKeyDown";
+
 import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
 
@@ -43,8 +43,6 @@ const BurgerConstructor = (props) => {
     setModalVisible(false);
   };
 
-  useKeyDown("Escape", handleCloseModal);
-
   return (
     <div className={styles.box}>
       <div className="pl-6 pr-6 pb-2">
@@ -68,7 +66,7 @@ const BurgerConstructor = (props) => {
           </div>
         ))}
       </div>
-      <div className="pl-6 pr-6 pt-2">
+      <div className="pl-6 pr-6">
         <ConstructorElement
           type="bottom"
           isLocked={true}
@@ -104,6 +102,5 @@ const BurgerConstructor = (props) => {
 BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(ingredientType).isRequired,
 };
-
 
 export default BurgerConstructor;
