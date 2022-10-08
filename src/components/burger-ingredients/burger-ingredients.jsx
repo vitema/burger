@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
 import IngredientDetails from "../ingridient-details/ingredient-details";
 import Modal from "../modal/modal";
+import useModal from "../../hooks/useModal";
 
 const BurgerIngredients = (props) => {
   const availableTypes = {
@@ -15,17 +16,9 @@ const BurgerIngredients = (props) => {
   };
 
   const [current, setCurrent] = React.useState("bun");
-  const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedItem, selectItem] = React.useState(null);
 
-  const handleOpenModal = (item) => {
-    setModalVisible(true);
-    selectItem(item);
-  };
-
-  const handleCloseModal = () => {
-    setModalVisible(false);
-  };
+  const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
 
   return (
     <div className={styles.box}>
@@ -57,7 +50,10 @@ const BurgerIngredients = (props) => {
                   <Ingridient
                     key={item._id}
                     item={item}
-                    onClick={() => handleOpenModal(item)}
+                    onClick={() => {
+                      handleOpenModal();
+                      selectItem(item);
+                    }}
                   />
                 ))}
             </ul>
@@ -74,7 +70,7 @@ const BurgerIngredients = (props) => {
 };
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
+  data: PropTypes.arrayOf(ingredientType).isRequired,
 };
 
 export default BurgerIngredients;
