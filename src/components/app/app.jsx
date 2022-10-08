@@ -1,7 +1,6 @@
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-//import Data from "../../utils/data";
 import styles from "./app.module.css";
 
 import { useState, useEffect } from "react";
@@ -12,21 +11,28 @@ function App() {
   const [state, setState] = useState({
     productData: null,
     loading: true,
+    error: "",
   });
 
   useEffect(() => {
     setState({ ...state, loading: true });
-// fetch((`${apiUrl}/ingredients`))
-// .then(res=>res.json)
-// .then(res=>res.json)
+
     const getProductData = async () => {
       setState({ ...state, loading: true });
       const res = await fetch(`${apiUrl}/ingredients`);
+
+      if (!res.ok) {
+        const message = `An error has occured: ${res.status}`;
+        throw new Error(message);
+      }
+
       const data = await res.json();
-      setState({ productData: data.data, loading: false });
+      setState({ productData: data.data, loading: false, error: "" });
     };
 
-    getProductData();
+    getProductData().catch((error) => {
+      setState({ ...state, error: error });
+    });
   }, []);
 
   return (
@@ -38,8 +44,12 @@ function App() {
           <BurgerConstructor data={state.productData} />
         </div>
       ) : (
+        <>
         <p>Loading Please wait...</p>
+        <h1>{state.error.message}</h1>
+        </>
       )}
+      
       <div id="modal"></div>
     </>
   );

@@ -6,15 +6,15 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
-import Data from "../../utils/data";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
+import useKeyDown from "../../hooks/useKeyDown";
+import PropTypes from "prop-types";
+import { ingredientType } from "../../utils/types";
 
-import  useKeyDown  from "../../hooks/useKeyDown";
-
-const BurgerConstructor = () => {
-  const bun = Data.filter((x) => x._id === "60666c42cc7b410027a1a9b1")[0];
-  const ingridients = Data.filter((x) => x.type !== "bun");
+const BurgerConstructor = (props) => {
+  const bun = props.data.filter((x) => x.type == "bun")[0];
+  const ingridients = props.data.filter((x) => x.type !== "bun");
 
   const getSum = () => {
     return (
@@ -100,5 +100,10 @@ const BurgerConstructor = () => {
     </div>
   );
 };
+
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(ingredientType).isRequired,
+};
+
 
 export default BurgerConstructor;
