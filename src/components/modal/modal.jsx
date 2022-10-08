@@ -28,7 +28,7 @@ const Modal = ({ children, header, onClose, modalRoot }) => {
             </div>
             <span className={styles.icon} ><CloseIcon type="primary" /></span>
           </header>
-          {children}
+          <div className={styles.children}>{children}</div>
         </div>
         <ModalOverlay onClose={onClose} />
       </>,

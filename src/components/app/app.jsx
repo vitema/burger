@@ -30,7 +30,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div id="main" >
       <AppHeader />
       {!state.loading ? (
         <div className={styles.row}>
@@ -40,7 +40,7 @@ function App() {
       ) : (
         <p>Loading Please wait...</p>
       )}
-    </>
+    </div>
   );
 }
 
