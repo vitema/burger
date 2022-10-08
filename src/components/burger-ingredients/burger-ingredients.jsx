@@ -19,8 +19,6 @@ const BurgerIngredients = (props) => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [selectedItem, selectItem] = React.useState(null);
 
-  const parentRef = React.createRef(null);
-
   const handleOpenModal = (item) => {
     setModalVisible(true);
     selectItem(item);
@@ -61,11 +59,7 @@ const BurgerIngredients = (props) => {
         ))}
       </div>
 
-      <div
-        className={styles.ingridientsBox}
-        ref={parentRef}
-        id="ingridientsBox"
-      >
+      <div className={styles.ingridientsBox} id="ingridientsBox">
         {Object.keys(availableTypes).map((key, index) => (
           <React.Fragment key={index}>
             <p className="text text_type_main-medium mt-10">
@@ -79,7 +73,6 @@ const BurgerIngredients = (props) => {
                     key={item._id}
                     item={item}
                     onClick={() => handleOpenModal(item)}
-                    modalRoot={parentRef}
                   />
                 ))}
             </ul>
@@ -87,11 +80,7 @@ const BurgerIngredients = (props) => {
         ))}
 
         {modalVisible && (
-          <Modal
-            header="Детали ингридиента"
-            onClose={handleCloseModal}
-            modalRoot={parentRef}
-          >
+          <Modal header="Детали ингридиента" onClose={handleCloseModal}>
             <IngredientDetails item={selectedItem} />
           </Modal>
         )}
