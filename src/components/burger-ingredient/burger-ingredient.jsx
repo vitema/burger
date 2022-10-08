@@ -7,10 +7,7 @@ import styles from "./burger-ingredient.module.css";
 import { ingredientType } from "../../utils/types";
 
 const BurgerIngredient = ({ item, onClick }) => {
-  //todo remove after realize drag&drop method
-  const testBunId = "60666c42cc7b410027a1a9b1";
-  const [count, setCount] = React.useState(item._id === testBunId ? 1 : 0);
-
+  const [count, setCount] = React.useState(Math.floor(Math.random() * 2));
 
   return (
     <li className={styles.column} onClick={onClick}>
@@ -34,7 +31,7 @@ const BurgerIngredient = ({ item, onClick }) => {
 };
 
 BurgerIngredient.propTypes = {
-  item: ingredientType.isRequired
+  item: ingredientType.isRequired,
 };
 
 export default BurgerIngredient;
