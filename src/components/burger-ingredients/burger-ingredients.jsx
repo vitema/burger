@@ -5,8 +5,8 @@ import Ingridient from "../burger-ingredient/burger-ingredient";
 import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
 import IngredientDetails from "../ingridient-details/ingredient-details";
-
 import Modal from "../modal/modal";
+import  useKeyDown  from "../../hooks/useKeyDown";
 
 const BurgerIngredients = (props) => {
   const availableTypes = {
@@ -28,19 +28,7 @@ const BurgerIngredients = (props) => {
     setModalVisible(false);
   };
 
-  const escFunction = useCallback((event) => {
-    if (event.key === "Escape") {
-      handleCloseModal();
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener("keydown", escFunction, false);
-
-    return () => {
-      document.removeEventListener("keydown", escFunction, false);
-    };
-  }, []);
+  useKeyDown("Escape", handleCloseModal);
 
   return (
     <div className={styles.box}>

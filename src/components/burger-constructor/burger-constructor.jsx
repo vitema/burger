@@ -10,12 +10,11 @@ import Data from "../../utils/data";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 
+import  useKeyDown  from "../../hooks/useKeyDown";
+
 const BurgerConstructor = () => {
-  //todo remove after realize drag&drop method
   const bun = Data.filter((x) => x._id === "60666c42cc7b410027a1a9b1")[0];
   const ingridients = Data.filter((x) => x.type !== "bun");
-
-  let modalRoot = document.getElementById("modal");
 
   const getSum = () => {
     return (
@@ -37,7 +36,6 @@ const BurgerConstructor = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const handleOpenModal = () => {
-    console.log("open");
     setModalVisible(true);
   };
 
@@ -45,20 +43,7 @@ const BurgerConstructor = () => {
     setModalVisible(false);
   };
 
-  const escFunction = useCallback((event) => {
-    if (event.key === "Escape") {
-      handleCloseModal();
-    }
-  }, []);
-
-  useEffect(() => {
-    modalRoot = document.getElementById("modal");
-    document.addEventListener("keydown", escFunction, false);
-
-    return () => {
-      document.removeEventListener("keydown", escFunction, false);
-    };
-  }, []);
+  useKeyDown("Escape", handleCloseModal);
 
   return (
     <div className={styles.box}>

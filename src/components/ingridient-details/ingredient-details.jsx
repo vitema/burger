@@ -1,12 +1,7 @@
-import React from "react";
-import {
-  CurrencyIcon,
-  Counter,
-} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-details.module.css";
 import { ingredientType } from "../../utils/types";
 
-const IngredientDetails = ({ item, onClick }) => {
+const IngredientDetails = ({ item }) => {
   return (
     <div className={styles.box}>
       <img src={item.image_large} alt={item.name} />
@@ -21,7 +16,7 @@ const IngredientDetails = ({ item, onClick }) => {
           <p className="text text_type_digits-default text_color_inactive">{item.proteins}</p>
         </div>
         <div className={styles.componentsColumn}>
-          <p className="text text_type_main-small text_color_inactive">Хиры, г</p>
+          <p className="text text_type_main-small text_color_inactive">Жиры, г</p>
           <p className="text text_type_digits-default text_color_inactive">{item.fat}</p>
         </div>
         <div className={styles.componentsColumn}>
@@ -33,8 +28,8 @@ const IngredientDetails = ({ item, onClick }) => {
   );
 };
 
-// BurgerIngredient.propTypes = {
-//   item: ingredientType.isRequired
-// };
+IngredientDetails.propTypes = {
+  item: ingredientType.isRequired
+};
 
 export default IngredientDetails;
