@@ -18,21 +18,23 @@ function App() {
     setState({ ...state, loading: true });
 
     const getProductData = async () => {
-      setState({ ...state, loading: true });
-      const res = await fetch(`${apiUrl}/ingredients`);
+      try {
+        setState({ ...state, loading: true });
+        const res = await fetch(`${apiUrl}/ingredients`);
 
-      if (!res.ok) {
-        const message = `An error has occured: ${res.status}`;
-        throw new Error(message);
+        if (!res.ok) {
+          const message = `An error has occured: ${res.status}`;
+          throw new Error(message);
+        }
+
+        const data = await res.json();
+        setState({ productData: data.data, loading: false, error: "" });
+      } catch (error) {
+        setState({ ...state, error: error });
       }
-
-      const data = await res.json();
-      setState({ productData: data.data, loading: false, error: "" });
     };
 
-    getProductData().catch((error) => {
-      setState({ ...state, error: error });
-    });
+    getProductData();
   }, []);
 
   return (
@@ -49,8 +51,6 @@ function App() {
           <h1>{state.error.message}</h1>
         </>
       )}
-
-      <div id="modal"></div>
     </>
   );
 }

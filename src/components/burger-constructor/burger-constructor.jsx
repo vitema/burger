@@ -12,6 +12,8 @@ import Modal from "../modal/modal";
 import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
 
+import useModal from "../../hooks/useModal";
+
 const BurgerConstructor = (props) => {
   const bun = props.data.filter((x) => x.type == "bun")[0];
   const ingridients = props.data.filter((x) => x.type !== "bun");
@@ -33,15 +35,7 @@ const BurgerConstructor = (props) => {
     };
   };
 
-  const [modalVisible, setModalVisible] = React.useState(false);
-
-  const handleOpenModal = () => {
-    setModalVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalVisible(false);
-  };
+  const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
 
   return (
     <div className={styles.box}>
@@ -91,7 +85,7 @@ const BurgerConstructor = (props) => {
       </div>
 
       {modalVisible && (
-        <Modal header="Детали заказа" onClose={handleCloseModal}>
+        <Modal header="" onClose={handleCloseModal}>
           <OrderDetails orderData={getOrderData()} />
         </Modal>
       )}
@@ -100,7 +94,7 @@ const BurgerConstructor = (props) => {
 };
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired,
+  data: PropTypes.arrayOf(ingredientType).isRequired
 };
 
 export default BurgerConstructor;

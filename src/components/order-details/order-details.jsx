@@ -30,7 +30,7 @@ const OrderDetails = ({ orderData }) => {
 };
 
 OrderDetails.propTypes = {
-  orderData: orderType.isRequired,
+  orderData: orderType.isRequired
 };
 
 export default OrderDetails;

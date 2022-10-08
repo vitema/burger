@@ -3,10 +3,11 @@ import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import useKeyDown from "../../hooks/useKeyDown";
+import PropTypes from "prop-types";
+
+const modalRoot = document.getElementById("modal");
 
 const Modal = ({ children, header, onClose }) => {
-  const modalRoot = document.getElementById("modal");
-
   useKeyDown("Escape", onClose);
 
   return (
@@ -14,14 +15,14 @@ const Modal = ({ children, header, onClose }) => {
     ReactDOM.createPortal(
       <>
         <div className={styles.modal}>
-          <header onClick={onClose} className={styles.headerBox}>
+          <div onClick={onClose} className={styles.headerBox}>
             <div className={styles.headerText}>
               <p className="text text_type_main-large">{header}</p>
             </div>
             <span className={styles.icon}>
               <CloseIcon type="primary" />
             </span>
-          </header>
+          </div>
           <div className={styles.children}>{children}</div>
         </div>
         <ModalOverlay onClose={onClose} />
@@ -29,6 +30,12 @@ const Modal = ({ children, header, onClose }) => {
       modalRoot
     )
   );
+};
+
+Modal.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.Component).isRequired,
+  header: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 
 export default Modal;
