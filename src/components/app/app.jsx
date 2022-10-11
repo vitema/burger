@@ -2,11 +2,12 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import styles from "./app.module.css";
-
+import { IngridientsContext } from "../services/ingridientsContext";
 import { useState, useEffect } from "react";
+import { apiUrl } from "../constants/constants";
 
 function App() {
-  const apiUrl = "https://norma.nomoreparties.space/api";
+
 
   const [state, setState] = useState({
     productData: null,
@@ -15,8 +16,6 @@ function App() {
   });
 
   useEffect(() => {
-    setState({ ...state, loading: true });
-
     const getProductData = async () => {
       try {
         setState({ ...state, loading: true });
@@ -43,7 +42,9 @@ function App() {
       {!state.loading ? (
         <div className={styles.row}>
           <BurgerIngredients data={state.productData} />
-          <BurgerConstructor data={state.productData} />
+          <IngridientsContext.Provider value={state.productData}>
+            <BurgerConstructor />
+          </IngridientsContext.Provider>
         </div>
       ) : (
         <>
