@@ -21,20 +21,13 @@ import { apiUrl } from "../constants/constants";
 const BurgerConstructor = () => {
   const data = useContext(IngridientsContext);
 
-  const [state, setState] = useState({
-    order: {
-      number: null,
-      status: {
-        value: 1,
-        text: "Ваш заказ начали готовить",
-        description: "Дождитесь готовности на орбитальной станции",
-      },
-    },
+  const [requestState, setRequestState] = useState({
     loading: true,
     error: "",
   });
 
-  const [currentData, setCurentData] = useState(null);
+  const [ingredientsData, setCurentData] = useState(null);
+  const [orderData, setOrderData] = useState(null);
 
   useEffect(() => {
     /*temporary imitation different items */
@@ -48,13 +41,12 @@ const BurgerConstructor = () => {
 
     /*************************************************/
     setCurentData({ bun: bun, components: components });
-    debugger;
   }, []);
 
   const getOrderData = async () => {
     try {
-      setState({ ...state, loading: true });
-      const allData = [currentData.bun, currentData.components];
+      setRequestState({ ...requestState, loading: true });
+      const allData = [ingredientsData.bun, ingredientsData.components];
       const ids = allData.map((item) => item._id);
       const postData = { ingredients: ids };
 
@@ -74,10 +66,13 @@ const BurgerConstructor = () => {
 
       const data = await res.json();
 
-      setState({
-        ...state,
+      setRequestState({
+        ...requestState,
         loading: false,
         error: "",
+      });
+
+      setOrderData({
         order: {
           number: data.order.number + "",
           status: {
@@ -90,7 +85,7 @@ const BurgerConstructor = () => {
 
       handleOpenModal();
     } catch (error) {
-      setState({ ...state, error: error });
+      setRequestState({ ...requestState, error: error });
     }
   };
 
@@ -98,26 +93,26 @@ const BurgerConstructor = () => {
 
   const getSum = () => {
     return (
-      currentData.components.reduce((sum, item) => sum + item.price, 0) +
-      currentData.bun.price * 2
+      ingredientsData.components.reduce((sum, item) => sum + item.price, 0) +
+      ingredientsData.bun.price * 2
     );
   };
 
   return (
     <div className={styles.box}>
-      {currentData && (
+      {ingredientsData && (
         <>
           <div className="pl-6 pr-6 pb-2">
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={`${currentData.bun.name} (верх)`}
-              price={currentData.bun.price}
-              thumbnail={currentData.bun.image}
+              text={`${ingredientsData.bun.name} (верх)`}
+              price={ingredientsData.bun.price}
+              thumbnail={ingredientsData.bun.image}
             />
           </div>
           <div className={styles.itemsBox}>
-            {currentData.components.map((item) => (
+            {ingredientsData.components.map((item) => (
               <div className={styles.ingridientItem} key={item._id}>
                 <DragIcon type="primary" />
                 <ConstructorElement
@@ -132,36 +127,41 @@ const BurgerConstructor = () => {
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={`${currentData.bun.name}  (низ)`}
-              price={currentData.bun.price}
-              thumbnail={currentData.bun.image}
+              text={`${ingredientsData.bun.name}  (низ)`}
+              price={ingredientsData.bun.price}
+              thumbnail={ingredientsData.bun.image}
             />
           </div>
 
           <div className={styles.footerBox}>
             <span className="text text_type_digits-default p-2">
-              {getSum()}{" "}
+              {getSum()}
             </span>
             <span className="pr-8">
               <CurrencyIcon type="primary" />
             </span>
-            <Button
-              type= "primary"
-              size="large"
-              htmlType="button"
-              //onClick={getOrderData}
-              onClick={getOrderData}
-            >
-              Оформить заказ
-            </Button>
+            {!orderData ? (
+              <Button
+                type="primary"
+                size="large"
+                htmlType="button"
+                onClick={getOrderData}
+              >
+                Оформить заказ
+              </Button>
+            ) : (
+              <p className="text text_type_main-small">
+                Номер заказа : {orderData.order.number}
+              </p>
+            )}
           </div>
         </>
       )}
-      {state.error && <p>При оформление заказа произошла ошибка.</p>}
+      {requestState.error && <p>При оформление заказа произошла ошибка.</p>}
 
       {modalVisible && (
         <Modal header="" onClose={handleCloseModal}>
-          <OrderDetails orderData={state.order} />
+          <OrderDetails orderData={orderData.order} />
         </Modal>
       )}
     </div>
