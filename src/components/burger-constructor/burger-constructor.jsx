@@ -14,39 +14,37 @@ import { ingredientType } from "../../utils/types";
 
 import useModal from "../../hooks/useModal";
 
-import { IngridientsContext } from "../services/ingridientsContext";
+import { IngridientsContext } from "../../services/ingriedientsContext";
 
 import { apiUrl } from "../constants/constants";
 
 const BurgerConstructor = () => {
-  const data = useContext(IngridientsContext);
+  const currentData = useContext(IngridientsContext);
+
+  const getIngredientsData = () => {
+    const bunType = "bun";
+    const bun = currentData.filter((x) => x.type == bunType)[0];
+    const components = currentData.filter((x) => x.type != bunType);
+
+    return {
+      bun: bun,
+      components: components,
+    };
+  };
+
+  const ingredientsData = getIngredientsData();
 
   const [requestState, setRequestState] = useState({
     loading: true,
     error: "",
   });
 
-  const [ingredientsData, setCurentData] = useState(null);
   const [orderData, setOrderData] = useState(null);
-
-  useEffect(() => {
-    /*temporary imitation different items */
-    const bunType = "bun";
-    const bun = data.filter((x) => x.type == bunType)[
-      Math.floor(Math.random() * 2)
-    ];
-    const components = data
-      .filter((x) => x.type !== bunType)
-      .slice(0, Math.floor(Math.random() * 4 + 1));
-
-    /*************************************************/
-    setCurentData({ bun: bun, components: components });
-  }, []);
 
   const getOrderData = async () => {
     try {
       setRequestState({ ...requestState, loading: true });
-      const allData = [ingredientsData.bun, ingredientsData.components];
+      const allData = [...ingredientsData.components, ingredientsData.bun];
       const ids = allData.map((item) => item._id);
       const postData = { ingredients: ids };
 
@@ -100,7 +98,7 @@ const BurgerConstructor = () => {
 
   return (
     <div className={styles.box}>
-      {ingredientsData && (
+      {currentData.length > 0 && (
         <>
           <div className="pl-6 pr-6 pb-2">
             <ConstructorElement

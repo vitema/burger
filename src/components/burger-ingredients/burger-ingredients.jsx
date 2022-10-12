@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import Ingridient from "../burger-ingredient/burger-ingredient";
@@ -19,6 +19,21 @@ const BurgerIngredients = (props) => {
   const [selectedItem, selectItem] = React.useState(null);
 
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
+
+  /*todo remove after realize drag&drop 
+ temporary imitation add random items to constructor */
+  useEffect(() => {
+    const bunType = "bun";
+    const bun = props.data.filter((x) => x.type == bunType)[
+      Math.floor(Math.random() * 2)
+    ];
+    const components = props.data
+      .filter((x) => x.type !== bunType)
+      .slice(0, Math.floor(Math.random() * 4 + 2));
+    props.addIngredients([...components, bun]);
+  }, []);
+
+  /*************************************************/
 
   return (
     <div className={styles.box}>
@@ -53,6 +68,7 @@ const BurgerIngredients = (props) => {
                     onClick={() => {
                       handleOpenModal();
                       selectItem(item);
+                      props.addIngredient(item);
                     }}
                   />
                 ))}
