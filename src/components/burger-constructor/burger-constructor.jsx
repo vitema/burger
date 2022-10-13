@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -8,21 +8,14 @@ import {
 import styles from "./burger-constructor.module.css";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
-
-import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/types";
-
 import useModal from "../../hooks/useModal";
-
 import { IngridientsContext } from "../../services/ingriedientsContext";
-
-import { apiUrl } from "../constants/constants";
+import { apiUrl, bunType } from "../../constants/constants";
 
 const BurgerConstructor = () => {
   const currentData = useContext(IngridientsContext);
 
   const getIngredientsData = () => {
-    const bunType = "bun";
     const bun = currentData.filter((x) => x.type == bunType)[0];
     const components = currentData.filter((x) => x.type != bunType);
 
@@ -39,6 +32,7 @@ const BurgerConstructor = () => {
     error: "",
   });
 
+  const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
   const [orderData, setOrderData] = useState(null);
 
   const getOrderData = async () => {
@@ -86,8 +80,6 @@ const BurgerConstructor = () => {
       setRequestState({ ...requestState, error: error });
     }
   };
-
-  const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
 
   const getSum = () => {
     return (
@@ -165,9 +157,5 @@ const BurgerConstructor = () => {
     </div>
   );
 };
-
-// BurgerConstructor.propTypes = {
-//   data: PropTypes.arrayOf(ingredientType).isRequired,
-// };
 
 export default BurgerConstructor;

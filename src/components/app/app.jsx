@@ -4,7 +4,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import styles from "./app.module.css";
 import { IngridientsContext } from "../../services/ingriedientsContext";
 import { useState, useEffect, useCallback } from "react";
-import { apiUrl } from "../constants/constants";
+import { apiUrl, bunType } from "../../constants/constants";
 
 function App() {
   const [state, setState] = useState({
@@ -37,14 +37,20 @@ function App() {
   }, []);
 
   const addIngredient = (item) => {
-    const bunType = "bun";
     const bun = constructorItems.filter((x) => x.type == bunType)[0];
-    debugger;
 
     if (bun && item.type == bunType) {
       setState({
         ...state,
-        error: {message: "Еще один компонент булки не может быть добавлен"}
+        error: { message: "Еще один компонент булки не может быть добавлен" },
+      });
+      return;
+    }
+debugger;
+    if (constructorItems.filter((x) => x._id == item._id)) {
+      setState({
+        ...state,
+        error: { message: `Компонент ${item.name} уже добавлен` },
       });
       return;
     }

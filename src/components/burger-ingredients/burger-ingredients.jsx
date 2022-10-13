@@ -7,14 +7,9 @@ import { ingredientType } from "../../utils/types";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import useModal from "../../hooks/useModal";
+import { availableTypes, bunType } from "../../constants/constants";
 
 const BurgerIngredients = (props) => {
-  const availableTypes = {
-    bun: "Булки",
-    sauce: "Соус",
-    main: "Начинки",
-  };
-
   const [current, setCurrent] = React.useState("bun");
   const [selectedItem, selectItem] = React.useState(null);
 
@@ -23,7 +18,6 @@ const BurgerIngredients = (props) => {
   /*todo remove after realize drag&drop 
  temporary imitation add random items to constructor */
   useEffect(() => {
-    const bunType = "bun";
     const bun = props.data.filter((x) => x.type == bunType)[
       Math.floor(Math.random() * 2)
     ];
@@ -87,6 +81,8 @@ const BurgerIngredients = (props) => {
 
 BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(ingredientType).isRequired,
+  addIngredient: PropTypes.func.isRequired,
+  addIngredients: PropTypes.func,
 };
 
 export default BurgerIngredients;
