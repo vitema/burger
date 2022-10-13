@@ -46,7 +46,6 @@ function App() {
       });
       return;
     }
-debugger;
     if (constructorItems.filter((x) => x._id == item._id)) {
       setState({
         ...state,
