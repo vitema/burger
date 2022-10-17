@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
 
 const BurgerIngredient = ({ item, onClick }) => {
+  //todo modify after realize add item to constructor
   const [count, setCount] = React.useState(Math.floor(Math.random() * 2));
 
   return (

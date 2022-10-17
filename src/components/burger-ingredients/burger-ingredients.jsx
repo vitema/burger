@@ -1,24 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import Ingridient from "../burger-ingredient/burger-ingredient";
 import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
-import IngredientDetails from "../ingridient-details/ingredient-details";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import useModal from "../../hooks/useModal";
+import { availableTypes, bunType } from "../../constants/constants";
 
 const BurgerIngredients = (props) => {
-  const availableTypes = {
-    bun: "Булки",
-    sauce: "Соус",
-    main: "Начинки",
-  };
-
   const [current, setCurrent] = React.useState("bun");
   const [selectedItem, selectItem] = React.useState(null);
 
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
+
+  /*todo remove after realize drag&drop 
+ temporary imitation add random items to constructor */
+  useEffect(() => {
+    const bun = props.data.filter((x) => x.type == bunType)[
+      Math.floor(Math.random() * 2)
+    ];
+    const components = props.data
+      .filter((x) => x.type !== bunType)
+      .slice(0, Math.floor(Math.random() * 4 + 2));
+    props.addIngredients([...components, bun]);
+  }, []);
+
+  /*************************************************/
 
   return (
     <div className={styles.box}>
@@ -53,6 +62,7 @@ const BurgerIngredients = (props) => {
                     onClick={() => {
                       handleOpenModal();
                       selectItem(item);
+                      props.addIngredient(item);
                     }}
                   />
                 ))}
@@ -71,6 +81,8 @@ const BurgerIngredients = (props) => {
 
 BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(ingredientType).isRequired,
+  addIngredient: PropTypes.func.isRequired,
+  addIngredients: PropTypes.func,
 };
 
 export default BurgerIngredients;
