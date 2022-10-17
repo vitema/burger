@@ -11,6 +11,7 @@ import Modal from "../modal/modal";
 import useModal from "../../hooks/useModal";
 import { IngridientsContext } from "../../services/ingriedientsContext";
 import { apiUrl, bunType } from "../../constants/constants";
+import { request } from "../../utils/request";
 
 const BurgerConstructor = () => {
   const currentData = useContext(IngridientsContext);
@@ -42,7 +43,7 @@ const BurgerConstructor = () => {
       const ids = allData.map((item) => item._id);
       const postData = { ingredients: ids };
 
-      const res = await fetch(`${apiUrl}/orders`, {
+      const data = await request(`${apiUrl}/orders`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -50,13 +51,6 @@ const BurgerConstructor = () => {
         },
         body: JSON.stringify(postData),
       });
-
-      if (!res.ok) {
-        const message = `An error has occured: ${res.status}`;
-        throw new Error(message);
-      }
-
-      const data = await res.json();
 
       setRequestState({
         ...requestState,

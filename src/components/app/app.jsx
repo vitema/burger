@@ -5,6 +5,7 @@ import styles from "./app.module.css";
 import { IngridientsContext } from "../../services/ingriedientsContext";
 import { useState, useEffect, useCallback } from "react";
 import { apiUrl, bunType } from "../../constants/constants";
+import { request } from "../../utils/request";
 
 function App() {
   const [state, setState] = useState({
@@ -19,14 +20,8 @@ function App() {
     const getProductData = async () => {
       try {
         setState({ ...state, loading: true });
-        const res = await fetch(`${apiUrl}/ingredients`);
+        const data = await request(`${apiUrl}/ingredients`);
 
-        if (!res.ok) {
-          const message = `An error has occured: ${res.status}`;
-          throw new Error(message);
-        }
-
-        const data = await res.json();
         setState({ productData: data.data, loading: false, error: "" });
       } catch (error) {
         setState({ ...state, error: error });
