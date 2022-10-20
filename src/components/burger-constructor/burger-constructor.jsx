@@ -9,24 +9,22 @@ import styles from "./burger-constructor.module.css";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import useModal from "../../hooks/useModal";
-import { IngridientsContext } from "../../services/ingriedientsContext";
 import { apiUrl, bunType } from "../../constants/constants";
 import { request } from "../../utils/request";
+import { useSelector, useDispatch } from "react-redux";
+import { getOrder } from "../../services/actions/order";
 
 const BurgerConstructor = () => {
-  const currentData = useContext(IngridientsContext);
 
-  const getIngredientsData = () => {
-    const bun = currentData.filter((x) => x.type == bunType)[0];
-    const components = currentData.filter((x) => x.type != bunType);
+  //todo отработать стейты получения ордера - лоадинг ошибки
+  const ingredientsData = useSelector((store) => store.constructorIngredients);
+  const orderData = useSelector((store) => store.order);
 
-    return {
-      bun: bun,
-      components: components,
-    };
+  console.log(orderData);
+
+  const isDataValid = () => {
+    return ingredientsData && ingredientsData.components && ingredientsData.bun;
   };
-
-  const ingredientsData = getIngredientsData();
 
   const [requestState, setRequestState] = useState({
     loading: true,
@@ -34,48 +32,23 @@ const BurgerConstructor = () => {
   });
 
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
-  const [orderData, setOrderData] = useState(null);
+
+  const dispatch = useDispatch();
 
   const getOrderData = async () => {
-    try {
-      setRequestState({ ...requestState, loading: true });
-      const allData = [...ingredientsData.components, ingredientsData.bun];
-      const ids = allData.map((item) => item._id);
-      const postData = { ingredients: ids };
-
-      const data = await request(`${apiUrl}/orders`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-
-      setRequestState({
-        ...requestState,
-        loading: false,
-        error: "",
-      });
-
-      setOrderData({
-        order: {
-          number: data.order.number + "",
-          status: {
-            value: 1,
-            text: "Ваш заказ начали готовить",
-            description: "Дождитесь готовности на орбитальной станции",
-          },
-        },
-      });
-
-      handleOpenModal();
-    } catch (error) {
-      setRequestState({ ...requestState, error: error });
-    }
+   
+    const allData = [...ingredientsData.components, ingredientsData.bun];
+    const ids = allData.map((item) => item._id);
+    const postData = { ingredients: ids };
+    dispatch(getOrder(postData));
+    handleOpenModal();
   };
 
   const getSum = () => {
+    if (!isDataValid()) {
+      return 0;
+    }
+
     return (
       ingredientsData.components.reduce((sum, item) => sum + item.price, 0) +
       ingredientsData.bun.price * 2
@@ -84,7 +57,7 @@ const BurgerConstructor = () => {
 
   return (
     <div className={styles.box}>
-      {currentData.length > 0 && (
+      {isDataValid() && (
         <>
           <div className="pl-6 pr-6 pb-2">
             <ConstructorElement
@@ -124,7 +97,7 @@ const BurgerConstructor = () => {
             <span className="pr-8">
               <CurrencyIcon type="primary" />
             </span>
-            {!orderData ? (
+            {!orderData.order ? (
               <Button
                 type="primary"
                 size="large"
@@ -143,7 +116,7 @@ const BurgerConstructor = () => {
       )}
       {requestState.error && <p>При оформление заказа произошла ошибка.</p>}
 
-      {modalVisible && (
+      {modalVisible && orderData.order && (
         <Modal header="" onClose={handleCloseModal}>
           <OrderDetails orderData={orderData.order} />
         </Modal>

@@ -8,26 +8,22 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import useModal from "../../hooks/useModal";
 import { availableTypes, bunType } from "../../constants/constants";
-
-const BurgerIngredients = (props) => {
+import { useSelector, useDispatch } from "react-redux";
+import { getIngredients } from "../../services/actions/ingredients";
+import { ADD_INGREDIENT} from "../../services/actions/constructor"
+const BurgerIngredients = () => {
   const [current, setCurrent] = React.useState("bun");
   const [selectedItem, selectItem] = React.useState(null);
 
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
 
-  /*todo remove after realize drag&drop 
- temporary imitation add random items to constructor */
+  const dispatch = useDispatch();
+  
   useEffect(() => {
-    const bun = props.data.filter((x) => x.type == bunType)[
-      Math.floor(Math.random() * 2)
-    ];
-    const components = props.data
-      .filter((x) => x.type !== bunType)
-      .slice(0, Math.floor(Math.random() * 4 + 2));
-    props.addIngredients([...components, bun]);
-  }, []);
+    dispatch(getIngredients());
+  }, [dispatch]);  
 
-  /*************************************************/
+  const data = useSelector(store => store.ingredients.items); // todo можно отработать лоадинг и вывод ошибки заюзать ingredientsRequest, ingredientsFailed заюзать memo где map
 
   return (
     <div className={styles.box}>
@@ -46,30 +42,32 @@ const BurgerIngredients = (props) => {
         ))}
       </div>
 
-      <div className={styles.ingridientsBox} id="ingridientsBox">
-        {Object.keys(availableTypes).map((key, index) => (
-          <React.Fragment key={index}>
-            <p className="text text_type_main-medium mt-10">
-              {availableTypes[key]}
-            </p>
-            <ul className={styles.row}>
-              {props.data
-                .filter((x) => x.type == key)
-                .map((item) => (
-                  <Ingridient
-                    key={item._id}
-                    item={item}
-                    onClick={() => {
-                      handleOpenModal();
-                      selectItem(item);
-                      props.addIngredient(item);
-                    }}
-                  />
-                ))}
-            </ul>
-          </React.Fragment>
-        ))}
-      </div>
+      {data && data.length>0 && (
+        <div className={styles.ingridientsBox} id="ingridientsBox">
+          {Object.keys(availableTypes).map((key, index) => (
+            <React.Fragment key={index}>
+              <p className="text text_type_main-medium mt-10">
+                {availableTypes[key]}
+              </p>
+              <ul className={styles.row}>
+                {data
+                  .filter((x) => x.type == key)
+                  .map((item) => (
+                    <Ingridient
+                      key={item._id}
+                      item={item}
+                      onClick={() => {
+                        handleOpenModal();
+                        selectItem(item);
+                        dispatch({type: ADD_INGREDIENT, item});
+                      }}
+                    />
+                  ))}
+              </ul>
+            </React.Fragment>
+          ))}
+        </div>
+      )}
       {modalVisible && (
         <Modal header="Детали ингридиента" onClose={handleCloseModal}>
           <IngredientDetails item={selectedItem} />
@@ -79,10 +77,10 @@ const BurgerIngredients = (props) => {
   );
 };
 
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired,
-  addIngredient: PropTypes.func.isRequired,
-  addIngredients: PropTypes.func,
-};
+// BurgerIngredients.propTypes = {
+//   //data: PropTypes.arrayOf(ingredientType).isRequired,
+//   addIngredient: PropTypes.func.isRequired,
+//   addIngredients: PropTypes.func,
+// };
 
 export default BurgerIngredients;
