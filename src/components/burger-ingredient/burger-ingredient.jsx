@@ -10,10 +10,7 @@ import { ingredientType } from "../../utils/types";
 import { useDrag } from "react-dnd/dist/hooks";
 
 const BurgerIngredient = ({ item, onClick }) => {
-  //todo modify after realize add item to constructor
-  const [count, setCount] = React.useState(Math.floor(Math.random() * 2));
-
-
+ 
 // drag
   // Получаем реф для каждого элемента, который можно перетащить,
   // opacity - возвращается из функции collect
@@ -37,7 +34,7 @@ const BurgerIngredient = ({ item, onClick }) => {
     <li className={styles.column} onClick={onClick} style={{ opacity }} ref={dragRef}>
       <div className={styles.imgBox}>
         <img src={item.image} alt={item.name} />
-        {count > 0 && <Counter count={count} size="default" />}
+        {item.count > 0 && <Counter count={item.count} size="default" />}
       </div>
 
       <div className={styles.priceBox}>

@@ -79,9 +79,8 @@ const BurgerIngredients = () => {
                       key={item._id}
                       item={item}
                       onClick={() => {
-                        handleOpenModal();
                         selectItem(item);
-                       
+                        handleOpenModal();
                       }}
                     />
                   ))}

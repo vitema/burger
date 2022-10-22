@@ -2,8 +2,11 @@ import {
   GET_INGREDIENTS,
   ADD_INGREDIENT,
   MOVE_COMPONENT,
+  DELETE_COMPONENT,
 } from "../actions/constructor";
 import { bunType } from "../../constants/constants";
+
+import { DECREMENT_COUNT, INCREMENT_COUNT } from "../actions/ingredients";
 
 const initialState = {
   bun: null,
@@ -18,34 +21,27 @@ export const constructorReducer = (state = initialState, action) => {
     }
     case ADD_INGREDIENT: {
       if (action.item.type == bunType) {
-        if (state.bun) {
-          return {
-            ...state,
-            error: "Еще один компонент булки не может быть добавлен",
-          };
-        } else {
           return {
             ...state,
             bun: action.item,
           };
-        }
       }
-      if (state.components.filter((x) => x._id == action.item._id).length > 0) {
-        return {
-          ...state,
-          error: `Компонент ${action.item.name} уже добавлен`,
-        };
-      }
+
       return {
         ...state,
         components: [...state.components, action.item],
       };
     }
     case MOVE_COMPONENT: {
-      debugger;
       return {
         ...state,
         components: [...action.components],
+      };
+    }
+    case DELETE_COMPONENT: {
+      return {
+        ...state,
+        components: [...state.components.filter((x) => x.dragId != action.id)],
       };
     }
 

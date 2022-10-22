@@ -11,6 +11,11 @@ import { apiUrl, bunType } from "../../constants/constants";
 
 import { useDrag, useDrop } from "react-dnd/dist/hooks";
 
+import { DECREMENT_COUNT } from "../../services/actions/ingredients";
+import { DELETE_COMPONENT } from "../../services/actions/constructor";
+
+import { useDispatch } from "react-redux";
+
 const BurgerComponent = ({ item, index, moveCard }) => {
   const ref = useRef(null);
   const [{ handlerId }, drop] = useDrop({
@@ -26,8 +31,6 @@ const BurgerComponent = ({ item, index, moveCard }) => {
     // Вызывается, когда перетаскиваемый элемент оказывается над ингредиентом,
     // индекс которого у нас задан в пропсах props.index
     hover(item, monitor) {
-
-     
       if (!ref.current) {
         return;
       }
@@ -80,12 +83,14 @@ const BurgerComponent = ({ item, index, moveCard }) => {
   });
   // Добавляем перетаскиваемому элементу прозрачность 0,
   // чтобы на его месте визуально появилось пустое пространство
-  const opacity=isDragging ? 0 : 1;
+  const opacity = isDragging ? 0 : 1;
   // Тут мы говорим что наш элемент и перетаскиваемый и бросаемый :)
   if (item.type !== bunType) drag(drop(ref));
   // Прерываем базовую функция для onDrop
   // потому что браузер по умолчанию не сбрасывает наш элемент в контейнер
   const preventDefault = (e) => e.preventDefault();
+
+  const dispatch = useDispatch();
 
   return (
     <div
@@ -100,6 +105,10 @@ const BurgerComponent = ({ item, index, moveCard }) => {
         text={item.name}
         price={item.price}
         thumbnail={item.image}
+        handleClose={() => {
+          dispatch({ type: DECREMENT_COUNT, id: item._id });
+          dispatch({ type: DELETE_COMPONENT, id: item.dragId });
+        }}
       />
     </div>
   );

@@ -18,6 +18,11 @@ import {
   ADD_INGREDIENT,
   MOVE_COMPONENT,
 } from "../../services/actions/constructor";
+
+import {
+  DECREMENT_COUNT,
+  INCREMENT_COUNT,
+} from "../../services/actions/ingredients";
 import uuid from "react-uuid";
 
 import BurgerComponent from "../burger-component/burger-component";
@@ -26,8 +31,6 @@ const BurgerConstructor = () => {
   //todo отработать стейты получения ордера - лоадинг ошибки
   const ingredientsData = useSelector((store) => store.constructorIngredients);
   const orderData = useSelector((store) => store.order);
-
-  console.log(orderData);
 
   const isDataValid = () => {
     return ingredientsData && ingredientsData.components && ingredientsData.bun;
@@ -73,6 +76,13 @@ const BurgerConstructor = () => {
     // Тут просто добавляем перемещенный ингредиент в заказ
     // выполняем диспатч в стор, в момент "бросания" ингредиента
     drop(item) {
+      if (item.type == bunType && ingredientsData.bun) {
+        dispatch({
+          type: DECREMENT_COUNT,
+          id: ingredientsData.bun._id,
+        });
+      }
+
       dispatch({
         type: ADD_INGREDIENT,
         item: {
@@ -84,6 +94,11 @@ const BurgerConstructor = () => {
           // используем библиотеку uuid
           dragId: uuid(),
         },
+      });
+
+      dispatch({
+        type: INCREMENT_COUNT,
+        id: item._id,
       });
     },
   });
@@ -114,7 +129,10 @@ const BurgerConstructor = () => {
   );
 
   return (
-    <div ref={dropTargerRef} className={styles.box}>
+    <div
+      ref={dropTargerRef}
+      className={styles.box}
+    >
       {isDataValid() && (
         <>
           <div className="pl-6 pr-6 pb-2">
@@ -128,7 +146,12 @@ const BurgerConstructor = () => {
           </div>
           <div className={styles.itemsBox}>
             {ingredientsData.components.map((item, index) => (
-              <BurgerComponent key={item.dragId} index={index} item={item} moveCard={moveCard} />
+              <BurgerComponent
+                key={item.dragId}
+                index={index}
+                item={item}
+                moveCard={moveCard}
+              />
             ))}
           </div>
           <div className="pl-6 pr-6">
@@ -165,7 +188,7 @@ const BurgerConstructor = () => {
           </div>
         </>
       )}
-      {requestState.error && <p>При оформление заказа произошла ошибка.</p>}
+      {requestState.error && <p>При оформлении заказа произошла ошибка.</p>}
 
       {modalVisible && orderData.order && (
         <Modal header="" onClose={handleCloseModal}>
