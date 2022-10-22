@@ -76,6 +76,7 @@ const BurgerConstructor = () => {
     // Тут просто добавляем перемещенный ингредиент в заказ
     // выполняем диспатч в стор, в момент "бросания" ингредиента
     drop(item) {
+      debugger;
       if (item.type == bunType && ingredientsData.bun) {
         dispatch({
           type: DECREMENT_COUNT,
@@ -104,18 +105,22 @@ const BurgerConstructor = () => {
   });
 
 
-   // drop
-  // Получаем реф, который мы пробросим в наш контейнер
-  // чтобы библиотека могла манипулировать его состоянием
-  const [{ isHover1 },dropComponentRef] = useDrop({
+  const [{ isHover1 }, dropComponentRef] = useDrop({
     // Такой тип как у перетаскиваемого ингредиента
-    accept: "component",
+    accept: "component1",
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
     // Тут просто добавляем перемещенный ингредиент в заказ
     // выполняем диспатч в стор, в момент "бросания" ингредиента
     drop(item) {
+      debugger;
+      if (item.type == bunType && ingredientsData.bun) {
+        dispatch({
+          type: DECREMENT_COUNT,
+          id: ingredientsData.bun._id,
+        });
+      }
 
       dispatch({
         type: ADD_INGREDIENT,
@@ -137,11 +142,11 @@ const BurgerConstructor = () => {
     },
   });
 
-
   const moveCard = useCallback(
     (dragIndex, hoverIndex) => {
-      // Получаем перетаскиваемый ингредиент
       debugger;
+      // Получаем перетаскиваемый ингредиент
+     
       const dragCard = ingredientsData.components[dragIndex];
       const newCards = [...ingredientsData.components];
       // Удаляем перетаскиваемый элемент из массива
@@ -160,7 +165,7 @@ const BurgerConstructor = () => {
         components: newCards,
       });
     },
-    [ingredientsData.components, dispatch]
+    [ingredientsData, dispatch]
   );
 
   return (
@@ -179,7 +184,8 @@ const BurgerConstructor = () => {
               thumbnail={ingredientsData.bun.image}
             />
           </div>
-          <div className={styles.itemsBox}  ref={dropComponentRef}>
+          
+          <div className={styles.itemsBox}  ref={dropComponentRef}  >
             {ingredientsData.components.map((item, index) => (
               <BurgerComponent
                 key={item.dragId}

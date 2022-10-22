@@ -4,7 +4,7 @@ import { InView } from "react-intersection-observer";
 import { availableTypes } from "../../constants/constants";
 import { bunType } from "../../constants/constants";
 
-const GroupHeader = ({ groupType, setCurrent, children }) => {
+const GroupHeader = ({ groupType, setCurrent, children, tabClick }) => {
   const { ref, inView } = useInView({
     /* Optional options */
     rootMargin:"0px 0px -400px 0px",

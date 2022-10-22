@@ -33,6 +33,7 @@ export const constructorReducer = (state = initialState, action) => {
       };
     }
     case MOVE_COMPONENT: {
+      debugger;
       return {
         ...state,
         components: [...action.components],
