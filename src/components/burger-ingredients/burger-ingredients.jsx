@@ -10,21 +10,38 @@ import useModal from "../../hooks/useModal";
 import { availableTypes, bunType } from "../../constants/constants";
 import { useSelector, useDispatch } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
-import { ADD_INGREDIENT} from "../../services/actions/constructor"
+import { ADD_INGREDIENT } from "../../services/actions/constructor";
+
+import { useInView } from "react-intersection-observer";
+import { InView } from "react-intersection-observer";
+
 const BurgerIngredients = () => {
-  const [current, setCurrent] = React.useState("bun");
+  const [current, setCurrent] = React.useState(bunType);
   const [selectedItem, selectItem] = React.useState(null);
 
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
+  const [visibleHeaders, addHeaderKey] = React.useState([]);
 
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(getIngredients());
-  }, [dispatch]);  
+    setCurrent(bunType);
+   
+  }, [dispatch]);
 
-  const data = useSelector(store => store.ingredients.items); // todo можно отработать лоадинг и вывод ошибки заюзать ingredientsRequest, ingredientsFailed заюзать memo где map
 
+
+     console.log(visibleHeaders);
+  const data = useSelector((store) => store.ingredients.items); // todo можно отработать лоадинг и вывод ошибки заюзать ingredientsRequest, ingredientsFailed заюзать memo где map
+
+  const { ref, inView, entry } = useInView({
+    /* Optional options */
+    threshold: 0,
+    root: document.getElementById("ingridientsBox")
+  });
+
+  
   return (
     <div className={styles.box}>
       <p className="text text_type_main-large mt-10">Соберите бургер</p>
@@ -42,13 +59,18 @@ const BurgerIngredients = () => {
         ))}
       </div>
 
-      {data && data.length>0 && (
+      {data && data.length > 0 && (
         <div className={styles.ingridientsBox} id="ingridientsBox">
           {Object.keys(availableTypes).map((key, index) => (
             <React.Fragment key={index}>
-              <p className="text text_type_main-medium mt-10">
-                {availableTypes[key]}
-              </p>
+              <InView
+                as="div"
+                onChange={(inView, entry) =>inView && setCurrent(key)}
+              >
+                <p className="text text_type_main-medium mt-10">
+                  {`${availableTypes[key]} ${inView}.`}
+                </p>
+             
               <ul className={styles.row}>
                 {data
                   .filter((x) => x.type == key)
@@ -59,11 +81,12 @@ const BurgerIngredients = () => {
                       onClick={() => {
                         handleOpenModal();
                         selectItem(item);
-                        dispatch({type: ADD_INGREDIENT, item});
+                        dispatch({ type: ADD_INGREDIENT, item });
                       }}
                     />
                   ))}
               </ul>
+              </InView>
             </React.Fragment>
           ))}
         </div>
