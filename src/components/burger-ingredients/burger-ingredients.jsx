@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback, useRef } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import Ingridient from "../burger-ingredient/burger-ingredient";
@@ -14,34 +14,48 @@ import { ADD_INGREDIENT } from "../../services/actions/constructor";
 
 import { useInView } from "react-intersection-observer";
 import { InView } from "react-intersection-observer";
+import GroupHeader from "../group-header/group-header";
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = React.useState(bunType);
   const [selectedItem, selectItem] = React.useState(null);
 
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
-  const [visibleHeaders, addHeaderKey] = React.useState([]);
+  const [headers, setHeaders] = React.useState({});
 
   const dispatch = useDispatch();
+
+  const onChange = (key, value) => {
+    return;
+    let newDict = { ...headers };
+    newDict[key] = value;
+    setHeaders(newDict);
+
+    debugger;
+
+    if (value.isVisible) {
+      Object.keys(newDict).map(function (key) {
+        const existsValue = newDict[key];
+        if (existsValue.isVisible && existsValue.top < value) {
+          debugger;
+          setCurrent(key);
+          return;
+        }
+      });
+
+      setCurrent(key);
+    }
+  };
 
   useEffect(() => {
     dispatch(getIngredients());
     setCurrent(bunType);
-   
   }, [dispatch]);
 
-
-
- 
   const data = useSelector((store) => store.ingredients.items); // todo можно отработать лоадинг и вывод ошибки заюзать ingredientsRequest, ingredientsFailed заюзать memo где map
 
-  const { ref, inView, entry } = useInView({
-    /* Optional options */
-    threshold: 0,
-    root: document.getElementById("ingridientsBox")
-  });
+ const ref= useRef(null);
 
-  
   return (
     <div className={styles.box}>
       <p className="text text_type_main-large mt-10">Соберите бургер</p>
@@ -60,17 +74,11 @@ const BurgerIngredients = () => {
       </div>
 
       {data && data.length > 0 && (
-        <div className={styles.ingridientsBox} id="ingridientsBox">
+        <div className={styles.ingridientsBox} ref={ref}>
+       
           {Object.keys(availableTypes).map((key, index) => (
             <React.Fragment key={index}>
-              <InView
-                as="div"
-                onChange={(inView, entry) =>inView && setCurrent(key)}
-              >
-                <p className="text text_type_main-medium mt-10">
-                  {`${availableTypes[key]} ${inView}.`}
-                </p>
-             
+             <GroupHeader groupType={key} setCurrent={setCurrent} rootRef={ref}>
               <ul className={styles.row}>
                 {data
                   .filter((x) => x.type == key)
@@ -85,7 +93,8 @@ const BurgerIngredients = () => {
                     />
                   ))}
               </ul>
-              </InView>
+              </GroupHeader>
+
             </React.Fragment>
           ))}
         </div>

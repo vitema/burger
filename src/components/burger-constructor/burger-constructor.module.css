@@ -16,19 +16,8 @@ li {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid green;
-  min-width: 500px;
+  min-width: 600px;
 }
-
-.boxHover {
-  padding-top: 100px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border: 1px solid red;
-}
-
-
 
 .footerBox {
   display: flex;
