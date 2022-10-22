@@ -103,6 +103,41 @@ const BurgerConstructor = () => {
     },
   });
 
+
+   // drop
+  // Получаем реф, который мы пробросим в наш контейнер
+  // чтобы библиотека могла манипулировать его состоянием
+  const [{ isHover1 },dropComponentRef] = useDrop({
+    // Такой тип как у перетаскиваемого ингредиента
+    accept: "component",
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+    // Тут просто добавляем перемещенный ингредиент в заказ
+    // выполняем диспатч в стор, в момент "бросания" ингредиента
+    drop(item) {
+
+      dispatch({
+        type: ADD_INGREDIENT,
+        item: {
+          ...item,
+          // Сделаем небольшой хак и добавим уникальный айдишник
+          // чтобы дублирующиеся ингредиенты в бургере не скакали при перетаскивании
+          // так как реакт будет менять ингредиенты местами с учетом key
+          // и именно в key мы будем пробрасывать наш dragId
+          // используем библиотеку uuid
+          dragId: uuid(),
+        },
+      });
+
+      dispatch({
+        type: INCREMENT_COUNT,
+        id: item._id,
+      });
+    },
+  });
+
+
   const moveCard = useCallback(
     (dragIndex, hoverIndex) => {
       // Получаем перетаскиваемый ингредиент
@@ -144,7 +179,7 @@ const BurgerConstructor = () => {
               thumbnail={ingredientsData.bun.image}
             />
           </div>
-          <div className={styles.itemsBox}>
+          <div className={styles.itemsBox}  ref={dropComponentRef}>
             {ingredientsData.components.map((item, index) => (
               <BurgerComponent
                 key={item.dragId}
