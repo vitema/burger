@@ -1,4 +1,8 @@
-import { GET_INGREDIENTS, ADD_INGREDIENT } from "../actions/constructor";
+import {
+  GET_INGREDIENTS,
+  ADD_INGREDIENT,
+  MOVE_COMPONENT,
+} from "../actions/constructor";
 import { bunType } from "../../constants/constants";
 
 const initialState = {
@@ -21,8 +25,8 @@ export const constructorReducer = (state = initialState, action) => {
           };
         } else {
           return {
-           ...state,
-            bun: action.item
+            ...state,
+            bun: action.item,
           };
         }
       }
@@ -35,6 +39,13 @@ export const constructorReducer = (state = initialState, action) => {
       return {
         ...state,
         components: [...state.components, action.item],
+      };
+    }
+    case MOVE_COMPONENT: {
+      debugger;
+      return {
+        ...state,
+        components: [...action.components],
       };
     }
 

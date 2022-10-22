@@ -32,7 +32,7 @@ const BurgerIngredients = () => {
 
 
 
-     console.log(visibleHeaders);
+ 
   const data = useSelector((store) => store.ingredients.items); // todo можно отработать лоадинг и вывод ошибки заюзать ingredientsRequest, ingredientsFailed заюзать memo где map
 
   const { ref, inView, entry } = useInView({
@@ -81,7 +81,7 @@ const BurgerIngredients = () => {
                       onClick={() => {
                         handleOpenModal();
                         selectItem(item);
-                        dispatch({ type: ADD_INGREDIENT, item });
+                       
                       }}
                     />
                   ))}

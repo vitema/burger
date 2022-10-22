@@ -16,13 +16,19 @@ li {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border: 1px solid green;
+  min-width: 500px;
 }
 
-.ingridientItem {
+.boxHover {
+  padding-top: 100px;
   display: flex;
-  align-items: center;
-  margin-bottom: 16px;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid red;
 }
+
+
 
 .footerBox {
   display: flex;
