@@ -7,4 +7,9 @@ export const availableTypes = {
   };
 
   export const bunType = "bun";
+
+  export const dndIngredientsAccept = "ingredients";
+  export const dndComponentsAccept = "components";
+  export const dndComponentAccept = "component";
+
    

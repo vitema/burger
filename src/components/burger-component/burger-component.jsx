@@ -1,20 +1,20 @@
 import { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { useDrag, useDrop } from "react-dnd/dist/hooks";
+
 import {
   DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-component.module.css";
+
 import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
 
-import { apiUrl, bunType } from "../../constants/constants";
-
-import { useDrag, useDrop } from "react-dnd/dist/hooks";
+import { bunType, dndComponentAccept } from "../../constants/constants";
 
 import { DECREMENT_COUNT } from "../../services/actions/ingredients";
 import { DELETE_COMPONENT } from "../../services/actions/constructor";
-
-import { useDispatch } from "react-redux";
 
 const BurgerComponent = ({ item, index, moveCard }) => {
   const ref = useRef(null);
@@ -22,7 +22,7 @@ const BurgerComponent = ({ item, index, moveCard }) => {
     // Указываем тип получаемых элементов, чтобы dnd понимал,
     // в какой контейнер можно класть перетаскиваемый элемент, а в какой нельзя.
     // Элементы и контейнеры с разными типами не будут взаимодействовать
-    accept: "component",
+    accept: dndComponentAccept,
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -75,7 +75,7 @@ const BurgerComponent = ({ item, index, moveCard }) => {
   // Задаем функционал перетаскивания для элементов внутри списка
   // ингредиентов заказа
   const [{ isDragging }, drag] = useDrag({
-    type: "component",
+    type: dndComponentAccept,
     item: () => ({ dragId: item.dragId, index }),
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -84,7 +84,7 @@ const BurgerComponent = ({ item, index, moveCard }) => {
   // Добавляем перетаскиваемому элементу прозрачность 0,
   // чтобы на его месте визуально появилось пустое пространство
   const opacity = isDragging ? 0 : 1;
-  // Тут мы говорим что наш элемент и перетаскиваемый и бросаемый :)
+  // Тут мы говорим что наш элемент и перетаскиваемый и бросаемый
   if (item.type !== bunType) drag(drop(ref));
   // Прерываем базовую функция для onDrop
   // потому что браузер по умолчанию не сбрасывает наш элемент в контейнер
@@ -112,6 +112,12 @@ const BurgerComponent = ({ item, index, moveCard }) => {
       />
     </div>
   );
+};
+
+BurgerComponent.propTypes = {
+  item: ingredientType.isRequired,
+  index: PropTypes.number.isRequired,
+  moveCard: PropTypes.func.isRequired,
 };
 
 export default BurgerComponent;

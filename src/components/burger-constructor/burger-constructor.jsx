@@ -1,19 +1,24 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useDrop } from "react-dnd/dist/hooks/useDrop";
+import uuid from "react-uuid";
+
 import {
   ConstructorElement,
   CurrencyIcon,
   Button,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
-import OrderDetails from "../order-details/order-details";
-import Modal from "../modal/modal";
+
+import {
+  bunType,
+  dndIngredientsAccept,
+  dndComponentsAccept
+} from "../../constants/constants";
+
 import useModal from "../../hooks/useModal";
-import { apiUrl, bunType } from "../../constants/constants";
-import { request } from "../../utils/request";
-import { useSelector, useDispatch } from "react-redux";
+
 import { getOrder } from "../../services/actions/order";
-import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import {
   ADD_INGREDIENT,
   MOVE_COMPONENT,
@@ -23,23 +28,18 @@ import {
   DECREMENT_COUNT,
   INCREMENT_COUNT,
 } from "../../services/actions/ingredients";
-import uuid from "react-uuid";
 
+import OrderDetails from "../order-details/order-details";
+import Modal from "../modal/modal";
 import BurgerComponent from "../burger-component/burger-component";
 
 const BurgerConstructor = () => {
-  //todo отработать стейты получения ордера - лоадинг ошибки
   const ingredientsData = useSelector((store) => store.constructorIngredients);
   const orderData = useSelector((store) => store.order);
 
   const isDataValid = () => {
     return ingredientsData && ingredientsData.components && ingredientsData.bun;
   };
-
-  const [requestState, setRequestState] = useState({
-    loading: true,
-    error: "",
-  });
 
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
 
@@ -69,14 +69,13 @@ const BurgerConstructor = () => {
   // чтобы библиотека могла манипулировать его состоянием
   const [{ isHover }, dropTargerRef] = useDrop({
     // Такой тип как у перетаскиваемого ингредиента
-    accept: "ingredient",
+    accept: dndIngredientsAccept,
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
     // Тут просто добавляем перемещенный ингредиент в заказ
     // выполняем диспатч в стор, в момент "бросания" ингредиента
     drop(item) {
-      debugger;
       if (item.type == bunType && ingredientsData.bun) {
         dispatch({
           type: DECREMENT_COUNT,
@@ -104,17 +103,15 @@ const BurgerConstructor = () => {
     },
   });
 
-
   const [{ isHover1 }, dropComponentRef] = useDrop({
     // Такой тип как у перетаскиваемого ингредиента
-    accept: "component1",
+    accept: dndComponentsAccept,
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
     // Тут просто добавляем перемещенный ингредиент в заказ
     // выполняем диспатч в стор, в момент "бросания" ингредиента
     drop(item) {
-      debugger;
       if (item.type == bunType && ingredientsData.bun) {
         dispatch({
           type: DECREMENT_COUNT,
@@ -144,9 +141,7 @@ const BurgerConstructor = () => {
 
   const moveCard = useCallback(
     (dragIndex, hoverIndex) => {
-      debugger;
       // Получаем перетаскиваемый ингредиент
-     
       const dragCard = ingredientsData.components[dragIndex];
       const newCards = [...ingredientsData.components];
       // Удаляем перетаскиваемый элемент из массива
@@ -158,21 +153,17 @@ const BurgerConstructor = () => {
       // В примере react-dnd используется библиотека immutability-helper
       // Которая позволяет описывать такую имутабельную логику более декларативно
       // Но для лучше понимания обновления массива,
-      // Советую использовать стандартный splice
 
       dispatch({
         type: MOVE_COMPONENT,
         components: newCards,
       });
     },
-    [ingredientsData, dispatch]
+    [ingredientsData.components, dispatch]
   );
 
   return (
-    <div
-      ref={dropTargerRef}
-      className={styles.box}
-    >
+    <div ref={dropTargerRef} className={styles.box}>
       {isDataValid() && (
         <>
           <div className="pl-6 pr-6 pb-2">
@@ -184,8 +175,8 @@ const BurgerConstructor = () => {
               thumbnail={ingredientsData.bun.image}
             />
           </div>
-          
-          <div className={styles.itemsBox}  ref={dropComponentRef}  >
+
+          <div className={styles.itemsBox} ref={dropComponentRef}>
             {ingredientsData.components.map((item, index) => (
               <BurgerComponent
                 key={item.dragId}
@@ -212,7 +203,7 @@ const BurgerConstructor = () => {
             <span className="pr-8">
               <CurrencyIcon type="primary" />
             </span>
-            {!orderData.order ? (
+            {!orderData.order || orderData.orderFailed ? (
               <Button
                 type="primary"
                 size="large"
@@ -229,8 +220,6 @@ const BurgerConstructor = () => {
           </div>
         </>
       )}
-      {requestState.error && <p>При оформлении заказа произошла ошибка.</p>}
-
       {modalVisible && orderData.order && (
         <Modal header="" onClose={handleCloseModal}>
           <OrderDetails orderData={orderData.order} />

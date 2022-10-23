@@ -19,7 +19,6 @@ export function getOrder(postData) {
         },
         body: JSON.stringify(postData),
       });
-
       dispatch({
         type: GET_ORDER_SUCCESS,
         order: data,

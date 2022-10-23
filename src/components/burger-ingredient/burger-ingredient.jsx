@@ -6,9 +6,14 @@ import {
 import styles from "./burger-ingredient.module.css";
 import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
-import { bunType } from "../../constants/constants";
 
 import { useDrag } from "react-dnd/dist/hooks";
+
+import {
+  bunType,
+  dndComponentsAccept,
+  dndIngredientsAccept
+} from "../../constants/constants";
 
 const BurgerIngredient = ({ item, onClick }) => {
   // drag
@@ -18,7 +23,7 @@ const BurgerIngredient = ({ item, onClick }) => {
     // Указываем тип получаемых элементов, чтобы dnd понимал,
     // в какой контейнер можно класть перетаскиваемый элемент, а в какой нельзя.
     // Элементы и контейнеры с разными типами не будут взаимодействовать
-    type: item.type == bunType ? "ingredient" : "component1",
+    type: item.type == bunType ? dndIngredientsAccept : dndComponentsAccept,
     // Тут мы положим данные о нашем ингредиенте,
     // которые dnd будет передавать в качестве аргумента во внутренние колбэки
     item: { ...item },

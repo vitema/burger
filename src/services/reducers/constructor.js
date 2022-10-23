@@ -6,8 +6,6 @@ import {
 } from "../actions/constructor";
 import { bunType } from "../../constants/constants";
 
-import { DECREMENT_COUNT, INCREMENT_COUNT } from "../actions/ingredients";
-
 const initialState = {
   bun: null,
   components: [],
@@ -21,19 +19,17 @@ export const constructorReducer = (state = initialState, action) => {
     }
     case ADD_INGREDIENT: {
       if (action.item.type == bunType) {
-          return {
-            ...state,
-            bun: action.item,
-          };
+        return {
+          ...state,
+          bun: action.item,
+        };
       }
-
       return {
         ...state,
         components: [...state.components, action.item],
       };
     }
     case MOVE_COMPONENT: {
-      debugger;
       return {
         ...state,
         components: [...action.components],
@@ -45,7 +41,6 @@ export const constructorReducer = (state = initialState, action) => {
         components: [...state.components.filter((x) => x.dragId != action.id)],
       };
     }
-
     default: {
       return state;
     }
