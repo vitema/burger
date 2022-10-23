@@ -17,7 +17,7 @@ import Modal from "../modal/modal";
 import useModal from "../../hooks/useModal";
 
 const BurgerIngredients = () => {
-  const [current, setCurrent] = React.useState(bunType);
+  const [current, setCurrent] = React.useState();
   // const [selectedItem, selectItem] = React.useState(null);
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
 
@@ -41,6 +41,7 @@ const BurgerIngredients = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
+    setCurrent(bunType);
   }, [dispatch]);
 
   useEffect(() => {
