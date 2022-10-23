@@ -3,6 +3,7 @@ import {
   ADD_INGREDIENT,
   MOVE_COMPONENT,
   DELETE_COMPONENT,
+  CLEAR_INGREDIENTS,
 } from "../actions/constructor";
 import { bunType } from "../../constants/constants";
 
@@ -41,6 +42,10 @@ export const constructorReducer = (state = initialState, action) => {
         components: [...state.components.filter((x) => x.dragId != action.id)],
       };
     }
+    case CLEAR_INGREDIENTS: {
+      return  initialState
+    }
+
     default: {
       return state;
     }

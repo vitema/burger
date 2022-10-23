@@ -4,6 +4,7 @@ import {
   GET_INGREDIENTS_FAILED,
   INCREMENT_COUNT,
   DECREMENT_COUNT,
+  CLEAR_COUNTS,
 } from "../actions/ingredients";
 
 const initialState = {
@@ -55,6 +56,12 @@ export const ingredientsReducer = (state = initialState, action) => {
         items: decrement(action.id, state.items),
       };
     }
+    case CLEAR_COUNTS: {
+      return {
+        ...state,
+        items: clear(state.items),
+      };
+    }
     default: {
       return state;
     }
@@ -79,4 +86,12 @@ const decrement = (id, items) => {
     item.count--;
   }
   return newItems;
+};
+
+const clear = (items) => {
+  const newItems = [...items];
+  return newItems.map((x) => {
+    x.count = 0;
+    return x;
+  });
 };

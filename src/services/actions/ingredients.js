@@ -7,6 +7,8 @@ export const GET_INGREDIENTS_FAILED = "GET_INGREDIENTS_FAILED";
 
 export const INCREMENT_COUNT = "INCREMENT_COUNT";
 export const DECREMENT_COUNT = "DECREMENT_COUNT";
+export const CLEAR_COUNTS = "CLEAR_COUNTS";
+
 
 export function getIngredients() {
   return async function (dispatch) {

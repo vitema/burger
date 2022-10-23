@@ -18,15 +18,17 @@ import {
 
 import useModal from "../../hooks/useModal";
 
-import { getOrder } from "../../services/actions/order";
+import { getOrder, CLEAR_ORDER } from "../../services/actions/order";
 import {
   ADD_INGREDIENT,
   MOVE_COMPONENT,
+  CLEAR_INGREDIENTS,
 } from "../../services/actions/constructor";
 
 import {
   DECREMENT_COUNT,
   INCREMENT_COUNT,
+  CLEAR_COUNTS,
 } from "../../services/actions/ingredients";
 
 import OrderDetails from "../order-details/order-details";
@@ -51,6 +53,15 @@ const BurgerConstructor = () => {
     const postData = { ingredients: ids };
     dispatch(getOrder(postData));
     handleOpenModal();
+  };
+
+  const closeOrder = () => {
+    handleCloseModal();
+    if (!orderData.orderFailed) {
+      dispatch({ type: CLEAR_INGREDIENTS });
+      dispatch({ type: CLEAR_COUNTS });
+      dispatch({ type: CLEAR_ORDER });
+    }
   };
 
   const getSum = () => {
@@ -203,7 +214,7 @@ const BurgerConstructor = () => {
             <span className="pr-8">
               <CurrencyIcon type="primary" />
             </span>
-            {!orderData.order || orderData.orderFailed ? (
+            {(!orderData.order || orderData.orderFailed) && (
               <Button
                 type="primary"
                 size="large"
@@ -212,16 +223,12 @@ const BurgerConstructor = () => {
               >
                 Оформить заказ
               </Button>
-            ) : (
-              <p className="text text_type_main-small">
-                Номер заказа : {orderData.order.number}
-              </p>
             )}
           </div>
         </>
       )}
       {modalVisible && orderData.order && (
-        <Modal header="" onClose={handleCloseModal}>
+        <Modal header="" onClose={closeOrder}>
           <OrderDetails orderData={orderData.order} />
         </Modal>
       )}
