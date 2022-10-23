@@ -7,8 +7,8 @@ const getStatusImgPath = (status) => {
   switch (status) {
     case 1:
       return status1Img;
-      case 2:
-        return status2Img;
+    case 2:
+      return status2Img;
     default:
       return "";
   }
@@ -33,7 +33,7 @@ const OrderDetails = ({ orderData }) => {
 };
 
 OrderDetails.propTypes = {
-  orderData: orderType.isRequired
+  orderData: orderType.isRequired,
 };
 
 export default OrderDetails;

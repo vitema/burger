@@ -4,7 +4,6 @@ li {
 
 .row {
   display: flex;
-  border: 1px solid gray;
 }
 
 .liRow {

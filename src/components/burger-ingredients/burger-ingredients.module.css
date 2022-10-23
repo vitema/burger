@@ -4,9 +4,9 @@
 }
 
 .ingridientsBox {
-   height: 600px; 
+  height: 600px;
   overflow: scroll;
-  overflow-x: hidden; 
+  overflow-x: hidden;
 }
 
 .ingridientsBox::-webkit-scrollbar {

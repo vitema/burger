@@ -1,21 +1,20 @@
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
-import { InView } from "react-intersection-observer";
-import { availableTypes } from "../../constants/constants";
-import { bunType } from "../../constants/constants";
+import PropTypes from "prop-types";
 
-const GroupHeader = ({ groupType, setCurrent, children, tabClick }) => {
+import { availableTypes } from "../../constants/constants";
+
+const IngredientsGroup = ({ groupType, setCurrent, children }) => {
   const { ref, inView } = useInView({
     /* Optional options */
-    rootMargin:"0px 0px -400px 0px",
+    rootMargin: "0px 0px -400px 0px",
     threshold: 0,
   });
 
   useEffect(() => {
-    if (inView){
+    if (inView) {
       setCurrent(groupType);
     }
-   
   }, [inView]);
 
   return (
@@ -28,4 +27,10 @@ const GroupHeader = ({ groupType, setCurrent, children, tabClick }) => {
   );
 };
 
-export default GroupHeader;
+IngredientsGroup.propTypes = {
+  groupType: PropTypes.string.isRequired,
+  setCurrent: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
+};
+
+export default IngredientsGroup;

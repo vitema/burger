@@ -19,7 +19,7 @@ export const orderReducer = (state = initialState, action) => {
         orderRequest: true,
         // Сбрасываем статус наличия ошибок от предыдущего запроса
         // на случай, если он был и завершился с ошибкой
-        orderFailed: false
+        orderFailed: false,
       };
     }
     case GET_ORDER_SUCCESS: {
@@ -28,7 +28,7 @@ export const orderReducer = (state = initialState, action) => {
         // Запрос выполнился успешно, помещаем полученные данные в хранилище
         order: getOrderData(action.order),
         // Запрос закончил своё выполнение
-        orderRequest: false
+        orderRequest: false,
       };
     }
     case GET_ORDER_FAILED: {
@@ -39,7 +39,7 @@ export const orderReducer = (state = initialState, action) => {
         orderFailed: true,
         // Запрос закончил своё выполнение
         orderRequest: false,
-        order: getFailOrderData()
+        order: getFailOrderData(),
       };
     }
     default: {
@@ -54,18 +54,18 @@ const getOrderData = (data) => {
     status: {
       value: 1,
       text: "Ваш заказ начали готовить",
-      description: "Дождитесь готовности на орбитальной станции"
+      description: "Дождитесь готовности на орбитальной станции",
     },
   };
 };
 
 const getFailOrderData = () => {
   return {
-    number:  "",
+    number: "",
     status: {
       value: 2,
       text: "При оформлении заказа произошла ошибка",
-      description: "Обратитесь к администратору"
+      description: "Обратитесь к администратору",
     },
   };
 };

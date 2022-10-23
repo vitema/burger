@@ -1,18 +1,18 @@
-import React from "react";
+import { useDrag } from "react-dnd/dist/hooks";
+
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredient.module.css";
+
 import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
-
-import { useDrag } from "react-dnd/dist/hooks";
 
 import {
   bunType,
   dndComponentsAccept,
-  dndIngredientsAccept
+  dndIngredientsAccept,
 } from "../../constants/constants";
 
 const BurgerIngredient = ({ item, onClick }) => {

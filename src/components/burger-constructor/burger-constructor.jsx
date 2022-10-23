@@ -13,7 +13,7 @@ import styles from "./burger-constructor.module.css";
 import {
   bunType,
   dndIngredientsAccept,
-  dndComponentsAccept
+  dndComponentsAccept,
 } from "../../constants/constants";
 
 import useModal from "../../hooks/useModal";
@@ -67,7 +67,7 @@ const BurgerConstructor = () => {
   // drop
   // Получаем реф, который мы пробросим в наш контейнер
   // чтобы библиотека могла манипулировать его состоянием
-  const [{ isHover }, dropTargerRef] = useDrop({
+  const [{}, dropTargerRef] = useDrop({
     // Такой тип как у перетаскиваемого ингредиента
     accept: dndIngredientsAccept,
     collect: (monitor) => ({
@@ -103,7 +103,7 @@ const BurgerConstructor = () => {
     },
   });
 
-  const [{ isHover1 }, dropComponentRef] = useDrop({
+  const [{}, dropComponentRef] = useDrop({
     // Такой тип как у перетаскиваемого ингредиента
     accept: dndComponentsAccept,
     collect: (monitor) => ({

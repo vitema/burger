@@ -77,6 +77,6 @@ const decrement = (id, items) => {
   const item = newItems.filter((x) => x._id == id)[0];
   if (item.count) {
     item.count--;
-  } 
+  }
   return newItems;
 };
