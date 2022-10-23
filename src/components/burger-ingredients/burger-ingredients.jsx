@@ -7,6 +7,7 @@ import styles from "./burger-ingredients.module.css";
 import { availableTypes, bunType } from "../../constants/constants";
 
 import { getIngredients } from "../../services/actions/ingredients";
+import { SET_INGREDIENT } from "../../services/actions/ingredient";
 
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import IngredientsGroup from "../ingredients-group/ingredients-group";
@@ -17,7 +18,7 @@ import useModal from "../../hooks/useModal";
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = React.useState(bunType);
-  const [selectedItem, selectItem] = React.useState(null);
+  // const [selectedItem, selectItem] = React.useState(null);
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
 
   const { data, ingredientsFailed } = useSelector((store) => ({
@@ -33,6 +34,10 @@ const BurgerIngredients = () => {
   };
 
   const dispatch = useDispatch();
+
+  const selectItem = (item) => {
+    dispatch({ type: SET_INGREDIENT, item });
+  };
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -96,7 +101,7 @@ const BurgerIngredients = () => {
               При получении данных произошла ошибка
             </p>
           ) : (
-            <IngredientDetails item={selectedItem} />
+            <IngredientDetails/>
           )}
         </Modal>
       )}

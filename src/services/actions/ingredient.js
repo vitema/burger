@@ -1,0 +1,2 @@
+export const GET_INGREDIENT = "GET_INGREDIENT";
+export const SET_INGREDIENT = "SET_INGREDIENT";
