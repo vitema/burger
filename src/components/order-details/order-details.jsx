@@ -1,11 +1,14 @@
 import styles from "./order-details.module.css";
 import { orderType } from "../../utils/types";
 import status1Img from "./images/status1.png";
+import status2Img from "./images/status2.webp";
 
 const getStatusImgPath = (status) => {
   switch (status) {
     case 1:
       return status1Img;
+    case 2:
+      return status2Img;
     default:
       return "";
   }
@@ -30,7 +33,7 @@ const OrderDetails = ({ orderData }) => {
 };
 
 OrderDetails.propTypes = {
-  orderData: orderType.isRequired
+  orderData: orderType.isRequired,
 };
 
 export default OrderDetails;

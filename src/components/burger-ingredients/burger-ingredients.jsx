@@ -1,88 +1,112 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, createRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import Ingridient from "../burger-ingredient/burger-ingredient";
-import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/types";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import Modal from "../modal/modal";
-import useModal from "../../hooks/useModal";
+
 import { availableTypes, bunType } from "../../constants/constants";
 
-const BurgerIngredients = (props) => {
-  const [current, setCurrent] = React.useState("bun");
-  const [selectedItem, selectItem] = React.useState(null);
+import { getIngredients } from "../../services/actions/ingredients";
+import { SET_INGREDIENT } from "../../services/actions/ingredient";
 
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import IngredientsGroup from "../ingredients-group/ingredients-group";
+import Ingridient from "../burger-ingredient/burger-ingredient";
+
+import Modal from "../modal/modal";
+import useModal from "../../hooks/useModal";
+
+const BurgerIngredients = () => {
+  const [current, setCurrent] = React.useState();
+  // const [selectedItem, selectItem] = React.useState(null);
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
 
-  /*todo remove after realize drag&drop 
- temporary imitation add random items to constructor */
-  useEffect(() => {
-    const bun = props.data.filter((x) => x.type == bunType)[
-      Math.floor(Math.random() * 2)
-    ];
-    const components = props.data
-      .filter((x) => x.type !== bunType)
-      .slice(0, Math.floor(Math.random() * 4 + 2));
-    props.addIngredients([...components, bun]);
-  }, []);
+  const { data, ingredientsFailed } = useSelector((store) => ({
+    data: store.ingredients.items,
+    ingredientsFailed: store.ingredients.ingredientsFailed,
+  }));
 
-  /*************************************************/
+  const refs = useRef(Object.keys(availableTypes).map(() => createRef()));
+
+  const changeTab = (key, index) => {
+    setCurrent(key);
+    refs.current[index].current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const dispatch = useDispatch();
+
+  const selectItem = (item) => {
+    dispatch({ type: SET_INGREDIENT, item });
+  };
+
+  useEffect(() => {
+    dispatch(getIngredients());
+    setCurrent(bunType);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (ingredientsFailed) {
+      handleOpenModal();
+    }
+  }, [ingredientsFailed]);
 
   return (
     <div className={styles.box}>
       <p className="text text_type_main-large mt-10">Соберите бургер</p>
       <div className={styles.tabBox}>
-        {Object.keys(availableTypes).map((key) => (
+        {Object.keys(availableTypes).map((key, index) => (
           <Tab
             class="mt-5"
             key={key}
             value={key}
             active={current === key}
-            onClick={setCurrent}
+            onClick={(key) => changeTab(key, index)}
           >
             {availableTypes[key]}
           </Tab>
         ))}
       </div>
 
-      <div className={styles.ingridientsBox} id="ingridientsBox">
-        {Object.keys(availableTypes).map((key, index) => (
-          <React.Fragment key={index}>
-            <p className="text text_type_main-medium mt-10">
-              {availableTypes[key]}
-            </p>
-            <ul className={styles.row}>
-              {props.data
-                .filter((x) => x.type == key)
-                .map((item) => (
-                  <Ingridient
-                    key={item._id}
-                    item={item}
-                    onClick={() => {
-                      handleOpenModal();
-                      selectItem(item);
-                      props.addIngredient(item);
-                    }}
-                  />
-                ))}
-            </ul>
-          </React.Fragment>
-        ))}
-      </div>
+      {data && data.length > 0 && (
+        <div className={styles.ingridientsBox}>
+          {Object.keys(availableTypes).map((key, index) => (
+            <div key={index} ref={refs.current[index]}>
+              <IngredientsGroup groupType={key} setCurrent={setCurrent}>
+                <ul className={styles.row}>
+                  {data
+                    .filter((x) => x.type == key)
+                    .map((item) => (
+                      <Ingridient
+                        key={item._id}
+                        item={item}
+                        onClick={() => {
+                          selectItem(item);
+                          handleOpenModal();
+                        }}
+                      />
+                    ))}
+                </ul>
+              </IngredientsGroup>
+            </div>
+          ))}
+        </div>
+      )}
+
       {modalVisible && (
-        <Modal header="Детали ингридиента" onClose={handleCloseModal}>
-          <IngredientDetails item={selectedItem} />
+        <Modal
+          header={ingredientsFailed ? "" : "Детали ингридиента"}
+          onClose={handleCloseModal}
+        >
+          {ingredientsFailed ? (
+            <p className="text text_type_main-medium">
+              При получении данных произошла ошибка
+            </p>
+          ) : (
+            <IngredientDetails/>
+          )}
         </Modal>
       )}
     </div>
   );
 };
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired,
-  addIngredient: PropTypes.func.isRequired,
-  addIngredients: PropTypes.func,
-};
-
 export default BurgerIngredients;

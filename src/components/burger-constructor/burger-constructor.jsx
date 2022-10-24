@@ -1,96 +1,181 @@
-import { useContext, useState } from "react";
+import { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useDrop } from "react-dnd/dist/hooks/useDrop";
+import uuid from "react-uuid";
+
 import {
   ConstructorElement,
   CurrencyIcon,
   Button,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
+
+import {
+  bunType,
+  dndIngredientsAccept,
+  dndComponentsAccept,
+} from "../../constants/constants";
+
+import useModal from "../../hooks/useModal";
+
+import { getOrder, CLEAR_ORDER } from "../../services/actions/order";
+import {
+  ADD_INGREDIENT,
+  MOVE_COMPONENT,
+  CLEAR_INGREDIENTS,
+} from "../../services/actions/constructor";
+
+import {
+  DECREMENT_COUNT,
+  INCREMENT_COUNT,
+  CLEAR_COUNTS,
+} from "../../services/actions/ingredients";
+
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
-import useModal from "../../hooks/useModal";
-import { IngridientsContext } from "../../services/ingriedientsContext";
-import { apiUrl, bunType } from "../../constants/constants";
+import BurgerComponent from "../burger-component/burger-component";
 
 const BurgerConstructor = () => {
-  const currentData = useContext(IngridientsContext);
+  const ingredientsData = useSelector((store) => store.constructorIngredients);
+  const orderData = useSelector((store) => store.order);
 
-  const getIngredientsData = () => {
-    const bun = currentData.filter((x) => x.type == bunType)[0];
-    const components = currentData.filter((x) => x.type != bunType);
-
-    return {
-      bun: bun,
-      components: components,
-    };
+  const isDataValid = () => {
+    return ingredientsData && ingredientsData.components && ingredientsData.bun;
   };
 
-  const ingredientsData = getIngredientsData();
-
-  const [requestState, setRequestState] = useState({
-    loading: true,
-    error: "",
-  });
-
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
-  const [orderData, setOrderData] = useState(null);
+
+  const dispatch = useDispatch();
 
   const getOrderData = async () => {
-    try {
-      setRequestState({ ...requestState, loading: true });
-      const allData = [...ingredientsData.components, ingredientsData.bun];
-      const ids = allData.map((item) => item._id);
-      const postData = { ingredients: ids };
+    const allData = [...ingredientsData.components, ingredientsData.bun];
+    const ids = allData.map((item) => item._id);
+    const postData = { ingredients: ids };
+    dispatch(getOrder(postData));
+    handleOpenModal();
+  };
 
-      const res = await fetch(`${apiUrl}/orders`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-
-      if (!res.ok) {
-        const message = `An error has occured: ${res.status}`;
-        throw new Error(message);
-      }
-
-      const data = await res.json();
-
-      setRequestState({
-        ...requestState,
-        loading: false,
-        error: "",
-      });
-
-      setOrderData({
-        order: {
-          number: data.order.number + "",
-          status: {
-            value: 1,
-            text: "Ваш заказ начали готовить",
-            description: "Дождитесь готовности на орбитальной станции",
-          },
-        },
-      });
-
-      handleOpenModal();
-    } catch (error) {
-      setRequestState({ ...requestState, error: error });
+  const closeOrder = () => {
+    handleCloseModal();
+    if (!orderData.orderFailed) {
+      dispatch({ type: CLEAR_INGREDIENTS });
+      dispatch({ type: CLEAR_COUNTS });
+      dispatch({ type: CLEAR_ORDER });
     }
   };
 
   const getSum = () => {
+    if (!isDataValid()) {
+      return 0;
+    }
+
     return (
       ingredientsData.components.reduce((sum, item) => sum + item.price, 0) +
       ingredientsData.bun.price * 2
     );
   };
 
+  // drop
+  // Получаем реф, который мы пробросим в наш контейнер
+  // чтобы библиотека могла манипулировать его состоянием
+  const [{}, dropTargerRef] = useDrop({
+    // Такой тип как у перетаскиваемого ингредиента
+    accept: dndIngredientsAccept,
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+    // Тут просто добавляем перемещенный ингредиент в заказ
+    // выполняем диспатч в стор, в момент "бросания" ингредиента
+    drop(item) {
+      if (item.type == bunType && ingredientsData.bun) {
+        dispatch({
+          type: DECREMENT_COUNT,
+          id: ingredientsData.bun._id,
+        });
+      }
+
+      dispatch({
+        type: ADD_INGREDIENT,
+        item: {
+          ...item,
+          // Сделаем небольшой хак и добавим уникальный айдишник
+          // чтобы дублирующиеся ингредиенты в бургере не скакали при перетаскивании
+          // так как реакт будет менять ингредиенты местами с учетом key
+          // и именно в key мы будем пробрасывать наш dragId
+          // используем библиотеку uuid
+          dragId: uuid(),
+        },
+      });
+
+      dispatch({
+        type: INCREMENT_COUNT,
+        id: item._id,
+      });
+    },
+  });
+
+  const [{}, dropComponentRef] = useDrop({
+    // Такой тип как у перетаскиваемого ингредиента
+    accept: dndComponentsAccept,
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+    // Тут просто добавляем перемещенный ингредиент в заказ
+    // выполняем диспатч в стор, в момент "бросания" ингредиента
+    drop(item) {
+      if (item.type == bunType && ingredientsData.bun) {
+        dispatch({
+          type: DECREMENT_COUNT,
+          id: ingredientsData.bun._id,
+        });
+      }
+
+      dispatch({
+        type: ADD_INGREDIENT,
+        item: {
+          ...item,
+          // Сделаем небольшой хак и добавим уникальный айдишник
+          // чтобы дублирующиеся ингредиенты в бургере не скакали при перетаскивании
+          // так как реакт будет менять ингредиенты местами с учетом key
+          // и именно в key мы будем пробрасывать наш dragId
+          // используем библиотеку uuid
+          dragId: uuid(),
+        },
+      });
+
+      dispatch({
+        type: INCREMENT_COUNT,
+        id: item._id,
+      });
+    },
+  });
+
+  const moveCard = useCallback(
+    (dragIndex, hoverIndex) => {
+      // Получаем перетаскиваемый ингредиент
+      const dragCard = ingredientsData.components[dragIndex];
+      const newCards = [...ingredientsData.components];
+      // Удаляем перетаскиваемый элемент из массива
+      newCards.splice(dragIndex, 1);
+      // Вставляем элемент на место того элемента,
+      // над которым мы навели мышку с "перетаскиванием"
+      // Тут просто создается новый массив, в котором изменен порядок наших элементов
+      newCards.splice(hoverIndex, 0, dragCard);
+      // В примере react-dnd используется библиотека immutability-helper
+      // Которая позволяет описывать такую имутабельную логику более декларативно
+      // Но для лучше понимания обновления массива,
+
+      dispatch({
+        type: MOVE_COMPONENT,
+        components: newCards,
+      });
+    },
+    [ingredientsData.components, dispatch]
+  );
+
   return (
-    <div className={styles.box}>
-      {currentData.length > 0 && (
+    <div ref={dropTargerRef} className={styles.box}>
+      {isDataValid() && (
         <>
           <div className="pl-6 pr-6 pb-2">
             <ConstructorElement
@@ -101,16 +186,15 @@ const BurgerConstructor = () => {
               thumbnail={ingredientsData.bun.image}
             />
           </div>
-          <div className={styles.itemsBox}>
-            {ingredientsData.components.map((item) => (
-              <div className={styles.ingridientItem} key={item._id}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                />
-              </div>
+
+          <div className={styles.itemsBox} ref={dropComponentRef}>
+            {ingredientsData.components.map((item, index) => (
+              <BurgerComponent
+                key={item.dragId}
+                index={index}
+                item={item}
+                moveCard={moveCard}
+              />
             ))}
           </div>
           <div className="pl-6 pr-6">
@@ -130,7 +214,7 @@ const BurgerConstructor = () => {
             <span className="pr-8">
               <CurrencyIcon type="primary" />
             </span>
-            {!orderData ? (
+            {(!orderData.order || orderData.orderFailed) && (
               <Button
                 type="primary"
                 size="large"
@@ -139,18 +223,12 @@ const BurgerConstructor = () => {
               >
                 Оформить заказ
               </Button>
-            ) : (
-              <p className="text text_type_main-small">
-                Номер заказа : {orderData.order.number}
-              </p>
             )}
           </div>
         </>
       )}
-      {requestState.error && <p>При оформление заказа произошла ошибка.</p>}
-
-      {modalVisible && (
-        <Modal header="" onClose={handleCloseModal}>
+      {modalVisible && orderData.order && (
+        <Modal header="" onClose={closeOrder}>
           <OrderDetails orderData={orderData.order} />
         </Modal>
       )}

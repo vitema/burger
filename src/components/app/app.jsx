@@ -1,88 +1,37 @@
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
+import { compose, createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+
+import { rootReducer } from "../../services/reducers/rootReducer";
+
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import styles from "./app.module.css";
-import { IngridientsContext } from "../../services/ingriedientsContext";
-import { useState, useEffect, useCallback } from "react";
-import { apiUrl, bunType } from "../../constants/constants";
+
+const composeEnhancers =
+  typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+    : compose;
+
+const enhancer = composeEnhancers(applyMiddleware(thunk));
+
+const store = createStore(rootReducer, enhancer);
 
 function App() {
-  const [state, setState] = useState({
-    productData: null,
-    loading: true,
-    error: "",
-  });
-
-  const [constructorItems, setConstructorItems] = useState([]);
-
-  useEffect(() => {
-    const getProductData = async () => {
-      try {
-        setState({ ...state, loading: true });
-        const res = await fetch(`${apiUrl}/ingredients`);
-
-        if (!res.ok) {
-          const message = `An error has occured: ${res.status}`;
-          throw new Error(message);
-        }
-
-        const data = await res.json();
-        setState({ productData: data.data, loading: false, error: "" });
-      } catch (error) {
-        setState({ ...state, error: error });
-      }
-    };
-
-    getProductData();
-  }, []);
-
-  const addIngredient = (item) => {
-    const bun = constructorItems.filter((x) => x.type == bunType)[0];
-
-    if (bun && item.type == bunType) {
-      setState({
-        ...state,
-        error: { message: "Еще один компонент булки не может быть добавлен" },
-      });
-      return;
-    }
-    if (constructorItems.filter((x) => x._id == item._id)) {
-      setState({
-        ...state,
-        error: { message: `Компонент ${item.name} уже добавлен` },
-      });
-      return;
-    }
-
-    setConstructorItems([...constructorItems, item]);
-  };
-
-  /*todo remove after realize drag&drop */
-  const addIngredients = (items) => {
-    setConstructorItems(items);
-  };
-
   return (
-    <>
+    <Provider store={store}>
       <AppHeader />
-      {!state.loading ? (
-        <div className={styles.row}>
-          <BurgerIngredients
-            data={state.productData}
-            addIngredient={addIngredient}
-            addIngredients={addIngredients}
-          />
-          <IngridientsContext.Provider value={constructorItems}>
-            <BurgerConstructor />
-          </IngridientsContext.Provider>
-        </div>
-      ) : (
-        <>
-          <p>Loading Please wait...</p>
-        </>
-      )}
-      <h1>{state.error.message}</h1>
-    </>
+      <div className={styles.row}>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </DndProvider>
+      </div>
+    </Provider>
   );
 }
 
