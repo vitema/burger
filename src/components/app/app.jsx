@@ -1,16 +1,11 @@
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { compose, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
-
 import { rootReducer } from "../../services/reducers/rootReducer";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import AppHeader from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import styles from "./app.module.css";
+import { ForgotPasswordPage, HomePage, LoginPage, RegisterPage, ResetPasswordPage } from "../../pages";
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -24,13 +19,25 @@ const store = createStore(rootReducer, enhancer);
 function App() {
   return (
     <Provider store={store}>
-      <AppHeader />
-      <div className={styles.row}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </DndProvider>
-      </div>
+      <Router>
+      <Switch>
+        <Route path="/" exact={true}>
+          <HomePage />
+        </Route>
+        <Route path="/register" exact={true}>
+          <RegisterPage />
+        </Route>
+        <Route path="/forgot-password" exact={true}>
+          <ForgotPasswordPage />
+        </Route>
+        <Route path="/reset-password" exact={true}>
+          <ResetPasswordPage />
+        </Route>
+        <Route path="/login" exact={true}>
+          <LoginPage />
+        </Route>
+      </Switch>
+      </Router>
     </Provider>
   );
 }
