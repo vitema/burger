@@ -27,7 +27,7 @@ export function LoginPage() {
 
   const reset = useCallback(
     () => {
-        history.replace({ pathname: '/reset-password' });
+        history.replace({ pathname: '/forgot-password' });
     },
     [history]
   ); 
@@ -61,7 +61,7 @@ export function LoginPage() {
             <span className="text text_type_main-default text_color_inactive">
               Вы — новый пользователь?
             </span>
-            <Button type="secondary" size="medium" onClick={register}>
+            <Button type="secondary" size="medium" onClick={register} htmlType="button">
               Зарегистрироваться
             </Button>
           </div>
