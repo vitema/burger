@@ -61,6 +61,7 @@ export function ResetPasswordPage() {
             <PasswordInput
               name={"Введите новый пароль"}
               onChange={(e) => setPass(e.target.value)}
+              value={password}
             />
           </span>
           <span className="pb-6">
@@ -72,6 +73,7 @@ export function ResetPasswordPage() {
               errorText={"Ошибка"}
               size={"default"}
               onChange={(e) => setToken(e.target.value)}
+              value={token}
             />
           </span>
 

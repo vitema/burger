@@ -8,13 +8,15 @@ import {
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import commonStyles from "./page.module.css";
+import styles from "./profile.module.css";
 
 import AppHeader from "../components/app-header/app-header";
+import Menu from "../components/menu/menu";
 
 import { apiUrl } from "../constants/constants";
 import { request } from "../utils/request";
 
-export function RegisterPage() {
+export function ProfilePage() {
   const history = useHistory();
 
   const login = useCallback(() => {
@@ -25,10 +27,6 @@ export function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
-
-  const onChange = (e) => {
-    setEmail(e.target.value);
-  };
 
   const save = async () => {
     const postData = {
@@ -60,7 +58,8 @@ export function RegisterPage() {
     <>
       <AppHeader />
       <div className={commonStyles.row}>
-        <div className={commonStyles.column}>
+        <Menu />
+        <div className={commonStyles.inputs}>
           <p className="text text_type_main-medium pb-6">Регистрация</p>
           <span className="pb-6">
             <Input
@@ -88,30 +87,7 @@ export function RegisterPage() {
               value={password}
             />
           </span>
-          <span className="pb-20">
-            <Button
-              type="primary"
-              size="large"
-              htmlType="button"
-              onClick={save}
-            >
-              Зарегистрироваться
-            </Button>
-          </span>
 
-          <div className={commonStyles.buttonsRow}>
-            <span className="text text_type_main-default text_color_inactive">
-              Уже зарегистрированы?
-            </span>
-            <Button
-              type="secondary"
-              size="medium"
-              onClick={login}
-              htmlType="button"
-            >
-              Войти
-            </Button>
-          </div>
           <p className="text text_type_main-medium p-6">{error}</p>
         </div>
       </div>
