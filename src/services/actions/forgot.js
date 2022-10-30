@@ -1,31 +1,30 @@
 import { apiUrl } from "../../constants/constants";
 import { request } from "../../utils/request";
-import { getCookie } from "../../utils/cookie";
 
-export const USER_REQUEST = "USER_REQUEST";
-export const USER_SUCCESS = "USER_SUCCESS";
-export const USER_FAILED = "USER_FAILED";
-export function getUser(token) {
+export const FORGOT_REQUEST = "FORGOT_REQUEST";
+export const FORGOT_SUCCESS = "FORGOT_SUCCESS";
+export const FORGOT_FAILED = "FORGOT_FAILED";
+export function forgot (postData) {
   return async function (dispatch) {
     dispatch({
-      type: USER_REQUEST,
+      type: FORGOT_REQUEST,
     });
     try {
-      const data = await request(`${apiUrl}/auth/user`, {
+      const data = await request(`${apiUrl}/password-reset`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: getCookie("accessToken"),
         },
+        body: JSON.stringify(postData),
       });
       dispatch({
-        type: USER_SUCCESS,
+        type: FORGOT_SUCCESS,
         payload: data,
       });
     } catch (error) {
       dispatch({
-        type: USER_FAILED,
+        type: FORGOT_FAILED,
         payload: error,
       });
     }

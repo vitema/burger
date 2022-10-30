@@ -16,7 +16,7 @@ import Menu from "../components/menu/menu";
 
 import { apiUrl } from "../constants/constants";
 import { request } from "../utils/request";
-import { user } from "../services/actions/user";
+import { getUser } from "../services/actions/user";
 import { token } from "../services/actions/token";
 
 export function ProfilePage() {
@@ -25,58 +25,19 @@ export function ProfilePage() {
 
   const history = useHistory();
 
-  const login = useCallback(() => {
-    history.replace({ pathname: "/login" });
-  }, [history]);
-
-  const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
 
   useEffect(() => {
-   dispatch(token());
-    if (!auth.accessToken) {
-      dispatch(token());
-    }
-
-     dispatch(user(auth.accessToken));
+     dispatch(getUser());
   }, [dispatch]);
 
   useEffect(() => {
-    // if (!auth.success && auth.message) {
-    //   history.replace({ pathname: "/login" });
-    // }
     setEmail(auth.user.email);
     setName(auth.user.name);
     setPass("");
   }, [auth]);
-
-  const save = async () => {
-    const postData = {
-      password: password,
-      name: name,
-      email: email,
-    };
-    try {
-      const data = await request(`${apiUrl}/auth/register`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-
-      if (data.success) {
-        history.replace({ pathname: "/login" });
-      } else {
-        setError(data.message);
-      }
-    } catch (error) {
-      setError(error);
-    }
-  };
 
   return (
     <>
@@ -112,7 +73,7 @@ export function ProfilePage() {
             />
           </span>
 
-          <p className="text text_type_main-medium p-6">{error}</p>
+          <p className="text text_type_main-medium p-6">{auth.message}</p>
         </div>
       </div>
     </>

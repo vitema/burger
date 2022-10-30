@@ -1,4 +1,4 @@
-import { setCookie } from "../../utils/cookie";
+import { setCookie, deleteCookie } from "../../utils/cookie";
 
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED } from "../actions/login";
 import { useHistory } from "react-router-dom";
@@ -17,22 +17,22 @@ import {
   LOGOUT_FAILED,
 } from "../actions/logout";
 
+import { USER_REQUEST, USER_SUCCESS, USER_FAILED } from "../actions/user";
+
 import {
-  USER_REQUEST,
-  USER_SUCCESS,
-  USER_FAILED,
-} from "../actions/user";
+  FORGOT_REQUEST,
+  FORGOT_SUCCESS,
+  FORGOT_FAILED,
+} from "../actions/forgot";
+
+import { RESET_REQUEST, RESET_SUCCESS, RESET_FAILED } from "../actions/reset";
 
 const initialState = {
   request: false,
   success: false,
-  user: {
-    email: "",
-    name: "",
-  },
-  accessToken: "",
-  refreshToken: "",
-  message:""
+  user: null,
+  message: "",
+  forgot: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -44,15 +44,15 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case LOGIN_SUCCESS: {
-
-      setCookie('refreshToken', action.payload.refreshToken);
+      setCookie("refreshToken", action.payload.refreshToken);
+      setCookie("accessToken", action.payload.accessToken);
       return {
         ...state,
         request: false,
-        success:true,
-        accessToken: action.payload.accessToken,
+        success: true,
         user: action.payload.user,
-        message: ""
+        message: "",
+        forgot: false,
       };
     }
     case LOGIN_FAILED: {
@@ -60,7 +60,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         success: false,
         request: false,
-        message: action.payload
+        message: action.payload,
       };
     }
     case USER_REQUEST: {
@@ -70,13 +70,12 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case USER_SUCCESS: {
-
       return {
         ...state,
         request: false,
-        success:true,
+        success: true,
         user: action.payload.user,
-        message: ""
+        message: "",
       };
     }
     case USER_FAILED: {
@@ -84,7 +83,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         success: false,
         request: false,
-        message: action.payload
+        message: action.payload,
       };
     }
     case TOKEN_REQUEST: {
@@ -94,13 +93,14 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case TOKEN_SUCCESS: {
-      setCookie('refreshToken', action.payload.refreshToken);
+      setCookie("refreshToken", action.payload.refreshToken);
+      setCookie("accessToken", action.payload.accessToken);
       return {
         ...state,
         request: false,
-        success:true,
+        success: true,
         accessToken: action.payload.accessToken,
-        message: ""
+        message: "",
       };
     }
     case TOKEN_FAILED: {
@@ -108,7 +108,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         success: false,
         request: false,
-        message: action.payload
+        message: action.payload,
       };
     }
     case LOGOUT_REQUEST: {
@@ -118,13 +118,14 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case LOGOUT_SUCCESS: {
-      setCookie('refreshToken', "");
+      deleteCookie('refreshToken');
+      deleteCookie('accessToken');
       return {
         ...state,
         request: false,
-        success:true,
-        accessToken:" action.payload.accessToken",
-        message: ""
+        success: true,
+        message: "",
+        user: null
       };
     }
     case LOGOUT_FAILED: {
@@ -132,7 +133,81 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         success: false,
         request: false,
-        message: action.payload
+        message: action.payload,
+      };
+    }
+
+    case REGISTER_REQUEST: {
+      return {
+        ...state,
+        request: true,
+      };
+    }
+    case REGISTER_SUCCESS: {
+      setCookie("refreshToken", action.payload.refreshToken);
+      setCookie("accessToken", action.payload.accessToken);
+      return {
+        ...state,
+        request: false,
+        success: true,
+        user: action.payload.user,
+        message: "",
+      };
+    }
+    case REGISTER_FAILED: {
+      return {
+        ...state,
+        success: false,
+        request: false,
+        message: action.payload,
+      };
+    }
+
+    case FORGOT_REQUEST: {
+      return {
+        ...state,
+        request: true,
+      };
+    }
+    case FORGOT_SUCCESS: {
+      return {
+        ...state,
+        request: false,
+        success: true,
+        forgot: true,
+        message: "",
+      };
+    }
+    case FORGOT_FAILED: {
+      return {
+        ...state,
+        success: false,
+        request: false,
+        message: action.payload,
+      };
+    }
+
+    case RESET_REQUEST: {
+      return {
+        ...state,
+        request: true,
+      };
+    }
+    case RESET_SUCCESS: {
+      return {
+        ...state,
+        request: false,
+        success: true,
+        forgot: false,
+        message: "",
+      };
+    }
+    case RESET_FAILED: {
+      return {
+        ...state,
+        success: false,
+        request: false,
+        message: action.payload,
       };
     }
     default: {

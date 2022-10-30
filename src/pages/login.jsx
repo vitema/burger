@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect,useRouteMatch, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -24,11 +24,11 @@ export function LoginPage() {
     history.replace({ pathname: "/forgot-password" });
   }, [history]);
 
-  useEffect(() => {
-    if (auth.success) {
-      history.replace({ pathname: "/" });
-    }
-  }, [auth]);
+  // useEffect(() => {
+  //   if (auth.success) {
+  //     history.replace({ pathname: "/" });
+  //   }
+  // }, [auth]);
 
   const [password, setPass] = useState("");
   const [email, setEmail] = useState("");
@@ -42,6 +42,17 @@ export function LoginPage() {
 
     dispatch(login(postData));
   };
+
+    const location = useLocation();
+ //   to={location.state?.referrer || "/"}
+  if (auth.user) {
+    return (
+      <Redirect
+        // Если объект state не является undefined, вернём пользователя назад.
+        to={location.state?.referrer || "/"}
+      />
+    );
+  }
 
   return (
     <>

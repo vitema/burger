@@ -1,6 +1,6 @@
 import { apiUrl } from "../../constants/constants";
 import { request } from "../../utils/request";
-import { getCookie } from "../../utils/cookie";
+import { getCookie, deleteCookie } from "../../utils/cookie";
 
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
@@ -13,9 +13,8 @@ export function logout() {
     });
     try {
       const postData = {
-        token: getCookie("refreshToken"),
+        token: getCookie("refreshToken")
       };
-
       const data = await request(`${apiUrl}/auth/logout`, {
         method: "POST",
         headers: {

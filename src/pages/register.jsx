@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   Button,
@@ -11,11 +12,11 @@ import commonStyles from "./page.module.css";
 
 import AppHeader from "../components/app-header/app-header";
 
-import { apiUrl } from "../constants/constants";
-import { request } from "../utils/request";
+import { register } from "../services/actions/register";
 
 export function RegisterPage() {
   const history = useHistory();
+  const auth = useSelector((store) => store.auth);
 
   const login = useCallback(() => {
     history.replace({ pathname: "/login" });
@@ -26,9 +27,7 @@ export function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
 
-  const onChange = (e) => {
-    setEmail(e.target.value);
-  };
+  const dispatch = useDispatch();
 
   const save = async () => {
     const postData = {
@@ -36,25 +35,17 @@ export function RegisterPage() {
       name: name,
       email: email,
     };
-    try {
-      const data = await request(`${apiUrl}/auth/register`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-
-      if (data.success) {
-        history.replace({ pathname: "/login" });
-      } else {
-        setError(data.message);
-      }
-    } catch (error) {
-      setError(error);
-    }
+    dispatch(register(postData));
   };
+
+  if (auth.user) {
+    return (
+      <Redirect
+        // Если объект state не является undefined, вернём пользователя назад.
+        to={"/"}
+      />
+    );
+  }
 
   return (
     <>

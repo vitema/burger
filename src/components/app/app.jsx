@@ -12,8 +12,10 @@ import {
   ResetPasswordPage,
   ProfilePage,
   OrdersPage,
-  OrderPage
+  OrderPage,
 } from "../../pages";
+
+import { ProtectedRoute } from "../protected-route/protected-route";
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -32,15 +34,16 @@ function App() {
           <Route path="/" exact={true}>
             <HomePage />
           </Route>
-          <Route path="/profile" exact={true}>
+
+          <ProtectedRoute path="/profile" exact={true}>
             <ProfilePage />
-          </Route>
-          <Route path="/profile/orders" exact={true}>
+          </ProtectedRoute>
+          <ProtectedRoute path="/profile/orders" exact={true}>
             <OrdersPage />
-          </Route>
-          <Route path="/profile/orders/:id" exact={true}>
+          </ProtectedRoute>
+          <ProtectedRoute path="/profile/orders/:id" exact={true}>
             <OrderPage />
-          </Route>
+          </ProtectedRoute>
           <Route path="/register" exact={true}>
             <RegisterPage />
           </Route>

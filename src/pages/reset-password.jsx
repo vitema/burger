@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory,Redirect } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import AppHeader from "../components/app-header/app-header";
 
@@ -16,6 +17,7 @@ import commonStyles from "./page.module.css";
 
 export function ResetPasswordPage() {
   const history = useHistory();
+  const auth = useSelector((store) => store.auth);
 
   const login = useCallback(() => {
     history.replace({ pathname: "/login" });
@@ -48,6 +50,21 @@ export function ResetPasswordPage() {
       setError(error);
     }
   };
+
+  if (auth.user) {
+    return (
+      <Redirect
+        // Если объект state не является undefined, вернём пользователя назад.
+        to={ "/"}
+      />
+    );
+  }
+
+  if (auth.forgot){
+    <Redirect
+        to={ "/forgot-password"}
+      />
+  }
 
   return (
     <>

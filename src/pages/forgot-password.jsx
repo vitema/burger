@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   Button,
@@ -9,11 +10,12 @@ import {
 import commonStyles from "./page.module.css";
 
 import AppHeader from "../components/app-header/app-header";
-import { apiUrl } from "../constants/constants";
-import { request } from "../utils/request";
+import { forgot } from "../services/actions/forgot";
 
 export function ForgotPasswordPage() {
   const history = useHistory();
+  const auth = useSelector((store) => store.auth);
+
   const login = useCallback(() => {
     history.replace({ pathname: "/login" });
   }, [history]);
@@ -25,28 +27,31 @@ export function ForgotPasswordPage() {
     setValue(e.target.value);
   };
 
-  const sendEmail = async () => {
+  const dispatch= useDispatch();
+
+  const sendEmail =  () => {
     const postData = {
       email: value,
     };
-    try {
-      const data = await request(`${apiUrl}/password-reset`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-      if (data.success) {
-        history.replace({ pathname: "/reset-password" });
-      } else {
-        setError(data.message);
-      }
-    } catch (error) {
-      setError(error);
-    }
+    dispatch(forgot(postData))
   };
+
+
+  if (auth.user) {
+    return (
+      <Redirect
+        to={ "/"}
+      />
+    );
+  }
+
+  if (!auth.refreshToken) {
+    return (
+      <Redirect
+        to={ "/login"}
+      />
+    );
+  }
 
   return (
     <>
