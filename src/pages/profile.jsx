@@ -1,5 +1,6 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
   Button,
@@ -15,8 +16,13 @@ import Menu from "../components/menu/menu";
 
 import { apiUrl } from "../constants/constants";
 import { request } from "../utils/request";
+import { user } from "../services/actions/user";
+import { token } from "../services/actions/token";
 
 export function ProfilePage() {
+  const dispatch = useDispatch();
+  const auth = useSelector((store) => store.auth);
+
   const history = useHistory();
 
   const login = useCallback(() => {
@@ -27,6 +33,24 @@ export function ProfilePage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
+
+  useEffect(() => {
+   dispatch(token());
+    if (!auth.accessToken) {
+      dispatch(token());
+    }
+
+     dispatch(user(auth.accessToken));
+  }, [dispatch]);
+
+  useEffect(() => {
+    // if (!auth.success && auth.message) {
+    //   history.replace({ pathname: "/login" });
+    // }
+    setEmail(auth.user.email);
+    setName(auth.user.name);
+    setPass("");
+  }, [auth]);
 
   const save = async () => {
     const postData = {

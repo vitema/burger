@@ -4,9 +4,11 @@ import { constructorReducer } from "./constructor";
 import { orderReducer } from "./order";
 import { ingredientReducer } from "./ingredient";
 
+import { authReducer } from "./auth";
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   constructorIngredients: constructorReducer,
   order: orderReducer,
   ingredient: ingredientReducer,
+  auth: authReducer,
 });

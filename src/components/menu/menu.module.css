@@ -9,6 +9,7 @@
 .link {
    text-decoration :none;
    color: #8585AD;
+   cursor: pointer;
 }
 
 .active {

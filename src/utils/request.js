@@ -4,7 +4,7 @@ export async function request(url, options) {
 }
 
 function checkResponse(res) {
-  if (res.ok || res.status==403) {
+  if (res.ok) {
     return res.json();
   }
   return Promise.reject(`Ошибка ${res.status}`);

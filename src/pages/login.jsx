@@ -1,21 +1,20 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-
-import AppHeader from "../components/app-header/app-header";
+import { useSelector, useDispatch } from "react-redux";
 
 import {
-  ConstructorElement,
-  CurrencyIcon,
   Button,
-  Input,
   PasswordInput,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import commonStyles from "./page.module.css";
+
+import AppHeader from "../components/app-header/app-header";
+import { login } from "../services/actions/login";
 
 export function LoginPage() {
   const history = useHistory();
+  const auth = useSelector((store) => store.auth);
 
   const register = useCallback(() => {
     history.replace({ pathname: "/register" });
@@ -25,8 +24,24 @@ export function LoginPage() {
     history.replace({ pathname: "/forgot-password" });
   }, [history]);
 
+  useEffect(() => {
+    if (auth.success) {
+      history.replace({ pathname: "/" });
+    }
+  }, [auth]);
+
   const [password, setPass] = useState("");
   const [email, setEmail] = useState("");
+
+  const dispatch = useDispatch();
+  const logIn = () => {
+    const postData = {
+      email: email,
+      password: password,
+    };
+
+    dispatch(login(postData));
+  };
 
   return (
     <>
@@ -54,7 +69,12 @@ export function LoginPage() {
             />
           </span>
           <span className="pb-20">
-            <Button type="primary" size="large" htmlType="button">
+            <Button
+              type="primary"
+              size="large"
+              htmlType="button"
+              onClick={logIn}
+            >
               Войти
             </Button>
           </span>
@@ -85,6 +105,8 @@ export function LoginPage() {
               Восстановить пароль
             </Button>
           </div>
+
+          <p className="text text_type_main-medium p-6">{auth.message}</p>
         </div>
       </div>
     </>
