@@ -15,7 +15,7 @@ import {
 import commonStyles from "./page.module.css";
 
 import AppHeader from "../components/app-header/app-header";
-import { login } from "../services/actions/login";
+import { sendLoginRequest } from "../services/actions/auth/login";
 
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
 import { SET_INGREDIENT } from "../services/actions/ingredient";

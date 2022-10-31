@@ -10,7 +10,7 @@ import {
 import commonStyles from "./page.module.css";
 
 import AppHeader from "../components/app-header/app-header";
-import { forgot } from "../services/actions/forgot";
+import { sendForgot } from "../services/actions/auth/forgot";
 
 export function ForgotPasswordPage() {
   const history = useHistory();
@@ -33,7 +33,7 @@ export function ForgotPasswordPage() {
     const postData = {
       email: value,
     };
-    dispatch(forgot(postData))
+    dispatch(sendForgot(postData))
   };
 
 

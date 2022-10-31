@@ -1,13 +1,13 @@
-import { apiUrl } from "../../constants/constants";
-import { request } from "../../utils/request";
+import { apiUrl } from "../../../constants/constants";
+import { request } from "../../../utils/request";
 
-export const RESET_REQUEST = "RESET_REQUEST";
-export const RESET_SUCCESS = "RESET_SUCCESS";
-export const RESET_FAILED = "RESET_FAILED";
-export function reset (postData) {
+export const FORGOT_REQUEST = "FORGOT_REQUEST";
+export const FORGOT_SUCCESS = "FORGOT_SUCCESS";
+export const FORGOT_FAILED = "FORGOT_FAILED";
+export function sendForgot (postData) {
   return async function (dispatch) {
     dispatch({
-      type: RESET_REQUEST,
+      type: FORGOT_REQUEST,
     });
     try {
       const data = await request(`${apiUrl}/password-reset`, {
@@ -19,12 +19,12 @@ export function reset (postData) {
         body: JSON.stringify(postData),
       });
       dispatch({
-        type: RESET_SUCCESS,
+        type: FORGOT_SUCCESS,
         payload: data,
       });
     } catch (error) {
       dispatch({
-        type: RESET_FAILED,
+        type: FORGOT_FAILED,
         payload: error,
       });
     }

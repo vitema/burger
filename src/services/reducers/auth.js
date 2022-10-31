@@ -1,31 +1,31 @@
 import { setCookie, deleteCookie } from "../../utils/cookie";
 
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED } from "../actions/login";
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED } from "../actions/auth/login";
 import { useHistory } from "react-router-dom";
 
 import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILED,
-} from "../actions/register";
+} from "../actions/auth/register";
 
-import { TOKEN_REQUEST, TOKEN_SUCCESS, TOKEN_FAILED } from "../actions/token";
+import { TOKEN_REQUEST, TOKEN_SUCCESS, TOKEN_FAILED } from "../actions/auth/token";
 
 import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILED,
-} from "../actions/logout";
+} from "../actions/auth/logout";
 
-import { USER_REQUEST, USER_SUCCESS, USER_FAILED } from "../actions/user";
+import { USER_REQUEST, USER_SUCCESS, USER_FAILED } from "../actions/auth/user";
 
 import {
   FORGOT_REQUEST,
   FORGOT_SUCCESS,
   FORGOT_FAILED,
-} from "../actions/forgot";
+} from "../actions/auth/forgot";
 
-import { RESET_REQUEST, RESET_SUCCESS, RESET_FAILED } from "../actions/reset";
+import { RESET_REQUEST, RESET_SUCCESS, RESET_FAILED } from "../actions/auth/reset";
 
 const initialState = {
   request: false,

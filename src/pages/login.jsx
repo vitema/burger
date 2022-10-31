@@ -10,7 +10,7 @@ import {
 import commonStyles from "./page.module.css";
 
 import AppHeader from "../components/app-header/app-header";
-import { login } from "../services/actions/login";
+import { sendLogin } from "../services/actions/auth/login";
 
 export function LoginPage() {
   const history = useHistory();
@@ -40,7 +40,7 @@ export function LoginPage() {
       password: password,
     };
 
-    dispatch(login(postData));
+    dispatch(sendLogin(postData));
   };
 
     const location = useLocation();

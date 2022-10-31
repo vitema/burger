@@ -5,7 +5,7 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { logout } from "../../services/actions/logout";
+import { sendLogout } from "../../services/actions/auth/logout";
 
 import styles from "./menu.module.css";
 
@@ -14,8 +14,8 @@ const Menu = () => {
   const dispatch = useDispatch();
 
 
-  const logOut = () => {
-    dispatch(logout());
+  const logout = () => {
+    dispatch(sendLogout());
   };
 
   return (
@@ -35,7 +35,7 @@ const Menu = () => {
         <p className="text text_type_main-medium pb-6">История заказов</p>
       </NavLink>
 
-     <div className={styles.link} onClick={logOut}>
+     <div className={styles.link} onClick={logout}>
       <p className="text text_type_main-medium pb-6 link" >Выход</p>
       </div>
     </div>

@@ -12,7 +12,7 @@ import commonStyles from "./page.module.css";
 
 import AppHeader from "../components/app-header/app-header";
 
-import { register } from "../services/actions/register";
+import { sendRegister } from "../services/actions/auth/register";
 
 export function RegisterPage() {
   const history = useHistory();
@@ -35,7 +35,7 @@ export function RegisterPage() {
       name: name,
       email: email,
     };
-    dispatch(register(postData));
+    dispatch(sendRegister(postData));
   };
 
   if (auth.user) {

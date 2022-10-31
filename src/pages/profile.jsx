@@ -16,8 +16,8 @@ import Menu from "../components/menu/menu";
 
 import { apiUrl } from "../constants/constants";
 import { request } from "../utils/request";
-import { getUser } from "../services/actions/user";
-import { token } from "../services/actions/token";
+import { getUser } from "../services/actions/auth/user";
+import { sendToken } from "../services/actions/auth/token";
 
 export function ProfilePage() {
   const dispatch = useDispatch();

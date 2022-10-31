@@ -1,12 +1,12 @@
-import { apiUrl } from "../../constants/constants";
-import { request } from "../../utils/request";
-import { getCookie, deleteCookie } from "../../utils/cookie";
+import { apiUrl } from "../../../constants/constants";
+import { request } from "../../../utils/request";
+import { getCookie, deleteCookie } from "../../../utils/cookie";
 
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILED = "LOGOUT_FAILED";
 
-export function logout() {
+export function sendLogout() {
   return async function (dispatch) {
     dispatch({
       type: LOGOUT_REQUEST,
