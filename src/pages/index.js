@@ -6,6 +6,7 @@ import { RegisterPage } from "./register";
 import { ProfilePage } from "./profile";
 import { OrdersPage } from "./orders";
 import { OrderPage } from "./order";
+import { IngredientPage } from "./ingredient";
 export {
   HomePage,
   LoginPage,
@@ -14,5 +15,6 @@ export {
   RegisterPage,
   ProfilePage,
   OrdersPage,
-  OrderPage
+  OrderPage,
+  IngredientPage
 };

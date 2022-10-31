@@ -31,3 +31,10 @@
   width: 610px;
   margin-right: 40px;
 }
+
+.link {
+  text-decoration: none;
+  word-wrap:break-word;
+ 
+}
+

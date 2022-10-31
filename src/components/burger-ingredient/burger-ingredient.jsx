@@ -1,4 +1,12 @@
 import { useDrag } from "react-dnd/dist/hooks";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useLocation,
+  useHistory,
+  Link
+} from "react-router-dom";
 
 import {
   CurrencyIcon,
@@ -34,30 +42,43 @@ const BurgerIngredient = ({ item, onClick }) => {
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
   });
-
+  const location = useLocation();
   return (
+    <Link
+    key={item._id}
+    to={{
+      // Тут мы формируем динамический путь для нашего ингредиента
+      // а также сохраняем в свойство background роут, на котором была открыта наша модалка.
+      pathname: `/ingredients/${item._id}`,
+      state: { background: location },
+    }}
+    className={styles.link}
+  >
     <li
       className={styles.column}
       onClick={onClick}
       style={{ opacity }}
       ref={dragRef}
     >
-      <div className={styles.imgBox}>
-        <img src={item.image} alt={item.name} />
-        {item.count > 0 && <Counter count={item.count} size="default" />}
-      </div>
+     
+        <div className={styles.imgBox}>
+          <img src={item.image} alt={item.name} />
+          {item.count > 0 && <Counter count={item.count} size="default" />}
+        </div>
 
-      <div className={styles.priceBox}>
-        <span className="text text_type_digits-default mt-1 mb-1 pr-2">
-          {item.price}
-        </span>
-        <CurrencyIcon type="primary" />
-      </div>
+        <div className={styles.priceBox}>
+          <span className="text text_type_digits-default mt-1 mb-1 pr-2">
+            {item.price}
+          </span>
+          <CurrencyIcon type="primary" />
+        </div>
 
-      <div className={styles.textBox}>
-        <p className="text text_type_main-small">{item.name}</p>
-      </div>
+        <div className={styles.textBox}>
+          <p className="text text_type_main-small">{item.name}</p>
+        </div>
+     
     </li>
+     </Link>
   );
 };
 

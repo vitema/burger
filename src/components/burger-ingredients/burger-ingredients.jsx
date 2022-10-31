@@ -1,6 +1,15 @@
 import React, { useEffect, useRef, createRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useLocation,
+  useHistory,
+  Link
+} from "react-router-dom";
+
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 
@@ -15,6 +24,8 @@ import Ingridient from "../burger-ingredient/burger-ingredient";
 
 import Modal from "../modal/modal";
 import useModal from "../../hooks/useModal";
+
+
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = React.useState();
@@ -50,6 +61,8 @@ const BurgerIngredients = () => {
     }
   }, [ingredientsFailed]);
 
+  const location = useLocation();
+
   return (
     <div className={styles.box}>
       <p className="text text_type_main-large mt-10">Соберите бургер</p>
@@ -76,14 +89,15 @@ const BurgerIngredients = () => {
                   {data
                     .filter((x) => x.type == key)
                     .map((item) => (
-                      <Ingridient
-                        key={item._id}
-                        item={item}
-                        onClick={() => {
-                          selectItem(item);
-                          handleOpenModal();
-                        }}
-                      />
+                      
+                        <Ingridient
+                          key={item._id}
+                          item={item}
+                          onClick={() => {
+                            selectItem(item);
+                          }}
+                        />
+                      
                     ))}
                 </ul>
               </IngredientsGroup>
@@ -102,7 +116,7 @@ const BurgerIngredients = () => {
               При получении данных произошла ошибка
             </p>
           ) : (
-            <IngredientDetails/>
+            <IngredientDetails />
           )}
         </Modal>
       )}
