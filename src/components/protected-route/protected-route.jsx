@@ -1,5 +1,6 @@
 import { Route, Redirect } from "react-router-dom";
 import { isAuth } from "../../utils/isAuth";
+import PropTypes from "prop-types";
 
 export function ProtectedRoute({ children, ...rest }) {
   return (
@@ -25,3 +26,7 @@ export function ProtectedRoute({ children, ...rest }) {
     />
   );
 }
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.element.isRequired,
+};

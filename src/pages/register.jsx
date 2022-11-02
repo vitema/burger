@@ -15,7 +15,6 @@ import AppHeader from "../components/app-header/app-header";
 import { sendRegister } from "../services/actions/auth/register";
 import { isAuth } from "../utils/isAuth";
 
-
 export function RegisterPage() {
   const history = useHistory();
   const auth = useSelector((store) => store.auth);
@@ -24,14 +23,13 @@ export function RegisterPage() {
     history.replace({ pathname: "/login" });
   }, [history]);
 
-  const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
 
   const dispatch = useDispatch();
 
-  const save = async () => {
+  const save = () => {
     const postData = {
       password: password,
       name: name,
@@ -41,11 +39,7 @@ export function RegisterPage() {
   };
 
   if (isAuth()) {
-    return (
-      <Redirect
-        to={"/"}
-      />
-    );
+    return <Redirect to={"/"} />;
   }
 
   return (
@@ -104,7 +98,7 @@ export function RegisterPage() {
               Войти
             </Button>
           </div>
-          <p className="text text_type_main-medium p-6">{error}</p>
+          <p className="text text_type_main-medium p-6">{auth.message}</p>
         </div>
       </div>
     </>

@@ -8,19 +8,18 @@ export async function request(url, options) {
     return await checkResponse(res);
   } catch (err) {
     if (err === "jwt expired") {
-      console.log("get refreshtoken")
       const { refreshToken, accessToken } = await refreshTokenRequest();
       saveTokens(refreshToken, accessToken);
-
-      options.headers.authorization = accessToken;
-
-      const res = await fetch(url, options);
-
-      return await checkResponse(res);
-    } else if (err === "invalid token") {
-      console.log("invalid token")
-      deleteTokens();
-      return Promise.reject(err);
+      try {
+        options.headers.Authorization = accessToken;
+        const res = await fetch(url, options);
+        return await checkResponse(res);
+      } catch (err) {
+        if (err === "invalid token") {
+          deleteTokens();
+          return Promise.reject(err);
+        }
+      }
     } else {
       return Promise.reject(err);
     }

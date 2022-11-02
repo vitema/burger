@@ -16,7 +16,7 @@ export function getUser() {
     dispatch({
       type: USER_REQUEST,
     });
-     try {
+    try {
       const data = await request(`${apiUrl}/auth/user`, {
         method: "GET",
         headers: {

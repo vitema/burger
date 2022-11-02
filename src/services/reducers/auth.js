@@ -101,7 +101,7 @@ export const authReducer = (state = initialState, action) => {
         success: false,
         request: false,
         message: action.payload,
-        user: null
+        user: null,
       };
     }
     case USER_UPDATE_REQUEST: {

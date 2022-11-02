@@ -1,10 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import {
-  useHistory,
-  Redirect,
-  useRouteMatch,
-  useLocation,
-} from "react-router-dom";
+import { useCallback, useState } from "react";
+import { useHistory, Redirect, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import {

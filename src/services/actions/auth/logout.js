@@ -13,7 +13,7 @@ export function sendLogout() {
     });
     try {
       const postData = {
-        token: getCookie("refreshToken")
+        token: getCookie("refreshToken"),
       };
       const data = await request(`${apiUrl}/auth/logout`, {
         method: "POST",

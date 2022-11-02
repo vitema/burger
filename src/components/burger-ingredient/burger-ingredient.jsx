@@ -1,10 +1,6 @@
 import { useDrag } from "react-dnd/dist/hooks";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   useLocation,
-  useHistory,
   Link
 } from "react-router-dom";
 

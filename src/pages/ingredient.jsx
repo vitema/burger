@@ -1,21 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
-import {
-  useHistory,
-  Redirect,
-  useRouteMatch,
-  useLocation,
-} from "react-router-dom";
+import { useEffect } from "react";
+import { useRouteMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  Button,
-  PasswordInput,
-  EmailInput,
-} from "@ya.praktikum/react-developer-burger-ui-components";
 import commonStyles from "./page.module.css";
 
 import AppHeader from "../components/app-header/app-header";
-import { sendLoginRequest } from "../services/actions/auth/login";
 
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
 import { SET_INGREDIENT } from "../services/actions/ingredient";
@@ -23,7 +12,6 @@ import { SET_INGREDIENT } from "../services/actions/ingredient";
 import { getIngredients } from "../services/actions/ingredients";
 
 export function IngredientPage() {
-  const history = useHistory();
   const dispatch = useDispatch();
   const { data, ingredientsFailed } = useSelector((store) => ({
     data: store.ingredients.items,
@@ -35,7 +23,6 @@ export function IngredientPage() {
   }, [dispatch]);
 
   const { params } = useRouteMatch();
-  
 
   useEffect(() => {
     const item = data.filter((x) => x._id == params["ingredientId"])[0];

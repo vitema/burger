@@ -4,7 +4,7 @@ import { request } from "../../../utils/request";
 export const FORGOT_REQUEST = "FORGOT_REQUEST";
 export const FORGOT_SUCCESS = "FORGOT_SUCCESS";
 export const FORGOT_FAILED = "FORGOT_FAILED";
-export function sendForgot (postData) {
+export function sendForgot(postData) {
   return async function (dispatch) {
     dispatch({
       type: FORGOT_REQUEST,

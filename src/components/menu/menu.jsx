@@ -1,10 +1,5 @@
 import { NavLink, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  ConstructorElement,
-  CurrencyIcon,
-  Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
 import { sendLogout } from "../../services/actions/auth/logout";
 
 import styles from "./menu.module.css";

@@ -1,20 +1,18 @@
 import { useCallback, useState } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getCookie } from "../utils/cookie";
-import { isAuth } from "../utils/isAuth";
-import { refreshTokenName } from "../constants/constants";
 
 import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import commonStyles from "./page.module.css";
-
-import AppHeader from "../components/app-header/app-header";
+import { getCookie } from "../utils/cookie";
+import { refreshTokenName } from "../constants/constants";
 import { sendForgot } from "../services/actions/auth/forgot";
 
+import commonStyles from "./page.module.css";
+import AppHeader from "../components/app-header/app-header";
 
 export function ForgotPasswordPage() {
   const history = useHistory();
@@ -24,37 +22,24 @@ export function ForgotPasswordPage() {
     history.replace({ pathname: "/login" });
   }, [history]);
 
-  const [error, setError] = useState();
 
-  const [value, setValue] = useState("");
-  const onChange = (e) => {
-    setValue(e.target.value);
-  };
+  const [email, setEmail] = useState("");
 
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
 
-  const sendEmail =  () => {
+  const sendEmail = () => {
     const postData = {
-      email: value,
+      email: email,
     };
-    dispatch(sendForgot(postData))
+    dispatch(sendForgot(postData));
   };
-
 
   if (auth()) {
-    return (
-      <Redirect
-        to={ "/"}
-      />
-    );
+    return <Redirect to={"/"} />;
   }
 
   if (!getCookie(refreshTokenName)) {
-    return (
-      <Redirect
-        to={ "/login"}
-      />
-    );
+    return <Redirect to={"/login"} />;
   }
 
   return (
@@ -66,7 +51,7 @@ export function ForgotPasswordPage() {
             Восстановление пароля
           </p>
           <span className="pb-6">
-            <EmailInput onChange={onChange} value={value} name={"email"} />
+            <EmailInput onChange={(e)=>setEmail(e.target.value)} value={email} name={"email"} />
           </span>
           <span className="pb-20">
             <Button size="medium" onClick={sendEmail} htmlType="button">
@@ -88,7 +73,7 @@ export function ForgotPasswordPage() {
             </Button>
           </div>
 
-          <p className="text text_type_main-medium p-6">{error}</p>
+          <p className="text text_type_main-medium p-6">{auth.message}</p>
         </div>
       </div>
     </>

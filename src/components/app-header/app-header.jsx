@@ -1,20 +1,9 @@
-import { NavLink, useRouteMatch } from "react-router-dom";
-import {
-  Logo,
-  BurgerIcon,
-  ListIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyles from "./header.module.css";
 
 import TopMenuItem from "../topmenu-item/topmenu-item";
 
 const AppHeader = () => {
-  const { path } = useRouteMatch();
-
-  const routeIsActive = (to) => {
-    return path == to;
-  };
-
   return (
     <header className={headerStyles.box}>
       <div className={headerStyles.menuLeft}>

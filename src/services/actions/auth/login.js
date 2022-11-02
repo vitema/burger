@@ -25,7 +25,7 @@ export function sendLogin(postData) {
     } catch (error) {
       dispatch({
         type: LOGIN_FAILED,
-        payload: error
+        payload: error,
       });
     }
   };

@@ -7,9 +7,9 @@
   width: 320px;
 }
 .link {
-   text-decoration :none;
-   color: #8585AD;
-   cursor: pointer;
+  text-decoration: none;
+  color: #8585ad;
+  cursor: pointer;
 }
 
 .active {

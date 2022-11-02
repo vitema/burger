@@ -1,11 +1,6 @@
 import { useCallback, useState } from "react";
-import { useHistory,Redirect } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
-import AppHeader from "../components/app-header/app-header";
-
-import { apiUrl } from "../constants/constants";
-import { request } from "../utils/request";
 
 import {
   Button,
@@ -15,6 +10,9 @@ import {
 
 import commonStyles from "./page.module.css";
 import { isAuth } from "../utils/isAuth";
+import { sendReset } from "../services/actions/auth/reset";
+
+import AppHeader from "../components/app-header/app-header";
 
 export function ResetPasswordPage() {
   const history = useHistory();
@@ -26,45 +24,22 @@ export function ResetPasswordPage() {
 
   const [password, setPass] = useState("");
   const [token, setToken] = useState("");
-  const [error, setError] = useState("");
+  const dispatch = useDispatch();
 
-  const save = async () => {
+  const save = () => {
     const postData = {
       password: password,
-      token: token
+      token: token,
     };
-    try {
-      const data = await request(`${apiUrl}/password-reset/reset`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-      if (data.success) {
-        history.replace({ pathname: "/login" });
-      } else {
-        setError(data.message);
-      }
-    } catch (error) {
-      setError(error);
-    }
+    dispatch(sendReset(postData));
   };
 
   if (isAuth()) {
-    return (
-      <Redirect
-        // Если объект state не является undefined, вернём пользователя назад.
-        to={ "/"}
-      />
-    );
+    return <Redirect to={"/"} />;
   }
 
-  if (auth.forgot){
-    <Redirect
-        to={ "/forgot-password"}
-      />
+  if (auth.forgot) {
+    <Redirect to={"/forgot-password"} />;
   }
 
   return (
@@ -105,11 +80,16 @@ export function ResetPasswordPage() {
             <span className="text text_type_main-default text_color_inactive">
               Вспомнили пароль?
             </span>
-            <Button type="secondary" size="medium" onClick={login} htmlType="button">
+            <Button
+              type="secondary"
+              size="medium"
+              onClick={login}
+              htmlType="button"
+            >
               Войти
             </Button>
           </div>
-          <p className="text text_type_main-medium p-6">{error}</p>
+          <p className="text text_type_main-medium p-6">{auth.message}</p>
         </div>
       </div>
     </>

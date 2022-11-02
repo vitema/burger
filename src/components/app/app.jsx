@@ -9,8 +9,9 @@ import {
   useLocation,
   useHistory,
 } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+
+import { ProtectedRoute } from "../protected-route/protected-route";
+
 import {
   ForgotPasswordPage,
   HomePage,
@@ -23,9 +24,8 @@ import {
   IngredientPage,
 } from "../../pages";
 
-import { ProtectedRoute } from "../protected-route/protected-route";
-import useModal from "../../hooks/useModal";
 import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -33,21 +33,16 @@ const composeEnhancers =
     : compose;
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
-
 const store = createStore(rootReducer, enhancer);
 
 function App() {
   const ModalSwitch = () => {
     const location = useLocation();
-    const history = useHistory(); // для react-router 5
+    const history = useHistory();
     let background = location.state && location.state.background;
-    const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
 
     const handleModalClose = () => {
-      // dispatch({
-      //   type: RESET_ITEM_TO_VIEW,
-      // });
-      history.goBack(); // для react-router 5
+      history.goBack();
     };
     return (
       <>

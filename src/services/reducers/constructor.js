@@ -43,7 +43,7 @@ export const constructorReducer = (state = initialState, action) => {
       };
     }
     case CLEAR_INGREDIENTS: {
-      return  initialState
+      return initialState;
     }
 
     default: {

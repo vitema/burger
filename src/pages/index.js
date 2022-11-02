@@ -16,5 +16,5 @@ export {
   ProfilePage,
   OrdersPage,
   OrderPage,
-  IngredientPage
+  IngredientPage,
 };

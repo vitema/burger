@@ -1,4 +1,6 @@
 import { NavLink, useRouteMatch } from "react-router-dom";
+import PropTypes from "prop-types";
+
 import {
   BurgerIcon,
   ListIcon,
@@ -34,5 +36,12 @@ const TopMenuItem = ({ text, to, icon }) => {
     </>
   );
 };
+
+TopMenuItem.propTypes = {
+  text: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+};
+
 
 export default TopMenuItem;

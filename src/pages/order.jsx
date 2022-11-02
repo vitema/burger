@@ -1,10 +1,5 @@
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
   useRouteMatch,
-  useParams
 } from "react-router-dom";
 
 import AppHeader from "../components/app-header/app-header";
