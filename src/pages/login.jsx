@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { useHistory, Redirect,useRouteMatch, useLocation } from "react-router-dom";
+import {
+  useHistory,
+  Redirect,
+  useRouteMatch,
+  useLocation,
+} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -11,6 +16,7 @@ import commonStyles from "./page.module.css";
 
 import AppHeader from "../components/app-header/app-header";
 import { sendLogin } from "../services/actions/auth/login";
+import { isAuth } from "../utils/isAuth";
 
 export function LoginPage() {
   const history = useHistory();
@@ -23,12 +29,6 @@ export function LoginPage() {
   const reset = useCallback(() => {
     history.replace({ pathname: "/forgot-password" });
   }, [history]);
-
-  // useEffect(() => {
-  //   if (auth.success) {
-  //     history.replace({ pathname: "/" });
-  //   }
-  // }, [auth]);
 
   const [password, setPass] = useState("");
   const [email, setEmail] = useState("");
@@ -43,9 +43,8 @@ export function LoginPage() {
     dispatch(sendLogin(postData));
   };
 
-    const location = useLocation();
- //   to={location.state?.referrer || "/"}
-  if (auth.user) {
+  const location = useLocation();
+  if (isAuth()) {
     return (
       <Redirect
         // Если объект state не является undefined, вернём пользователя назад.

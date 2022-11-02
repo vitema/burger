@@ -6,14 +6,14 @@ export const TOKEN_REQUEST = "TOKEN_REQUEST";
 export const TOKEN_SUCCESS = "TOKEN_SUCCESS";
 export const TOKEN_FAILED = "TOKEN_FAILED";
 
-export function sendToken() {
+export function refreshToken() {
   return async function (dispatch) {
     dispatch({
       type: TOKEN_REQUEST,
     });
     try {
       const postData = {
-        token: getCookie("refreshToken")
+        token: getCookie("refreshToken"),
       };
 
       const data = await request(`${apiUrl}/auth/token`, {

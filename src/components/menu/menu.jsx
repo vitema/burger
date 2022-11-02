@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   ConstructorElement,
@@ -10,12 +10,12 @@ import { sendLogout } from "../../services/actions/auth/logout";
 import styles from "./menu.module.css";
 
 const Menu = () => {
-
   const dispatch = useDispatch();
-
+  const history = useHistory();
 
   const logout = () => {
     dispatch(sendLogout());
+    history.replace("/");
   };
 
   return (
@@ -35,8 +35,8 @@ const Menu = () => {
         <p className="text text_type_main-medium pb-6">История заказов</p>
       </NavLink>
 
-     <div className={styles.link} onClick={logout}>
-      <p className="text text_type_main-medium pb-6 link" >Выход</p>
+      <div className={styles.link} onClick={logout}>
+        <p className="text text_type_main-medium pb-6 link">Выход</p>
       </div>
     </div>
   );

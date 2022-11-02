@@ -14,6 +14,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import commonStyles from "./page.module.css";
+import { isAuth } from "../utils/isAuth";
 
 export function ResetPasswordPage() {
   const history = useHistory();
@@ -51,7 +52,7 @@ export function ResetPasswordPage() {
     }
   };
 
-  if (auth.user) {
+  if (isAuth()) {
     return (
       <Redirect
         // Если объект state не является undefined, вернём пользователя назад.

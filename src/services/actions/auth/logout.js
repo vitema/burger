@@ -1,6 +1,6 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
-import { getCookie, deleteCookie } from "../../../utils/cookie";
+import { getCookie } from "../../../utils/cookie";
 
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
@@ -20,6 +20,7 @@ export function sendLogout() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: getCookie("accessToken"),
         },
         body: JSON.stringify(postData),
       });

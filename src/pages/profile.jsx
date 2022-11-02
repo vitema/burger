@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -16,8 +16,8 @@ import Menu from "../components/menu/menu";
 
 import { apiUrl } from "../constants/constants";
 import { request } from "../utils/request";
-import { getUser } from "../services/actions/auth/user";
-import { sendToken } from "../services/actions/auth/token";
+import { getUser, updateUser, logout } from "../services/actions/auth/user";
+import { refreshToken } from "../services/actions/auth/refresh";
 
 export function ProfilePage() {
   const dispatch = useDispatch();
@@ -27,17 +27,33 @@ export function ProfilePage() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPass] = useState("");
+  
 
   useEffect(() => {
-     dispatch(getUser());
+    dispatch(getUser());
   }, [dispatch]);
 
   useEffect(() => {
-    setEmail(auth.user.email);
-    setName(auth.user.name);
-    setPass("");
+    if (auth.user) {
+      setEmail(auth.user.email);
+      setName(auth.user.name);
+    } else {
+
+      //history.replace({ pathname: "/login" });
+    }
   }, [auth]);
+
+  const save = () => {
+    const postData = {
+      email: email,
+      name: name,
+    };
+    dispatch(updateUser(postData));
+  };
+
+  const cancel = () => {
+    dispatch(getUser());
+  };
 
   return (
     <>
@@ -45,7 +61,6 @@ export function ProfilePage() {
       <div className={commonStyles.row}>
         <Menu />
         <div className={commonStyles.inputs}>
-          <p className="text text_type_main-medium pb-6">Регистрация</p>
           <span className="pb-6">
             <Input
               type={"text"}
@@ -65,13 +80,25 @@ export function ProfilePage() {
               name={"email"}
             />
           </span>
-          <span className="pb-6">
-            <PasswordInput
-              name={"Пароль"}
-              onChange={(e) => setPass(e.target.value)}
-              value={password}
-            />
-          </span>
+          <div>
+            <Button
+              type="primary"
+              size="medium"
+              onClick={save}
+              htmlType="button"
+            >
+              Сохранить
+            </Button>
+
+            <Button
+              type="secondary"
+              size="medium"
+              onClick={cancel}
+              htmlType="button"
+            >
+              Отмена
+            </Button>
+          </div>
 
           <p className="text text_type_main-medium p-6">{auth.message}</p>
         </div>

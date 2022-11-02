@@ -1,7 +1,10 @@
-import { setCookie, deleteCookie } from "../../utils/cookie";
+import { saveTokens, deleteTokens } from "../../utils/cookie";
 
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED } from "../actions/auth/login";
-import { useHistory } from "react-router-dom";
+import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILED,
+} from "../actions/auth/login";
 
 import {
   REGISTER_REQUEST,
@@ -9,7 +12,11 @@ import {
   REGISTER_FAILED,
 } from "../actions/auth/register";
 
-import { TOKEN_REQUEST, TOKEN_SUCCESS, TOKEN_FAILED } from "../actions/auth/token";
+import {
+  TOKEN_REQUEST,
+  TOKEN_SUCCESS,
+  TOKEN_FAILED,
+} from "../actions/auth/refresh";
 
 import {
   LOGOUT_REQUEST,
@@ -17,7 +24,14 @@ import {
   LOGOUT_FAILED,
 } from "../actions/auth/logout";
 
-import { USER_REQUEST, USER_SUCCESS, USER_FAILED } from "../actions/auth/user";
+import {
+  USER_REQUEST,
+  USER_SUCCESS,
+  USER_FAILED,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_SUCCESS,
+  USER_UPDATE_FAILED,
+} from "../actions/auth/user";
 
 import {
   FORGOT_REQUEST,
@@ -25,7 +39,11 @@ import {
   FORGOT_FAILED,
 } from "../actions/auth/forgot";
 
-import { RESET_REQUEST, RESET_SUCCESS, RESET_FAILED } from "../actions/auth/reset";
+import {
+  RESET_REQUEST,
+  RESET_SUCCESS,
+  RESET_FAILED,
+} from "../actions/auth/reset";
 
 const initialState = {
   request: false,
@@ -44,8 +62,7 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case LOGIN_SUCCESS: {
-      setCookie("refreshToken", action.payload.refreshToken);
-      setCookie("accessToken", action.payload.accessToken);
+      saveTokens(action.payload.refreshToken, action.payload.accessToken);
       return {
         ...state,
         request: false,
@@ -84,6 +101,30 @@ export const authReducer = (state = initialState, action) => {
         success: false,
         request: false,
         message: action.payload,
+        user: null
+      };
+    }
+    case USER_UPDATE_REQUEST: {
+      return {
+        ...state,
+        request: true,
+      };
+    }
+    case USER_UPDATE_SUCCESS: {
+      return {
+        ...state,
+        request: false,
+        success: true,
+        user: action.payload.user,
+        message: "",
+      };
+    }
+    case USER_UPDATE_FAILED: {
+      return {
+        ...state,
+        success: false,
+        request: false,
+        message: action.payload,
       };
     }
     case TOKEN_REQUEST: {
@@ -93,8 +134,7 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case TOKEN_SUCCESS: {
-      setCookie("refreshToken", action.payload.refreshToken);
-      setCookie("accessToken", action.payload.accessToken);
+      saveTokens(action.payload.refreshToken, action.payload.accessToken);
       return {
         ...state,
         request: false,
@@ -104,6 +144,7 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case TOKEN_FAILED: {
+      deleteTokens();
       return {
         ...state,
         success: false,
@@ -118,14 +159,13 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case LOGOUT_SUCCESS: {
-      deleteCookie('refreshToken');
-      deleteCookie('accessToken');
+      deleteTokens();
       return {
         ...state,
         request: false,
         success: true,
         message: "",
-        user: null
+        user: null,
       };
     }
     case LOGOUT_FAILED: {
@@ -144,8 +184,7 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case REGISTER_SUCCESS: {
-      setCookie("refreshToken", action.payload.refreshToken);
-      setCookie("accessToken", action.payload.accessToken);
+      saveTokens(action.payload.refreshToken, action.payload.accessToken);
       return {
         ...state,
         request: false,

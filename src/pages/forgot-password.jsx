@@ -1,6 +1,9 @@
 import { useCallback, useState } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { getCookie } from "../utils/cookie";
+import { isAuth } from "../utils/isAuth";
+import { refreshTokenName } from "../constants/constants";
 
 import {
   Button,
@@ -11,6 +14,7 @@ import commonStyles from "./page.module.css";
 
 import AppHeader from "../components/app-header/app-header";
 import { sendForgot } from "../services/actions/auth/forgot";
+
 
 export function ForgotPasswordPage() {
   const history = useHistory();
@@ -37,7 +41,7 @@ export function ForgotPasswordPage() {
   };
 
 
-  if (auth.user) {
+  if (auth()) {
     return (
       <Redirect
         to={ "/"}
@@ -45,7 +49,7 @@ export function ForgotPasswordPage() {
     );
   }
 
-  if (!auth.refreshToken) {
+  if (!getCookie(refreshTokenName)) {
     return (
       <Redirect
         to={ "/login"}

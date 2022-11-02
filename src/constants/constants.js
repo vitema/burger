@@ -11,3 +11,6 @@ export const bunType = "bun";
 export const dndIngredientsAccept = "ingredients";
 export const dndComponentsAccept = "components";
 export const dndComponentAccept = "component";
+
+export const refreshTokenName="refreshToken";
+export const accessTokenName="accessToken";

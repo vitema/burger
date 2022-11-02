@@ -13,6 +13,8 @@ import commonStyles from "./page.module.css";
 import AppHeader from "../components/app-header/app-header";
 
 import { sendRegister } from "../services/actions/auth/register";
+import { isAuth } from "../utils/isAuth";
+
 
 export function RegisterPage() {
   const history = useHistory();
@@ -38,10 +40,9 @@ export function RegisterPage() {
     dispatch(sendRegister(postData));
   };
 
-  if (auth.user) {
+  if (isAuth()) {
     return (
       <Redirect
-        // Если объект state не является undefined, вернём пользователя назад.
         to={"/"}
       />
     );

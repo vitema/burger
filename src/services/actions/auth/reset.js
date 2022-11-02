@@ -4,7 +4,7 @@ import { request } from "../../../utils/request";
 export const RESET_REQUEST = "RESET_REQUEST";
 export const RESET_SUCCESS = "RESET_SUCCESS";
 export const RESET_FAILED = "RESET_FAILED";
-export function reset (postData) {
+export function sendReset (postData) {
   return async function (dispatch) {
     dispatch({
       type: RESET_REQUEST,
