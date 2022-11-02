@@ -1,7 +1,10 @@
 import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
+import { useHistory, Redirect, useLocation } from "react-router-dom";
 import uuid from "react-uuid";
+
+import { isAuth } from "../../utils/isAuth";
 
 import {
   ConstructorElement,
@@ -47,7 +50,13 @@ const BurgerConstructor = () => {
 
   const dispatch = useDispatch();
 
-  const getOrderData = async () => {
+  const history = useHistory();
+  const getOrderData = () => {
+    if (!isAuth()) {
+      history.replace({ pathname: "/login" });
+      return;
+    }
+
     const allData = [...ingredientsData.components, ingredientsData.bun];
     const ids = allData.map((item) => item._id);
     const postData = { ingredients: ids };
