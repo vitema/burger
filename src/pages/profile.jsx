@@ -5,9 +5,9 @@ import {
   Button,
   Input,
   EmailInput,
+  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import commonStyles from "./page.module.css";
-import styles from "./profile.module.css";
 
 import AppHeader from "../components/app-header/app-header";
 import Menu from "../components/menu/menu";
@@ -20,6 +20,7 @@ export function ProfilePage() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     dispatch(getUser());
@@ -36,6 +37,7 @@ export function ProfilePage() {
     const postData = {
       email: email,
       name: name,
+      password: password,
     };
     dispatch(updateUser(postData));
   };
@@ -69,6 +71,13 @@ export function ProfilePage() {
               name={"email"}
             />
           </span>
+          <span className="pb-6">
+            <PasswordInput
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              name={"password"}
+            />
+          </span>
           <div>
             <Button
               type="primary"
@@ -88,7 +97,6 @@ export function ProfilePage() {
               Отмена
             </Button>
           </div>
-
           <p className="text text_type_main-medium p-6">{auth.message}</p>
         </div>
       </div>
