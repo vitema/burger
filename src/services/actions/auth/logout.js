@@ -20,7 +20,7 @@ export function sendLogout() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: getCookie("accessToken"),
+          "Authorization": getCookie("accessToken"),
         },
         body: JSON.stringify(postData),
       });

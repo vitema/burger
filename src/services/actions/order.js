@@ -1,5 +1,6 @@
 import { apiUrl } from "../../constants/constants";
 import { request } from "../../utils/request";
+import { getCookie } from "../../utils/cookie";
 
 export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
 export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS";
@@ -17,6 +18,7 @@ export function getOrder(postData) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          "Authorization": getCookie("accessToken"),
         },
         body: JSON.stringify(postData),
       });

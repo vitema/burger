@@ -1,17 +1,30 @@
 import { NavLink, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { sendLogout } from "../../services/actions/auth/logout";
+import { deleteTokens } from "../../utils/cookie";
 
 import styles from "./menu.module.css";
+import { useEffect } from "react";
 
 const Menu = () => {
   const dispatch = useDispatch();
+
+  const auth = useSelector((store) => store.auth);
+
   const history = useHistory();
 
   const logout = () => {
     dispatch(sendLogout());
-    history.replace("/");
+
+    deleteTokens(); 
+    history.replace("/login");
   };
+
+  // useEffect(() => {
+  //   if (auth.success) {
+  //     history.replace("/login");
+  //   }
+  // }, [auth]);
 
   return (
     <div className={styles.menu}>
