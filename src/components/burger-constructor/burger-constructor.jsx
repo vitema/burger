@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
-import { useHistory, Redirect, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import uuid from "react-uuid";
 import { isAuth } from "../../utils/cookie";
 
@@ -96,7 +96,7 @@ const BurgerConstructor = () => {
     // Тут просто добавляем перемещенный ингредиент в заказ
     // выполняем диспатч в стор, в момент "бросания" ингредиента
     drop(item) {
-      if (item.type == bunType && ingredientsData.bun) {
+      if (item.type === bunType && ingredientsData.bun) {
         dispatch({
           type: DECREMENT_COUNT,
           id: ingredientsData.bun._id,
@@ -132,7 +132,7 @@ const BurgerConstructor = () => {
     // Тут просто добавляем перемещенный ингредиент в заказ
     // выполняем диспатч в стор, в момент "бросания" ингредиента
     drop(item) {
-      if (item.type == bunType && ingredientsData.bun) {
+      if (item.type === bunType && ingredientsData.bun) {
         dispatch({
           type: DECREMENT_COUNT,
           id: ingredientsData.bun._id,

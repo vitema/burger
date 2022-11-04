@@ -22,6 +22,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         request: true,
         success: false,
+        message: "",
       };
     }
     case USER_SUCCESS: {

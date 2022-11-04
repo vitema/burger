@@ -28,5 +28,5 @@ export function ProtectedRoute({ children, ...rest }) {
 }
 
 ProtectedRoute.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
 };

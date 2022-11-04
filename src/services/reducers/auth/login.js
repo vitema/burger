@@ -18,6 +18,8 @@ export const loginReducer = (state = initialState, action) => {
       return {
         ...state,
         request: true,
+        success: false,
+        message: "",
       };
     }
     case LOGIN_SUCCESS: {

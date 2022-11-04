@@ -4,6 +4,9 @@ import {
   RESET_FAILED,
 } from "../../actions/auth/reset";
 
+import { sendForgotEmail } from "../../../constants/constants";
+import { deleteCookie } from "../../../utils/cookie";
+
 const initialState = {
   request: false,
   success: false,
@@ -16,9 +19,12 @@ export const resetReducer = (state = initialState, action) => {
       return {
         ...state,
         request: true,
+        success: false,
+        message: "",
       };
     }
     case RESET_SUCCESS: {
+      deleteCookie(sendForgotEmail);
       return {
         ...state,
         request: false,

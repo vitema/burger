@@ -3,12 +3,13 @@ import {
   FORGOT_SUCCESS,
   FORGOT_FAILED,
 } from "../../actions/auth/forgot";
+import { setCookie } from "../../../utils/cookie";
+import { sendForgotEmail } from "../../../constants/constants";
 
 const initialState = {
   request: false,
   success: false,
   message: "",
-  forgot: false,
 };
 
 export const forgotReducer = (state = initialState, action) => {
@@ -17,14 +18,16 @@ export const forgotReducer = (state = initialState, action) => {
       return {
         ...state,
         request: true,
+        success: false,
+        message: "",
       };
     }
     case FORGOT_SUCCESS: {
+      setCookie(sendForgotEmail, true);
       return {
         ...state,
         request: false,
         success: true,
-        forgot: true,
         message: "",
       };
     }

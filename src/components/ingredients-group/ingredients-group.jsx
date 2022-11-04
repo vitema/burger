@@ -15,7 +15,7 @@ const IngredientsGroup = ({ groupType, setCurrent, children }) => {
     if (inView) {
       setCurrent(groupType);
     }
-  }, [inView]);
+  }, [inView, setCurrent, groupType]);
 
   return (
     <div ref={ref}>
@@ -30,7 +30,7 @@ const IngredientsGroup = ({ groupType, setCurrent, children }) => {
 IngredientsGroup.propTypes = {
   groupType: PropTypes.string.isRequired,
   setCurrent: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default IngredientsGroup;

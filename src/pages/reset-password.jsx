@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
-import { useHistory, Redirect } from "react-router-dom";
+import { useCallback, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -11,14 +11,13 @@ import {
 import commonStyles from "./page.module.css";
 import { sendReset } from "../services/actions/auth/reset";
 
-import AppHeader from "../components/app-header/app-header";
+import { isAuth, isForgot } from "../utils/cookie";
 
-import { isAuth } from "../utils/cookie";
+import AppHeader from "../components/app-header/app-header";
 
 export function ResetPasswordPage() {
   const history = useHistory();
   const resetStore = useSelector((store) => store.reset);
-  const forgotStore = useSelector((store) => store.forgot);
 
   const login = useCallback(() => {
     history.replace({ pathname: "/login" });
@@ -33,12 +32,18 @@ export function ResetPasswordPage() {
       password: password,
       token: token,
     };
-    dispatch(sendReset(postData));
+    dispatch(sendReset(postData, toLoginCallBack));
   };
 
-  if (isAuth() || !forgotStore.forgot) {
-    return <Redirect to={"/"} />;
-  }
+  const toLoginCallBack = () => {
+    history.replace({ pathname: "/login" });
+  };
+
+  useEffect(() => {
+    if (isAuth() || !isForgot()) {
+      history.replace({ pathname: "/login" });
+    }
+  }, [history]);
 
   return (
     <>

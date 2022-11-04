@@ -18,7 +18,8 @@ export const logoutReducer = (state = initialState, action) => {
       return {
         ...state,
         request: true,
-        success:false
+        success:false,
+        message: "",
       };
     }
     case LOGOUT_SUCCESS: {

@@ -1,6 +1,5 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
-import { USER_SET } from "./user";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";

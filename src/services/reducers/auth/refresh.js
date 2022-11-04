@@ -19,6 +19,8 @@ export const refreshReducer = (state = initialState, action) => {
       return {
         ...state,
         request: true,
+        success: false,
+        message: "",
       };
     }
     case TOKEN_SUCCESS: {

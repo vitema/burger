@@ -1,5 +1,4 @@
-import { refreshTokenName } from "../constants/constants";
-import { accessTokenName } from "../constants/constants";
+import { refreshTokenName, accessTokenName, sendForgotEmail } from "../constants/constants";
 
 export function setCookie(name, value, props) {
   props = props || {};
@@ -35,7 +34,9 @@ export function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function deleteCookie(name) {}
+export function deleteCookie(name) {
+  setCookie(name, null, { expires: -1 });
+}
 
 export function saveTokens(refreshToken, accessToken) {
   setCookie(refreshTokenName, refreshToken);
@@ -43,10 +44,16 @@ export function saveTokens(refreshToken, accessToken) {
 }
 
 export function deleteTokens() {
-  setCookie(refreshTokenName, null, { expires: -1 });
-  setCookie(accessTokenName, null, { expires: -1 });
+  deleteCookie(refreshTokenName);
+  deleteCookie(accessTokenName);
+  deleteCookie(sendForgotEmail);
 }
 
 export function isAuth() {
   return getCookie(accessTokenName) ? true : false;
 }
+
+export function isForgot() {
+  return getCookie(sendForgotEmail) ? true : false;
+}
+

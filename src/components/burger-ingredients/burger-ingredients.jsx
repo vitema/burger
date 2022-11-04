@@ -37,7 +37,6 @@ const BurgerIngredients = () => {
     dispatch(getIngredients());
     setCurrent(bunType);
   }, [dispatch]);
-
   return (
     <div className={styles.box}>
       <p className="text text_type_main-large mt-10">Соберите бургер</p>
@@ -62,21 +61,26 @@ const BurgerIngredients = () => {
               <IngredientsGroup groupType={key} setCurrent={setCurrent}>
                 <ul className={styles.row}>
                   {data
-                    .filter((x) => x.type == key)
+                    .filter((x) => x.type === key)
                     .map((item) => (
-                        <Ingridient
-                          key={item._id}
-                          item={item}
-                          onClick={() => {
-                            selectItem(item);
-                          }}
-                        />
+                      <Ingridient
+                        key={item._id}
+                        item={item}
+                        onClick={() => {
+                          selectItem(item);
+                        }}
+                      />
                     ))}
                 </ul>
               </IngredientsGroup>
             </div>
           ))}
         </div>
+      )}
+      {ingredientsFailed && (
+        <p className="text text_type_main-medium p-6">
+          Ошибка при получении ингредиентов
+        </p>
       )}
     </div>
   );

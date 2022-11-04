@@ -15,8 +15,8 @@ const TopMenuItem = ({ text, to, icon }) => {
 
   if (to) {
     let isMatch = false;
-    if (to == "/") {
-      isMatch = location.pathname == to;
+    if (to === "/") {
+      isMatch = location.pathname === to;
     } else {
       isMatch = location.pathname.includes(to);
     }
@@ -28,7 +28,7 @@ const TopMenuItem = ({ text, to, icon }) => {
   }
   return (
     <>
-      {icon == "burger" ? (
+      {icon === "burger" ? (
         <BurgerIcon type={type}></BurgerIcon>
       ) : (
         <ListIcon type={type}></ListIcon>

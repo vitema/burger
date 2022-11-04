@@ -14,3 +14,4 @@ export const dndComponentAccept = "component";
 
 export const refreshTokenName="refreshToken";
 export const accessTokenName="accessToken";
+export const sendForgotEmail="sendForgotEmail";

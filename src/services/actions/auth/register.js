@@ -21,11 +21,12 @@ export function sendRegister(postData) {
       });
       dispatch({
         type: REGISTER_SUCCESS,
-        payLoad: data,
+        payload: data,
       });
     } catch (error) {
       dispatch({
         type: REGISTER_FAILED,
+        payload: error
       });
     }
   };

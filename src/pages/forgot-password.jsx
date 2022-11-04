@@ -7,8 +7,7 @@ import {
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { getCookie } from "../utils/cookie";
-import { refreshTokenName } from "../constants/constants";
+import { isAuth } from "../utils/cookie";
 import { sendForgot } from "../services/actions/auth/forgot";
 
 import commonStyles from "./page.module.css";
@@ -30,15 +29,15 @@ export function ForgotPasswordPage() {
     const postData = {
       email: email,
     };
-    dispatch(sendForgot(postData));
+    dispatch(sendForgot(postData, toResetCallBack));
   };
 
-  if (forgotStore()) {
-    return <Redirect to={"/"} />;
-  }
+  const toResetCallBack = () => {
+    history.replace("/reset-password");
+  };
 
-  if (!getCookie(refreshTokenName)) {
-    return <Redirect to={"/login"} />;
+  if (isAuth()) {
+    return <Redirect to={"/"} />;
   }
 
   return (
@@ -50,7 +49,11 @@ export function ForgotPasswordPage() {
             Восстановление пароля
           </p>
           <span className="pb-6">
-            <EmailInput onChange={(e)=>setEmail(e.target.value)} value={email} name={"email"} />
+            <EmailInput
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              name={"email"}
+            />
           </span>
           <span className="pb-20">
             <Button size="medium" onClick={sendEmail} htmlType="button">
@@ -72,7 +75,9 @@ export function ForgotPasswordPage() {
             </Button>
           </div>
 
-          <p className="text text_type_main-medium p-6">{forgotStore.message}</p>
+          <p className="text text_type_main-medium p-6">
+            {forgotStore.message}
+          </p>
         </div>
       </div>
     </>

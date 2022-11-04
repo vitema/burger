@@ -14,12 +14,12 @@ const initialState = {
 
 export const registerReducer = (state = initialState, action) => {
   switch (action.type) {
-   
-
     case REGISTER_REQUEST: {
       return {
         ...state,
         request: true,
+        success: false,
+        message: "",
       };
     }
     case REGISTER_SUCCESS: {

@@ -37,7 +37,6 @@ export function RegisterPage() {
     };
     dispatch(sendRegister(postData));
   };
-
   if (isAuth()) {
     return <Redirect to={"/"} />;
   }
