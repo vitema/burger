@@ -51,32 +51,32 @@ export function ForgotPasswordPage() {
           <p className="text text_type_main-medium pb-6">
             Восстановление пароля
           </p>
-            <EmailInput
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              name={"email"}
-              extraClass="pb-6"
-            />
+          <EmailInput
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            name={"email"}
+            extraClass="pb-6"
+          />
           <p className="pb-20">
             <Button size="medium" htmlType="submit">
               Восстановить
             </Button>
           </p>
-
-          <div className={commonStyles.buttonsRow}>
-            <p className="text text_type_main-default text_color_inactive">
-              Вспомнили пароль?
-            </p>
-            <Button
-              type="secondary"
-              size="medium"
-              onClick={login}
-              htmlType="button"
-            >
-              Войти
-            </Button>
-          </div>
         </form>
+        <div className={commonStyles.buttonsRow}>
+          <p className="text text_type_main-default text_color_inactive">
+            Вспомнили пароль?
+          </p>
+          <Button
+            type="secondary"
+            size="medium"
+            onClick={login}
+            htmlType="button"
+          >
+            Войти
+          </Button>
+        </div>
+
         <p className="text text_type_main-medium p-6">{forgotStore.message}</p>
       </div>
     </div>

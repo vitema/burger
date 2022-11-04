@@ -53,43 +53,43 @@ export function ResetPasswordPage() {
       <div className={commonStyles.column}>
         <p className="text text_type_main-medium pb-6">Восстановление пароля</p>
         <form onSubmit={onFormSubmit} className={commonStyles.form}>
-            <PasswordInput
-              name={"Введите новый пароль"}
-              onChange={(e) => setPass(e.target.value)}
-              value={password}
-              extraClass="pb-6"
-            />
-            <Input
-              type={"text"}
-              placeholder={"Введите текст из письма"}
-              name={"name"}
-              error={false}
-              errorText={"Ошибка"}
-              size={"default"}
-              onChange={(e) => setToken(e.target.value)}
-              value={token}
-              extraClass="pb-6"
-            />
+          <PasswordInput
+            name={"Введите новый пароль"}
+            onChange={(e) => setPass(e.target.value)}
+            value={password}
+            extraClass="pb-6"
+          />
+          <Input
+            type={"text"}
+            placeholder={"Введите текст из письма"}
+            name={"name"}
+            error={false}
+            errorText={"Ошибка"}
+            size={"default"}
+            onChange={(e) => setToken(e.target.value)}
+            value={token}
+            extraClass="pb-6"
+          />
           <p className="pb-20">
             <Button size="medium" htmlType="submit">
               Сохранить
             </Button>
           </p>
-
-          <div className={commonStyles.buttonsRow}>
-            <p className="text text_type_main-default text_color_inactive">
-              Вспомнили пароль?
-            </p>
-            <Button
-              type="secondary"
-              size="medium"
-              onClick={login}
-              htmlType="button"
-            >
-              Войти
-            </Button>
-          </div>
         </form>
+        <div className={commonStyles.buttonsRow}>
+          <p className="text text_type_main-default text_color_inactive">
+            Вспомнили пароль?
+          </p>
+          <Button
+            type="secondary"
+            size="medium"
+            onClick={login}
+            htmlType="button"
+          >
+            Войти
+          </Button>
+        </div>
+
         <p className="text text_type_main-medium p-6">{resetStore.message}</p>
       </div>
     </div>

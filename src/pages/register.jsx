@@ -77,21 +77,21 @@ export function RegisterPage() {
               Зарегистрироваться
             </Button>
           </p>
-
-          <div className={commonStyles.buttonsRow}>
-            <p className="text text_type_main-default text_color_inactive">
-              Уже зарегистрированы?
-            </p>
-            <Button
-              type="secondary"
-              size="medium"
-              onClick={login}
-              htmlType="button"
-            >
-              Войти
-            </Button>
-          </div>
         </form>
+        <div className={commonStyles.buttonsRow}>
+          <p className="text text_type_main-default text_color_inactive">
+            Уже зарегистрированы?
+          </p>
+          <Button
+            type="secondary"
+            size="medium"
+            onClick={login}
+            htmlType="button"
+          >
+            Войти
+          </Button>
+        </div>
+
         <p className="text text_type_main-medium p-6">
           {registerStore.message}
         </p>

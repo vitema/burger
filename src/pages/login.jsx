@@ -78,34 +78,34 @@ export function LoginPage() {
               Войти
             </Button>
           </p>
-
-          <div className={commonStyles.buttonsRow}>
-            <p className="text text_type_main-default text_color_inactive">
-              Вы — новый пользователь?
-            </p>
-            <Button
-              type="secondary"
-              size="medium"
-              onClick={register}
-              htmlType="button"
-            >
-              Зарегистрироваться
-            </Button>
-          </div>
-          <div className={commonStyles.buttonsRow}>
-            <p className="text text_type_main-default text_color_inactive">
-              Забыли пароль?
-            </p>
-            <Button
-              type="secondary"
-              size="medium"
-              onClick={reset}
-              htmlType="button"
-            >
-              Восстановить пароль
-            </Button>
-          </div>
         </form>
+        <div className={commonStyles.buttonsRow}>
+          <p className="text text_type_main-default text_color_inactive">
+            Вы — новый пользователь?
+          </p>
+          <Button
+            type="secondary"
+            size="medium"
+            onClick={register}
+            htmlType="button"
+          >
+            Зарегистрироваться
+          </Button>
+        </div>
+        <div className={commonStyles.buttonsRow}>
+          <p className="text text_type_main-default text_color_inactive">
+            Забыли пароль?
+          </p>
+          <Button
+            type="secondary"
+            size="medium"
+            onClick={reset}
+            htmlType="button"
+          >
+            Восстановить пароль
+          </Button>
+        </div>
+
         <p className="text text_type_main-medium p-6">{loginStore.message}</p>
       </div>
     </div>
