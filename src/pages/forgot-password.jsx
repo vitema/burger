@@ -47,17 +47,16 @@ export function ForgotPasswordPage() {
   return (
     <div className={commonStyles.row}>
       <div className={commonStyles.column}>
-        <form onSubmit={onFormSubmit}>
+        <form onSubmit={onFormSubmit} className={commonStyles.form}>
           <p className="text text_type_main-medium pb-6">
             Восстановление пароля
           </p>
-          <p className="pb-6">
             <EmailInput
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               name={"email"}
+              extraClass="pb-6"
             />
-          </p>
           <p className="pb-20">
             <Button size="medium" htmlType="submit">
               Восстановить

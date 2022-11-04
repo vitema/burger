@@ -52,15 +52,13 @@ export function ResetPasswordPage() {
     <div className={commonStyles.row}>
       <div className={commonStyles.column}>
         <p className="text text_type_main-medium pb-6">Восстановление пароля</p>
-        <form onSubmit={onFormSubmit}>
-          <p className="pb-6">
+        <form onSubmit={onFormSubmit} className={commonStyles.form}>
             <PasswordInput
               name={"Введите новый пароль"}
               onChange={(e) => setPass(e.target.value)}
               value={password}
+              extraClass="pb-6"
             />
-          </p>
-          <p className="pb-6">
             <Input
               type={"text"}
               placeholder={"Введите текст из письма"}
@@ -70,9 +68,8 @@ export function ResetPasswordPage() {
               size={"default"}
               onChange={(e) => setToken(e.target.value)}
               value={token}
+              extraClass="pb-6"
             />
-          </p>
-
           <p className="pb-20">
             <Button size="medium" htmlType="submit">
               Сохранить

@@ -38,7 +38,6 @@ export function LoginPage() {
   };
   const location = useLocation();
   if (isAuth()) {
-    console.log(location.state?.referrer);
     return (
       <Redirect
         // Если объект state не является undefined, вернём пользователя назад.
@@ -56,26 +55,24 @@ export function LoginPage() {
     <div className={commonStyles.row}>
       <div className={commonStyles.column}>
         <p className="text text_type_main-medium pb-6">Вход</p>
-        <form onSubmit={onFormSubmit}>
-          <p className="pb-6">
-            <EmailInput
-              type={"text"}
-              placeholder={"E-mail"}
-              name={"name"}
-              error={false}
-              errorText={"Ошибка"}
-              size={"default"}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </p>
-          <p className="pb-6">
-            <PasswordInput
-              name={"Пароль"}
-              value={password}
-              onChange={(e) => setPass(e.target.value)}
-            />
-          </p>
+        <form onSubmit={onFormSubmit} className={commonStyles.form}>
+          <EmailInput
+            type={"text"}
+            placeholder={"E-mail"}
+            name={"name"}
+            error={false}
+            errorText={"Ошибка"}
+            size={"default"}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            extraClass="pb-6"
+          />
+          <PasswordInput
+            name={"Пароль"}
+            value={password}
+            onChange={(e) => setPass(e.target.value)}
+            extraClass="pb-6"
+          />
           <p className="pb-20">
             <Button type="primary" size="large" htmlType="submit">
               Войти

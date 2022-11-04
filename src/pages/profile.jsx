@@ -72,33 +72,30 @@ export function ProfilePage() {
       <Menu />
       {userStore.user && (
         <div className={commonStyles.inputs}>
-          <form onSubmit={onFormSubmit}>
-            <div className="pb-6">
-              <Input
-                type={"text"}
-                placeholder={"Имя"}
-                name={"name"}
-                error={false}
-                errorText={"Ошибка"}
-                size={"default"}
-                onChange={onChangeName}
-                value={name}
-              />
-            </div>
-            <div className="pb-6">
-              <EmailInput
-                onChange={onChangeEmail}
-                value={email}
-                name={"email"}
-              />
-            </div>
-            <div className="pb-6">
-              <PasswordInput
-                onChange={onChangePassword}
-                value={password}
-                name={"password"}
-              />
-            </div>
+          <form onSubmit={onFormSubmit} className={commonStyles.form}>
+            <Input
+              type={"text"}
+              placeholder={"Имя"}
+              name={"name"}
+              error={false}
+              errorText={"Ошибка"}
+              size={"default"}
+              onChange={onChangeName}
+              value={name}
+              extraClass="pb-6"
+            />
+            <EmailInput
+              onChange={onChangeEmail}
+              value={email}
+              name={"email"}
+              extraClass="pb-6"
+            />
+            <PasswordInput
+              onChange={onChangePassword}
+              value={password}
+              name={"password"}
+              extraClass="pb-6"
+            />
             {isChanged && (
               <div>
                 <Button type="primary" size="medium" htmlType="submit">

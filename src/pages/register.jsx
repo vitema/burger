@@ -48,33 +48,30 @@ export function RegisterPage() {
     <div className={commonStyles.row}>
       <div className={commonStyles.column}>
         <p className="text text_type_main-medium pb-6">Регистрация</p>
-        <form onSubmit={onFormSubmit}>
-          <p className="pb-6">
-            <Input
-              type={"text"}
-              placeholder={"Имя"}
-              name={"name"}
-              error={false}
-              errorText={"Ошибка"}
-              size={"default"}
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-            />
-          </p>
-          <p className="pb-6">
-            <EmailInput
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              name={"email"}
-            />
-          </p>
-          <p className="pb-6">
-            <PasswordInput
-              name={"Пароль"}
-              onChange={(e) => setPass(e.target.value)}
-              value={password}
-            />
-          </p>
+        <form onSubmit={onFormSubmit} className={commonStyles.form}>
+          <Input
+            type={"text"}
+            placeholder={"Имя"}
+            name={"name"}
+            error={false}
+            errorText={"Ошибка"}
+            size={"default"}
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            extraClass="pb-6"
+          />
+          <EmailInput
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            name={"email"}
+            extraClass="pb-6"
+          />
+          <PasswordInput
+            name={"Пароль"}
+            onChange={(e) => setPass(e.target.value)}
+            value={password}
+            extraClass="pb-6"
+          />
           <p className="pb-20">
             <Button type="primary" size="large" htmlType="submit">
               Зарегистрироваться

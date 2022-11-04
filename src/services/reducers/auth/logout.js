@@ -32,6 +32,7 @@ export const logoutReducer = (state = initialState, action) => {
       };
     }
     case LOGOUT_FAILED: {
+      deleteTokens();
       return {
         ...state,
         success: false,
