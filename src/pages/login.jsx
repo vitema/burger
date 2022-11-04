@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useHistory, Redirect, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -11,11 +11,12 @@ import commonStyles from "./page.module.css";
 
 import AppHeader from "../components/app-header/app-header";
 import { sendLogin } from "../services/actions/auth/login";
-import { isAuth } from "../utils/isAuth";
+import { isAuth } from "../utils/cookie";
+
 
 export function LoginPage() {
   const history = useHistory();
-  const auth = useSelector((store) => store.auth);
+  const loginStore = useSelector((store) => store.login);
 
   const register = useCallback(() => {
     history.replace({ pathname: "/register" });
@@ -40,10 +41,11 @@ export function LoginPage() {
 
   const location = useLocation();
   if (isAuth()) {
+    console.log(location.state?.referrer);
     return (
       <Redirect
         // Если объект state не является undefined, вернём пользователя назад.
-        to={location.state?.referrer || "/"}
+        to={location.state?.referrer  || "/"}
       />
     );
   }
@@ -111,7 +113,7 @@ export function LoginPage() {
             </Button>
           </div>
 
-          <p className="text text_type_main-medium p-6">{auth.message}</p>
+          <p className="text text_type_main-medium p-6">{loginStore.message}</p>
         </div>
       </div>
     </>

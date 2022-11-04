@@ -16,12 +16,11 @@ import AppHeader from "../components/app-header/app-header";
 
 export function ForgotPasswordPage() {
   const history = useHistory();
-  const auth = useSelector((store) => store.auth);
+  const forgotStore = useSelector((store) => store.forgot);
 
   const login = useCallback(() => {
     history.replace({ pathname: "/login" });
   }, [history]);
-
 
   const [email, setEmail] = useState("");
 
@@ -34,7 +33,7 @@ export function ForgotPasswordPage() {
     dispatch(sendForgot(postData));
   };
 
-  if (auth()) {
+  if (forgotStore()) {
     return <Redirect to={"/"} />;
   }
 
@@ -73,7 +72,7 @@ export function ForgotPasswordPage() {
             </Button>
           </div>
 
-          <p className="text text_type_main-medium p-6">{auth.message}</p>
+          <p className="text text_type_main-medium p-6">{forgotStore.message}</p>
         </div>
       </div>
     </>

@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import { useHistory, Redirect, useLocation } from "react-router-dom";
 import uuid from "react-uuid";
-
-import { isAuth } from "../../utils/isAuth";
+import { isAuth } from "../../utils/cookie";
 
 import {
   ConstructorElement,
@@ -51,6 +50,7 @@ const BurgerConstructor = () => {
   const dispatch = useDispatch();
 
   const history = useHistory();
+
   const getOrderData = () => {
     if (!isAuth()) {
       history.replace({ pathname: "/login" });

@@ -4,11 +4,24 @@ import { constructorReducer } from "./constructor";
 import { orderReducer } from "./order";
 import { ingredientReducer } from "./ingredient";
 
-import { authReducer } from "./auth";
+import { forgotReducer } from "./auth/forgot";
+import { loginReducer } from "./auth/login";
+import { logoutReducer } from "./auth/logout";
+import { refreshReducer } from "./auth/refresh";
+import { registerReducer } from "./auth/register";
+import { resetReducer } from "./auth/reset";
+import { userReducer } from "./auth/user";
+
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   constructorIngredients: constructorReducer,
   order: orderReducer,
   ingredient: ingredientReducer,
-  auth: authReducer,
+  forgot: forgotReducer,
+  login: loginReducer,
+  logout: logoutReducer,
+  refresh: refreshReducer,
+  register: registerReducer,
+  reset: resetReducer,
+  user: userReducer,
 });

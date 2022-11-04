@@ -1,30 +1,23 @@
 import { NavLink, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { sendLogout } from "../../services/actions/auth/logout";
-import { deleteTokens } from "../../utils/cookie";
 
 import styles from "./menu.module.css";
-import { useEffect } from "react";
 
 const Menu = () => {
   const dispatch = useDispatch();
 
-  const auth = useSelector((store) => store.auth);
+  const logoutStore = useSelector((store) => store.logout);
 
   const history = useHistory();
 
   const logout = () => {
-    dispatch(sendLogout());
-
-    deleteTokens(); 
-    history.replace("/login");
+    dispatch(sendLogout(toLoginCallBack));
   };
 
-  // useEffect(() => {
-  //   if (auth.success) {
-  //     history.replace("/login");
-  //   }
-  // }, [auth]);
+  const toLoginCallBack = () => {
+    history.replace("/login");
+  };
 
   return (
     <div className={styles.menu}>
@@ -46,6 +39,8 @@ const Menu = () => {
       <div className={styles.link} onClick={logout}>
         <p className="text text_type_main-medium pb-6 link">Выход</p>
       </div>
+
+      <p className="text text_type_main-medium p-6">{logoutStore.message}</p>
     </div>
   );
 };

@@ -13,11 +13,11 @@ import commonStyles from "./page.module.css";
 import AppHeader from "../components/app-header/app-header";
 
 import { sendRegister } from "../services/actions/auth/register";
-import { isAuth } from "../utils/isAuth";
+import { isAuth } from "../utils/cookie";
 
 export function RegisterPage() {
   const history = useHistory();
-  const auth = useSelector((store) => store.auth);
+  const registerStore = useSelector((store) => store.register);
 
   const login = useCallback(() => {
     history.replace({ pathname: "/login" });
@@ -98,7 +98,7 @@ export function RegisterPage() {
               Войти
             </Button>
           </div>
-          <p className="text text_type_main-medium p-6">{auth.message}</p>
+          <p className="text text_type_main-medium p-6">{registerStore.message}</p>
         </div>
       </div>
     </>

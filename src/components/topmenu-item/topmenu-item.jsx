@@ -1,4 +1,4 @@
-import { NavLink, useRouteMatch } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import {
@@ -9,16 +9,23 @@ import {
 import styles from "./topmenu-item.module.css";
 
 const TopMenuItem = ({ text, to, icon }) => {
-  const match = useRouteMatch(to);
-
   let type = "secondary";
   let className = "text text_type_main-small pl-2 text_color_inactive pl-2";
+  const location = useLocation();
 
-  if (match?.isExact) {
-    type = "primary";
-    className = "text text_type_main-small pl-2";
+  if (to) {
+    let isMatch = false;
+    if (to == "/") {
+      isMatch = location.pathname == to;
+    } else {
+      isMatch = location.pathname.includes(to);
+    }
+
+    if (isMatch) {
+      type = "primary";
+      className = "text text_type_main-small pl-2";
+    }
   }
-
   return (
     <>
       {icon == "burger" ? (
@@ -42,6 +49,5 @@ TopMenuItem.propTypes = {
   to: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
 };
-
 
 export default TopMenuItem;

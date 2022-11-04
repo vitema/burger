@@ -1,6 +1,6 @@
 import { Route, Redirect } from "react-router-dom";
-import { isAuth } from "../../utils/isAuth";
 import PropTypes from "prop-types";
+import { isAuth } from "../../utils/cookie";
 
 export function ProtectedRoute({ children, ...rest }) {
   return (

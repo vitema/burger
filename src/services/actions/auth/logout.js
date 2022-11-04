@@ -1,12 +1,13 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { getCookie } from "../../../utils/cookie";
+import { USER_SET } from "./user";
 
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILED = "LOGOUT_FAILED";
 
-export function sendLogout() {
+export function sendLogout(toLoginCallBack) {
   return async function (dispatch) {
     dispatch({
       type: LOGOUT_REQUEST,
@@ -20,7 +21,7 @@ export function sendLogout() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": getCookie("accessToken"),
+          Authorization: getCookie("accessToken"),
         },
         body: JSON.stringify(postData),
       });
@@ -28,6 +29,11 @@ export function sendLogout() {
         type: LOGOUT_SUCCESS,
         payload: data,
       });
+      dispatch({
+        type: USER_SET,
+        payload: { user: null },
+      });
+      toLoginCallBack();
     } catch (error) {
       dispatch({
         type: LOGOUT_FAILED,

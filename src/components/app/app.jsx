@@ -50,7 +50,6 @@ function App() {
           <Route path="/" exact={true}>
             <HomePage />
           </Route>
-
           <ProtectedRoute path="/profile" exact={true}>
             <ProfilePage />
           </ProtectedRoute>
@@ -69,7 +68,7 @@ function App() {
           <Route path="/reset-password" exact={true}>
             <ResetPasswordPage />
           </Route>
-          <Route path="/ingredients/:ingredientId" exact>
+          <Route path="/ingredients/:ingredientId" exact={true}>
             <IngredientPage />
           </Route>
           <Route path="/login" exact={true}>

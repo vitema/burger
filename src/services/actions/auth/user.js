@@ -1,7 +1,6 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
-import { getCookie, setCookie } from "../../../utils/cookie";
-import { refreshToken } from "./refresh";
+import { getCookie } from "../../../utils/cookie";
 
 export const USER_REQUEST = "USER_REQUEST";
 export const USER_SUCCESS = "USER_SUCCESS";
@@ -10,6 +9,8 @@ export const USER_FAILED = "USER_FAILED";
 export const USER_UPDATE_REQUEST = "USER_REQUEST";
 export const USER_UPDATE_SUCCESS = "USER_SUCCESS";
 export const USER_UPDATE_FAILED = "USER_FAILED";
+
+export const USER_SET = "USER_SET";
 
 export function getUser() {
   return async function (dispatch) {

@@ -9,14 +9,16 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import commonStyles from "./page.module.css";
-import { isAuth } from "../utils/isAuth";
 import { sendReset } from "../services/actions/auth/reset";
 
 import AppHeader from "../components/app-header/app-header";
 
+import { isAuth } from "../utils/cookie";
+
 export function ResetPasswordPage() {
   const history = useHistory();
-  const auth = useSelector((store) => store.auth);
+  const resetStore = useSelector((store) => store.reset);
+  const forgotStore = useSelector((store) => store.forgot);
 
   const login = useCallback(() => {
     history.replace({ pathname: "/login" });
@@ -34,12 +36,8 @@ export function ResetPasswordPage() {
     dispatch(sendReset(postData));
   };
 
-  if (isAuth()) {
+  if (isAuth() || !forgotStore.forgot) {
     return <Redirect to={"/"} />;
-  }
-
-  if (auth.forgot) {
-    <Redirect to={"/forgot-password"} />;
   }
 
   return (
@@ -89,7 +87,7 @@ export function ResetPasswordPage() {
               Войти
             </Button>
           </div>
-          <p className="text text_type_main-medium p-6">{auth.message}</p>
+          <p className="text text_type_main-medium p-6">{resetStore.message}</p>
         </div>
       </div>
     </>

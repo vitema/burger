@@ -46,3 +46,7 @@ export function deleteTokens() {
   setCookie(refreshTokenName, null, { expires: -1 });
   setCookie(accessTokenName, null, { expires: -1 });
 }
+
+export function isAuth() {
+  return getCookie(accessTokenName) ? true : false;
+}
