@@ -8,14 +8,15 @@ export async function request(url, options) {
     return await checkResponse(res);
   } catch (err) {
     if (err === "jwt expired") {
+      try {
       const { refreshToken, accessToken } = await refreshTokenRequest();
       saveTokens(refreshToken, accessToken);
-      try {
+      
         options.headers.Authorization = accessToken;
         const res = await fetch(url, options);
         return await checkResponse(res);
       } catch (err) {
-        if (err === "invalid token") {
+        if (err === "Token is invalid") {
           deleteTokens();
           return Promise.reject(err);
         }
@@ -42,8 +43,8 @@ function checkResponse(res) {
   );
 }
 
-const refreshTokenRequest = () => {
-  return fetch(`${apiUrl}/auth/token`, {
+const refreshTokenRequest = async () => {
+  const res = await fetch(`${apiUrl}/auth/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -51,5 +52,6 @@ const refreshTokenRequest = () => {
     body: JSON.stringify({
       token: getCookie(refreshTokenName),
     }),
-  }).then(checkResponse);
+  });
+  return checkResponse(res);
 };

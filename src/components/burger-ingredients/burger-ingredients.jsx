@@ -6,7 +6,7 @@ import styles from "./burger-ingredients.module.css";
 
 import { availableTypes, bunType } from "../../constants/constants";
 
-import { getIngredients } from "../../services/actions/ingredients";
+
 import { SET_INGREDIENT } from "../../services/actions/ingredient";
 
 import IngredientsGroup from "../ingredients-group/ingredients-group";
@@ -34,9 +34,9 @@ const BurgerIngredients = () => {
   };
 
   useEffect(() => {
-    dispatch(getIngredients());
     setCurrent(bunType);
-  }, [dispatch]);
+  }, []);
+
   return (
     <div className={styles.box}>
       <p className="text text_type_main-large mt-10">Соберите бургер</p>

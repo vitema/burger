@@ -13,8 +13,6 @@ import { sendReset } from "../services/actions/auth/reset";
 
 import { isAuth, isForgot } from "../utils/cookie";
 
-import AppHeader from "../components/app-header/app-header";
-
 export function ResetPasswordPage() {
   const history = useHistory();
   const resetStore = useSelector((store) => store.reset);
@@ -45,22 +43,24 @@ export function ResetPasswordPage() {
     }
   }, [history]);
 
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    save();
+  };
+
   return (
-    <>
-      <AppHeader />
-      <div className={commonStyles.row}>
-        <div className={commonStyles.column}>
-          <p className="text text_type_main-medium pb-6">
-            Восстановление пароля
-          </p>
-          <span className="pb-6">
+    <div className={commonStyles.row}>
+      <div className={commonStyles.column}>
+        <p className="text text_type_main-medium pb-6">Восстановление пароля</p>
+        <form onSubmit={onFormSubmit}>
+          <p className="pb-6">
             <PasswordInput
               name={"Введите новый пароль"}
               onChange={(e) => setPass(e.target.value)}
               value={password}
             />
-          </span>
-          <span className="pb-6">
+          </p>
+          <p className="pb-6">
             <Input
               type={"text"}
               placeholder={"Введите текст из письма"}
@@ -71,18 +71,18 @@ export function ResetPasswordPage() {
               onChange={(e) => setToken(e.target.value)}
               value={token}
             />
-          </span>
+          </p>
 
-          <span className="pb-20">
-            <Button size="medium" onClick={save} htmlType="button">
+          <p className="pb-20">
+            <Button size="medium" htmlType="submit">
               Сохранить
             </Button>
-          </span>
+          </p>
 
           <div className={commonStyles.buttonsRow}>
-            <span className="text text_type_main-default text_color_inactive">
+            <p className="text text_type_main-default text_color_inactive">
               Вспомнили пароль?
-            </span>
+            </p>
             <Button
               type="secondary"
               size="medium"
@@ -92,9 +92,9 @@ export function ResetPasswordPage() {
               Войти
             </Button>
           </div>
-          <p className="text text_type_main-medium p-6">{resetStore.message}</p>
-        </div>
+        </form>
+        <p className="text text_type_main-medium p-6">{resetStore.message}</p>
       </div>
-    </>
+    </div>
   );
 }

@@ -8,6 +8,8 @@ import {
   USER_SET
 } from "../../actions/auth/user";
 
+import { deleteTokens } from "../../../utils/cookie";
+
 const initialState = {
   request: false,
   success: false,

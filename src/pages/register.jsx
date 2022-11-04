@@ -10,8 +10,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import commonStyles from "./page.module.css";
 
-import AppHeader from "../components/app-header/app-header";
-
 import { sendRegister } from "../services/actions/auth/register";
 import { isAuth } from "../utils/cookie";
 
@@ -41,13 +39,17 @@ export function RegisterPage() {
     return <Redirect to={"/"} />;
   }
 
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    save();
+  };
+
   return (
-    <>
-      <AppHeader />
-      <div className={commonStyles.row}>
-        <div className={commonStyles.column}>
-          <p className="text text_type_main-medium pb-6">Регистрация</p>
-          <span className="pb-6">
+    <div className={commonStyles.row}>
+      <div className={commonStyles.column}>
+        <p className="text text_type_main-medium pb-6">Регистрация</p>
+        <form onSubmit={onFormSubmit}>
+          <p className="pb-6">
             <Input
               type={"text"}
               placeholder={"Имя"}
@@ -58,36 +60,31 @@ export function RegisterPage() {
               onChange={(e) => setName(e.target.value)}
               value={name}
             />
-          </span>
-          <span className="pb-6">
+          </p>
+          <p className="pb-6">
             <EmailInput
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               name={"email"}
             />
-          </span>
-          <span className="pb-6">
+          </p>
+          <p className="pb-6">
             <PasswordInput
               name={"Пароль"}
               onChange={(e) => setPass(e.target.value)}
               value={password}
             />
-          </span>
-          <span className="pb-20">
-            <Button
-              type="primary"
-              size="large"
-              htmlType="button"
-              onClick={save}
-            >
+          </p>
+          <p className="pb-20">
+            <Button type="primary" size="large" htmlType="submit">
               Зарегистрироваться
             </Button>
-          </span>
+          </p>
 
           <div className={commonStyles.buttonsRow}>
-            <span className="text text_type_main-default text_color_inactive">
+            <p className="text text_type_main-default text_color_inactive">
               Уже зарегистрированы?
-            </span>
+            </p>
             <Button
               type="secondary"
               size="medium"
@@ -97,9 +94,11 @@ export function RegisterPage() {
               Войти
             </Button>
           </div>
-          <p className="text text_type_main-medium p-6">{registerStore.message}</p>
-        </div>
+        </form>
+        <p className="text text_type_main-medium p-6">
+          {registerStore.message}
+        </p>
       </div>
-    </>
+    </div>
   );
 }

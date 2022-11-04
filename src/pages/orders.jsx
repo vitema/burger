@@ -1,14 +1,11 @@
 import { NavLink } from "react-router-dom";
 
-import AppHeader from "../components/app-header/app-header";
 import Menu from "../components/menu/menu";
 
 import commonStyles from "./page.module.css";
 
 export function OrdersPage() {
   return (
-    <>
-      <AppHeader />
       <div className={commonStyles.row}>
         <Menu />
         <div className={commonStyles.inputs}>
@@ -17,7 +14,6 @@ export function OrdersPage() {
           <NavLink to={{ pathname: `/profile/orders/1` }}>Заказ</NavLink>
         </div>
       </div>
-    </>
   );
 }
 

@@ -241,6 +241,15 @@ const BurgerConstructor = () => {
           <OrderDetails orderData={orderData.order} />
         </Modal>
       )}
+
+      {orderData.orderRequest && (
+        <Modal header="Подождите..." onClose={() => {}}>
+          <div className={styles.ldsripple}>
+            <div></div>
+            <div></div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

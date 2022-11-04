@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyles from "./header.module.css";
 
@@ -11,16 +13,14 @@ const AppHeader = () => {
           <TopMenuItem to={"/"} text={"Конструктор"} icon={"burger"} />
         </div>
         <div className={headerStyles.menuItem}>
-          <TopMenuItem
-            to={""}
-            text={"Лента заказов"}
-            icon={"list"}
-          />
+          <TopMenuItem to={""} text={"Лента заказов"} icon={"list"} />
         </div>
       </div>
 
       <div className={headerStyles.logo}>
-        <Logo />
+        <Link to={{ pathname: '/' }}>
+          <Logo />
+        </Link>
       </div>
 
       <div className={headerStyles.menuRight}>

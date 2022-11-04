@@ -9,10 +9,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import commonStyles from "./page.module.css";
 
-import AppHeader from "../components/app-header/app-header";
 import { sendLogin } from "../services/actions/auth/login";
 import { isAuth } from "../utils/cookie";
-
 
 export function LoginPage() {
   const history = useHistory();
@@ -38,25 +36,28 @@ export function LoginPage() {
 
     dispatch(sendLogin(postData));
   };
-
   const location = useLocation();
   if (isAuth()) {
     console.log(location.state?.referrer);
     return (
       <Redirect
         // Если объект state не является undefined, вернём пользователя назад.
-        to={location.state?.referrer  || "/"}
+        to={location.state?.referrer || "/"}
       />
     );
   }
 
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    logIn();
+  };
+
   return (
-    <>
-      <AppHeader />
-      <div className={commonStyles.row}>
-        <div className={commonStyles.column}>
-          <p className="text text_type_main-medium pb-6">Вход</p>
-          <span className="pb-6">
+    <div className={commonStyles.row}>
+      <div className={commonStyles.column}>
+        <p className="text text_type_main-medium pb-6">Вход</p>
+        <form onSubmit={onFormSubmit}>
+          <p className="pb-6">
             <EmailInput
               type={"text"}
               placeholder={"E-mail"}
@@ -67,29 +68,24 @@ export function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </span>
-          <span className="pb-6">
+          </p>
+          <p className="pb-6">
             <PasswordInput
               name={"Пароль"}
               value={password}
               onChange={(e) => setPass(e.target.value)}
             />
-          </span>
-          <span className="pb-20">
-            <Button
-              type="primary"
-              size="large"
-              htmlType="button"
-              onClick={logIn}
-            >
+          </p>
+          <p className="pb-20">
+            <Button type="primary" size="large" htmlType="submit">
               Войти
             </Button>
-          </span>
+          </p>
 
           <div className={commonStyles.buttonsRow}>
-            <span className="text text_type_main-default text_color_inactive">
+            <p className="text text_type_main-default text_color_inactive">
               Вы — новый пользователь?
-            </span>
+            </p>
             <Button
               type="secondary"
               size="medium"
@@ -100,9 +96,9 @@ export function LoginPage() {
             </Button>
           </div>
           <div className={commonStyles.buttonsRow}>
-            <span className="text text_type_main-default text_color_inactive">
+            <p className="text text_type_main-default text_color_inactive">
               Забыли пароль?
-            </span>
+            </p>
             <Button
               type="secondary"
               size="medium"
@@ -112,10 +108,9 @@ export function LoginPage() {
               Восстановить пароль
             </Button>
           </div>
-
-          <p className="text text_type_main-medium p-6">{loginStore.message}</p>
-        </div>
+        </form>
+        <p className="text text_type_main-medium p-6">{loginStore.message}</p>
       </div>
-    </>
+    </div>
   );
 }

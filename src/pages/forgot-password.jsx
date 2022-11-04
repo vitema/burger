@@ -11,7 +11,6 @@ import { isAuth } from "../utils/cookie";
 import { sendForgot } from "../services/actions/auth/forgot";
 
 import commonStyles from "./page.module.css";
-import AppHeader from "../components/app-header/app-header";
 
 export function ForgotPasswordPage() {
   const history = useHistory();
@@ -40,31 +39,35 @@ export function ForgotPasswordPage() {
     return <Redirect to={"/"} />;
   }
 
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    sendEmail();
+  };
+
   return (
-    <>
-      <AppHeader />
-      <div className={commonStyles.row}>
-        <div className={commonStyles.column}>
+    <div className={commonStyles.row}>
+      <div className={commonStyles.column}>
+        <form onSubmit={onFormSubmit}>
           <p className="text text_type_main-medium pb-6">
             Восстановление пароля
           </p>
-          <span className="pb-6">
+          <p className="pb-6">
             <EmailInput
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               name={"email"}
             />
-          </span>
-          <span className="pb-20">
-            <Button size="medium" onClick={sendEmail} htmlType="button">
+          </p>
+          <p className="pb-20">
+            <Button size="medium" htmlType="submit">
               Восстановить
             </Button>
-          </span>
+          </p>
 
           <div className={commonStyles.buttonsRow}>
-            <span className="text text_type_main-default text_color_inactive">
+            <p className="text text_type_main-default text_color_inactive">
               Вспомнили пароль?
-            </span>
+            </p>
             <Button
               type="secondary"
               size="medium"
@@ -74,12 +77,9 @@ export function ForgotPasswordPage() {
               Войти
             </Button>
           </div>
-
-          <p className="text text_type_main-medium p-6">
-            {forgotStore.message}
-          </p>
-        </div>
+        </form>
+        <p className="text text_type_main-medium p-6">{forgotStore.message}</p>
       </div>
-    </>
+    </div>
   );
 }

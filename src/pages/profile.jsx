@@ -9,7 +9,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import commonStyles from "./page.module.css";
 
-import AppHeader from "../components/app-header/app-header";
 import Menu from "../components/menu/menu";
 
 import { getUser, updateUser } from "../services/actions/auth/user";
@@ -69,68 +68,57 @@ export function ProfilePage() {
   };
 
   return (
-    <>
-      <AppHeader />
+    <div className={commonStyles.row}>
+      <Menu />
+      {userStore.user && (
+        <div className={commonStyles.inputs}>
+          <form onSubmit={onFormSubmit}>
+            <div className="pb-6">
+              <Input
+                type={"text"}
+                placeholder={"Имя"}
+                name={"name"}
+                error={false}
+                errorText={"Ошибка"}
+                size={"default"}
+                onChange={onChangeName}
+                value={name}
+              />
+            </div>
+            <div className="pb-6">
+              <EmailInput
+                onChange={onChangeEmail}
+                value={email}
+                name={"email"}
+              />
+            </div>
+            <div className="pb-6">
+              <PasswordInput
+                onChange={onChangePassword}
+                value={password}
+                name={"password"}
+              />
+            </div>
+            {isChanged && (
+              <div>
+                <Button type="primary" size="medium" htmlType="submit">
+                  Сохранить
+                </Button>
 
-      <div className={commonStyles.row}>
-        <Menu />
-        {userStore.user && (
-          <div className={commonStyles.inputs}>
-            <form onSubmit={onFormSubmit}>
-              <div className="pb-6">
-                <Input
-                  type={"text"}
-                  placeholder={"Имя"}
-                  name={"name"}
-                  error={false}
-                  errorText={"Ошибка"}
-                  size={"default"}
-                  onChange={onChangeName}
-                  value={name}
-                />
+                <Button
+                  type="secondary"
+                  size="medium"
+                  onClick={cancel}
+                  htmlType="button"
+                >
+                  Отмена
+                </Button>
               </div>
-              <div className="pb-6">
-                <EmailInput
-                  onChange={onChangeEmail}
-                  value={email}
-                  name={"email"}
-                />
-              </div>
-              <div className="pb-6">
-                <PasswordInput
-                  onChange={onChangePassword}
-                  value={password}
-                  name={"password"}
-                />
-              </div>
-              {isChanged && (
-                <div>
-                  <Button
-                    type="primary"
-                    size="medium"
-                    onClick={save}
-                    htmlType="submit"
-                  >
-                    Сохранить
-                  </Button>
-
-                  <Button
-                    type="secondary"
-                    size="medium"
-                    onClick={cancel}
-                    htmlType="button"
-                  >
-                    Отмена
-                  </Button>
-                </div>
-              )}
-            </form>
-            <p className="text text_type_main-medium p-6">
-              {userStore.message}
-            </p>
-          </div>
-        )}
-      </div>
-    </>
+            )}
+          </form>
+        </div>
+      )}
+      <p className="text text_type_main-medium p-6">{userStore.message}</p>
+    </div>
   );
 }

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { compose, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
@@ -24,8 +26,11 @@ import {
   IngredientPage,
 } from "../../pages";
 
+import { getIngredients } from "../../services/actions/ingredients";
+
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import AppHeader from "../app-header/app-header";
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -39,14 +44,22 @@ function App() {
   const ModalSwitch = () => {
     const location = useLocation();
     const history = useHistory();
-    let background = location.state && location.state.background;
+
+    const background = location.state && location.state.background;
 
     const handleModalClose = () => {
       history.goBack();
     };
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+      dispatch(getIngredients());
+    }, [dispatch]);
+
     return (
       <>
-        <Switch>
+        <AppHeader />
+        <Switch location={background || location}>
           <Route path="/" exact={true}>
             <HomePage />
           </Route>
