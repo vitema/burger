@@ -44,9 +44,8 @@ export function saveTokens(refreshToken, accessToken) {
 }
 
 export function deleteTokens() {
-  deleteCookie(refreshTokenName);
-  deleteCookie(accessTokenName);
-  deleteCookie(sendForgotEmail);
+  setCookie(refreshTokenName, null, { expires: -1 });
+  setCookie(accessTokenName, null, { expires: -1 });
 }
 
 export function isAuth() {

@@ -41,7 +41,7 @@ export function ResetPasswordPage() {
 
   useEffect(() => {
     if (isAuth() || !isForgot()) {
-      history.replace({ pathname: "/login" });
+      history.replace({ pathname: "/forgot-password" });
     }
   }, [history]);
 
