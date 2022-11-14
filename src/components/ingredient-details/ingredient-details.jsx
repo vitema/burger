@@ -1,8 +1,17 @@
 import styles from "./ingredient-details.module.css";
+import { useRouteMatch } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const IngredientDetails = () => {
-  const item = useSelector((store) => store.ingredient.item);
+
+  const { data } = useSelector((store) => ({
+    data: store.ingredients.items,
+    ingredientsFailed: store.ingredients.ingredientsFailed,
+  }));
+
+  const { params } = useRouteMatch();
+  const item = data.filter((x) => x._id == params["ingredientId"])[0];
+
   return (
     <div>
       {item && (

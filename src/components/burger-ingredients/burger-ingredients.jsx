@@ -6,20 +6,14 @@ import styles from "./burger-ingredients.module.css";
 
 import { availableTypes, bunType } from "../../constants/constants";
 
-import { getIngredients } from "../../services/actions/ingredients";
+
 import { SET_INGREDIENT } from "../../services/actions/ingredient";
 
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import IngredientsGroup from "../ingredients-group/ingredients-group";
 import Ingridient from "../burger-ingredient/burger-ingredient";
 
-import Modal from "../modal/modal";
-import useModal from "../../hooks/useModal";
-
 const BurgerIngredients = () => {
   const [current, setCurrent] = React.useState();
-  // const [selectedItem, selectItem] = React.useState(null);
-  const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
 
   const { data, ingredientsFailed } = useSelector((store) => ({
     data: store.ingredients.items,
@@ -40,15 +34,8 @@ const BurgerIngredients = () => {
   };
 
   useEffect(() => {
-    dispatch(getIngredients());
     setCurrent(bunType);
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (ingredientsFailed) {
-      handleOpenModal();
-    }
-  }, [ingredientsFailed]);
+  }, []);
 
   return (
     <div className={styles.box}>
@@ -74,14 +61,13 @@ const BurgerIngredients = () => {
               <IngredientsGroup groupType={key} setCurrent={setCurrent}>
                 <ul className={styles.row}>
                   {data
-                    .filter((x) => x.type == key)
+                    .filter((x) => x.type === key)
                     .map((item) => (
                       <Ingridient
                         key={item._id}
                         item={item}
                         onClick={() => {
                           selectItem(item);
-                          handleOpenModal();
                         }}
                       />
                     ))}
@@ -91,20 +77,10 @@ const BurgerIngredients = () => {
           ))}
         </div>
       )}
-
-      {modalVisible && (
-        <Modal
-          header={ingredientsFailed ? "" : "Детали ингридиента"}
-          onClose={handleCloseModal}
-        >
-          {ingredientsFailed ? (
-            <p className="text text_type_main-medium">
-              При получении данных произошла ошибка
-            </p>
-          ) : (
-            <IngredientDetails/>
-          )}
-        </Modal>
+      {ingredientsFailed && (
+        <p className="text text_type_main-medium p-6">
+          Ошибка при получении ингредиентов
+        </p>
       )}
     </div>
   );

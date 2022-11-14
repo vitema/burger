@@ -24,3 +24,9 @@ li {
   height: 48px;
   text-align: center;
 }
+
+.link {
+  flex: 1 0 25%;
+  color: white;
+  text-decoration: none;
+}

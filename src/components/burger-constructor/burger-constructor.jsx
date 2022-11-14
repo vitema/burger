@@ -1,7 +1,9 @@
 import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
+import { useHistory } from "react-router-dom";
 import uuid from "react-uuid";
+import { isAuth } from "../../utils/cookie";
 
 import {
   ConstructorElement,
@@ -47,7 +49,14 @@ const BurgerConstructor = () => {
 
   const dispatch = useDispatch();
 
-  const getOrderData = async () => {
+  const history = useHistory();
+
+  const getOrderData = () => {
+    if (!isAuth()) {
+      history.replace({ pathname: "/login" });
+      return;
+    }
+
     const allData = [...ingredientsData.components, ingredientsData.bun];
     const ids = allData.map((item) => item._id);
     const postData = { ingredients: ids };
@@ -87,7 +96,7 @@ const BurgerConstructor = () => {
     // Тут просто добавляем перемещенный ингредиент в заказ
     // выполняем диспатч в стор, в момент "бросания" ингредиента
     drop(item) {
-      if (item.type == bunType && ingredientsData.bun) {
+      if (item.type === bunType && ingredientsData.bun) {
         dispatch({
           type: DECREMENT_COUNT,
           id: ingredientsData.bun._id,
@@ -123,7 +132,7 @@ const BurgerConstructor = () => {
     // Тут просто добавляем перемещенный ингредиент в заказ
     // выполняем диспатч в стор, в момент "бросания" ингредиента
     drop(item) {
-      if (item.type == bunType && ingredientsData.bun) {
+      if (item.type === bunType && ingredientsData.bun) {
         dispatch({
           type: DECREMENT_COUNT,
           id: ingredientsData.bun._id,
@@ -230,6 +239,15 @@ const BurgerConstructor = () => {
       {modalVisible && orderData.order && (
         <Modal header="" onClose={closeOrder}>
           <OrderDetails orderData={orderData.order} />
+        </Modal>
+      )}
+
+      {orderData.orderRequest && (
+        <Modal header="Подождите..." onClose={() => {}}>
+          <div className={styles.ldsripple}>
+            <div></div>
+            <div></div>
+          </div>
         </Modal>
       )}
     </div>
