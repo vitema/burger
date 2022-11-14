@@ -6,13 +6,27 @@ import {
 import { setCookie } from "../../../utils/cookie";
 import { sendForgotEmail } from "../../../constants/constants";
 
-const initialState = {
+
+// Интерфейс состояния
+interface IState {
+  request: boolean;
+  success: boolean;
+  message: string
+}
+
+// Интерфейс события
+interface IAction {
+  type:  string;
+  payload: string
+}
+
+const initialState :IState = {
   request: false,
   success: false,
   message: "",
 };
 
-export const forgotReducer = (state = initialState, action) => {
+export const forgotReducer = (state:IState = initialState, action:IAction) => {
   switch (action.type) {
     case FORGOT_REQUEST: {
       return {

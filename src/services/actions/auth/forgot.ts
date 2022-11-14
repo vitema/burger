@@ -1,11 +1,20 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
+import { AppDispatch } from "../../store";
 
 export const FORGOT_REQUEST = "FORGOT_REQUEST";
 export const FORGOT_SUCCESS = "FORGOT_SUCCESS";
 export const FORGOT_FAILED = "FORGOT_FAILED";
-export function sendForgot(postData, toResetCallBack) {
-  return async function (dispatch) {
+
+interface IPostData {
+  email: string;
+}
+
+export function sendForgot(
+  postData: IPostData,
+  toResetCallBack: { (): void; (): void }
+) {
+  return async function (dispatch: AppDispatch) {
     dispatch({
       type: FORGOT_REQUEST,
     });

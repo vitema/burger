@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
+import { RootState, AppDispatch } from "../services/store";
 import {
   Button,
   EmailInput,
@@ -14,7 +14,7 @@ import commonStyles from "./page.module.css";
 
 export function ForgotPasswordPage() {
   const history = useHistory();
-  const forgotStore = useSelector((store) => store.forgot);
+  const forgotStore = useSelector((store: RootState) => store.forgot);
 
   const login = useCallback(() => {
     history.replace({ pathname: "/login" });
@@ -22,7 +22,7 @@ export function ForgotPasswordPage() {
 
   const [email, setEmail] = useState("");
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const sendEmail = () => {
     const postData = {
@@ -39,7 +39,7 @@ export function ForgotPasswordPage() {
     return <Redirect to={"/"} />;
   }
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     sendEmail();
   };

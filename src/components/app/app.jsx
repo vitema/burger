@@ -1,9 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { compose, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import thunk from "redux-thunk";
-import { rootReducer } from "../../services/reducers/rootReducer";
 import {
   BrowserRouter as Router,
   Switch,
@@ -32,13 +29,8 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import AppHeader from "../app-header/app-header";
 
-const composeEnhancers =
-  typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose;
+import {store} from "../../services/store";
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
-const store = createStore(rootReducer, enhancer);
 
 function App() {
   const ModalSwitch = () => {
