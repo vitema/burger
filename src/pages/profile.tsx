@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -12,25 +12,28 @@ import commonStyles from "./page.module.css";
 import Menu from "../components/menu/menu";
 
 import { getUser, updateUser } from "../services/actions/auth/user";
+import { RootState, AppDispatch } from "../services/store";
 
 export function ProfilePage() {
-  const dispatch = useDispatch();
-  const userStore = useSelector((store) => store.user);
+  const dispatch: AppDispatch = useDispatch();
+  const userStore = useSelector((store: RootState) => store.user);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isChanged, setChanged] = useState(false);
 
-  const onChangeName = (e) => {
+  const onChangeName = (e: { target: { value: SetStateAction<string> } }) => {
     setName(e.target.value);
     setChanged(true);
   };
-  const onChangeEmail = (e) => {
+  const onChangeEmail = (e: { target: { value: SetStateAction<string> } }) => {
     setEmail(e.target.value);
     setChanged(true);
   };
-  const onChangePassword = (e) => {
+  const onChangePassword = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
     setPassword(e.target.value);
     setChanged(true);
   };
@@ -46,7 +49,7 @@ export function ProfilePage() {
     }
   }, [userStore]);
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     save();
   };

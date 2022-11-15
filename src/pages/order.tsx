@@ -8,7 +8,11 @@ import commonStyles from "./page.module.css";
 
 export function OrderPage() {
 
-  const { params } = useRouteMatch();
+  type OrderRouteParams = {
+    id: string;
+  }
+
+  const { params } = useRouteMatch<OrderRouteParams>();
 
   return (
       <div className={commonStyles.row}>

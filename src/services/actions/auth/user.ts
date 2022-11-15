@@ -1,6 +1,7 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { getCookie } from "../../../utils/cookie";
+import { AppDispatch } from "../../store";
 
 export const USER_REQUEST = "USER_REQUEST";
 export const USER_SUCCESS = "USER_SUCCESS";
@@ -13,17 +14,18 @@ export const USER_UPDATE_FAILED = "USER_FAILED";
 export const USER_SET = "USER_SET";
 
 export function getUser() {
-  return async function (dispatch) {
+  return async function (dispatch: AppDispatch) {
     dispatch({
       type: USER_REQUEST,
     });
     try {
+      //todo описать data здесь и в других
       const data = await request(`${apiUrl}/auth/user`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": getCookie("accessToken"),
+          Authorization: getCookie("accessToken"),
         },
       });
       dispatch({
@@ -39,8 +41,14 @@ export function getUser() {
   };
 }
 
-export function updateUser(postData) {
-  return async function (dispatch) {
+interface IPostData {
+  email: string;
+  name: string;
+  password: string;
+}
+
+export function updateUser(postData: IPostData) {
+  return async function (dispatch: AppDispatch) {
     dispatch({
       type: USER_UPDATE_REQUEST,
     });
@@ -50,7 +58,7 @@ export function updateUser(postData) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": getCookie("accessToken"),
+          Authorization: getCookie("accessToken"),
         },
         body: JSON.stringify(postData),
       });

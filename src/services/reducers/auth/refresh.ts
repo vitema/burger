@@ -1,20 +1,38 @@
 import { saveTokens } from "../../../utils/cookie";
 
 import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILED,
-} from "../../actions/auth/login";
+  TOKEN_REQUEST,
+  TOKEN_SUCCESS,
+  TOKEN_FAILED,
+} from "../../actions/auth/refresh";
 
+interface IState {
+  request: boolean;
+  success: boolean;
+  message: string;
+  user: any; //todo  типизировать
+}
+
+interface IPayLoad{
+  refreshToken:string;
+  accessToken: string;
+  message: string;
+}
+
+interface IAction {
+  type:  string;
+  payload: IPayLoad;
+}
 const initialState = {
   request: false,
   success: false,
+  user: null,
   message: "",
 };
 
-export const loginReducer = (state = initialState, action) => {
+export const refreshReducer = (state: IState  = initialState, action: IAction) => {
   switch (action.type) {
-    case LOGIN_REQUEST: {
+    case TOKEN_REQUEST: {
       return {
         ...state,
         request: true,
@@ -22,7 +40,7 @@ export const loginReducer = (state = initialState, action) => {
         message: "",
       };
     }
-    case LOGIN_SUCCESS: {
+    case TOKEN_SUCCESS: {
       saveTokens(action.payload.refreshToken, action.payload.accessToken);
       return {
         ...state,
@@ -31,12 +49,12 @@ export const loginReducer = (state = initialState, action) => {
         message: "",
       };
     }
-    case LOGIN_FAILED: {
+    case TOKEN_FAILED: {
       return {
         ...state,
         success: false,
         request: false,
-        message: action.payload,
+        message: action.payload.message,
       };
     }
     default: {

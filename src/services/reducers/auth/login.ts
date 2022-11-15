@@ -1,10 +1,28 @@
+import { type } from "os";
 import { saveTokens } from "../../../utils/cookie";
 
 import {
-  REGISTER_REQUEST,
-  REGISTER_SUCCESS,
-  REGISTER_FAILED,
-} from "../../actions/auth/register";
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILED,
+} from "../../actions/auth/login";
+
+interface IState {
+  request: boolean;
+  success: boolean;
+  message: string;
+}
+
+interface IPayLoad{
+  refreshToken:string;
+  accessToken: string;
+  message: string;
+}
+
+interface IAction {
+  type:  string;
+  payload: IPayLoad;
+}
 
 const initialState = {
   request: false,
@@ -12,9 +30,9 @@ const initialState = {
   message: "",
 };
 
-export const registerReducer = (state = initialState, action) => {
+export const loginReducer = (state:IState = initialState, action: IAction) => {
   switch (action.type) {
-    case REGISTER_REQUEST: {
+    case LOGIN_REQUEST: {
       return {
         ...state,
         request: true,
@@ -22,7 +40,7 @@ export const registerReducer = (state = initialState, action) => {
         message: "",
       };
     }
-    case REGISTER_SUCCESS: {
+    case LOGIN_SUCCESS: {
       saveTokens(action.payload.refreshToken, action.payload.accessToken);
       return {
         ...state,
@@ -31,12 +49,12 @@ export const registerReducer = (state = initialState, action) => {
         message: "",
       };
     }
-    case REGISTER_FAILED: {
+    case LOGIN_FAILED: {
       return {
         ...state,
         success: false,
         request: false,
-        message: action.payload,
+        message: action.payload.message,
       };
     }
     default: {

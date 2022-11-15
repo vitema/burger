@@ -13,9 +13,11 @@ import commonStyles from "./page.module.css";
 import { sendRegister } from "../services/actions/auth/register";
 import { isAuth } from "../utils/cookie";
 
+import { RootState, AppDispatch } from "../services/store";
+
 export function RegisterPage() {
   const history = useHistory();
-  const registerStore = useSelector((store) => store.register);
+  const registerStore = useSelector((store: RootState) => store.register);
 
   const login = useCallback(() => {
     history.replace({ pathname: "/login" });
@@ -25,7 +27,7 @@ export function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const save = () => {
     const postData = {
@@ -39,7 +41,7 @@ export function RegisterPage() {
     return <Redirect to={"/"} />;
   }
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     save();
   };

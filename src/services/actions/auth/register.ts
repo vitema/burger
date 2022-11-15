@@ -1,12 +1,19 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
+import { AppDispatch } from "../../store";
 
 export const REGISTER_REQUEST = "REGISTER_REQUEST";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAILED = "REGISTER_FAILED";
 
-export function sendRegister(postData) {
-  return async function (dispatch) {
+interface IPostData {
+  password: string;
+  name: string;
+  email: string;
+}
+
+export function sendRegister(postData: IPostData) {
+  return async function (dispatch: AppDispatch) {
     dispatch({
       type: REGISTER_REQUEST,
     });
@@ -26,7 +33,7 @@ export function sendRegister(postData) {
     } catch (error) {
       dispatch({
         type: REGISTER_FAILED,
-        payload: error
+        payload: { message: error },
       });
     }
   };

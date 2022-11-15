@@ -1,13 +1,14 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { getCookie } from "../../../utils/cookie";
+import { AppDispatch } from "../../store";
 
 export const TOKEN_REQUEST = "TOKEN_REQUEST";
 export const TOKEN_SUCCESS = "TOKEN_SUCCESS";
 export const TOKEN_FAILED = "TOKEN_FAILED";
 
 export function refreshToken() {
-  return async function (dispatch) {
+  return async function (dispatch:AppDispatch) {
     dispatch({
       type: TOKEN_REQUEST,
     });
@@ -31,6 +32,7 @@ export function refreshToken() {
     } catch (error) {
       dispatch({
         type: TOKEN_FAILED,
+        payload: {message: error}
       });
     }
   };

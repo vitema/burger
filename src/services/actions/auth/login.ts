@@ -1,13 +1,18 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
+import { AppDispatch } from "../../store";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 
+interface IPostData {
+  email: string;
+  password: string;
+}
 
-export function sendLogin(postData) {
-  return async function (dispatch) {
+export function sendLogin(postData: IPostData) {
+  return async function (dispatch: AppDispatch) {
     dispatch({
       type: LOGIN_REQUEST,
     });
@@ -27,7 +32,7 @@ export function sendLogin(postData) {
     } catch (error) {
       dispatch({
         type: LOGIN_FAILED,
-        payload: error,
+        payload: { message: error },
       });
     }
   };

@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { useHistory, Redirect, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../services/store";
 
 import {
   Button,
@@ -14,7 +15,7 @@ import { isAuth } from "../utils/cookie";
 
 export function LoginPage() {
   const history = useHistory();
-  const loginStore = useSelector((store) => store.login);
+  const loginStore = useSelector((store: RootState) => store.login);
 
   const register = useCallback(() => {
     history.replace({ pathname: "/register" });
@@ -27,7 +28,7 @@ export function LoginPage() {
   const [password, setPass] = useState("");
   const [email, setEmail] = useState("");
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch  = useDispatch();
   const logIn = () => {
     const postData = {
       email: email,
@@ -36,7 +37,14 @@ export function LoginPage() {
 
     dispatch(sendLogin(postData));
   };
-  const location = useLocation();
+
+
+  type LocationState = {
+    referrer: string;
+  }
+
+  const location = useLocation<LocationState>();
+
   if (isAuth()) {
     return (
       <Redirect
@@ -46,7 +54,7 @@ export function LoginPage() {
     );
   }
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     logIn();
   };
@@ -57,11 +65,8 @@ export function LoginPage() {
         <p className="text text_type_main-medium pb-6">Вход</p>
         <form onSubmit={onFormSubmit} className={commonStyles.form}>
           <EmailInput
-            type={"text"}
             placeholder={"E-mail"}
             name={"name"}
-            error={false}
-            errorText={"Ошибка"}
             size={"default"}
             value={email}
             onChange={(e) => setEmail(e.target.value)}

@@ -6,13 +6,27 @@ import {
   LOGOUT_FAILED,
 } from "../../actions/auth/logout";
 
+interface IState {
+  request: boolean;
+  success: boolean;
+  message: string;
+}
+
+
+interface IAction {
+  type:  string;
+  payload: string;
+}
+
 const initialState = {
   request: false,
   success: false,
   message: "",
 };
 
-export const logoutReducer = (state = initialState, action) => {
+
+
+export const logoutReducer = (state: IState = initialState, action: IAction) => {
   switch (action.type) {
     case LOGOUT_REQUEST: {
       return {

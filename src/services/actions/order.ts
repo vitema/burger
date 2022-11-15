@@ -1,14 +1,16 @@
 import { apiUrl } from "../../constants/constants";
 import { request } from "../../utils/request";
 import { getCookie } from "../../utils/cookie";
+import { AppDispatch } from "../store";
 
 export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
 export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS";
 export const GET_ORDER_FAILED = "GET_ORDER_FAILED";
 export const CLEAR_ORDER = "CLEAR_ORDER";
 
-export function getOrder(postData) {
-  return async function (dispatch) {
+//todo описать ingredients
+export function getOrder(postData: { ingredients: any[]; }) {
+  return async function (dispatch: AppDispatch) {
     dispatch({
       type: GET_ORDER_REQUEST,
     });

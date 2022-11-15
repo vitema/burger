@@ -13,9 +13,11 @@ import { sendReset } from "../services/actions/auth/reset";
 
 import { isAuth, isForgot } from "../utils/cookie";
 
+import { RootState, AppDispatch } from "../services/store";
+
 export function ResetPasswordPage() {
   const history = useHistory();
-  const resetStore = useSelector((store) => store.reset);
+  const resetStore = useSelector((store: RootState) => store.reset);
 
   const login = useCallback(() => {
     history.replace({ pathname: "/login" });
@@ -23,7 +25,7 @@ export function ResetPasswordPage() {
 
   const [password, setPass] = useState("");
   const [token, setToken] = useState("");
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const save = () => {
     const postData = {
@@ -43,7 +45,7 @@ export function ResetPasswordPage() {
     }
   }, [history]);
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     save();
   };

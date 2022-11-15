@@ -1,11 +1,21 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
+import { AppDispatch } from "../../store";
 
 export const RESET_REQUEST = "RESET_REQUEST";
 export const RESET_SUCCESS = "RESET_SUCCESS";
 export const RESET_FAILED = "RESET_FAILED";
-export function sendReset(postData, toLoginCallBack) {
-  return async function (dispatch) {
+
+interface IPostData {
+  password: string;
+  token: string;
+}
+
+export function sendReset(
+  postData: IPostData,
+  toLoginCallBack: { (): void; (): void }
+) {
+  return async function (dispatch: AppDispatch) {
     dispatch({
       type: RESET_REQUEST,
     });
