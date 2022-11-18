@@ -10,14 +10,40 @@ import {
 
 import { deleteTokens } from "../../../utils/cookie";
 
+
+interface IPayLoad{
+  refreshToken:string;
+  accessToken: string;
+  message: string;
+  user?: IUser
+}
+
+interface IUser {
+  name:string;
+  email: string;
+}
+
+interface IState {
+  request: boolean;
+  success: boolean;
+  message: string;
+  user?: IUser
+}
+
+interface IAction {
+  type:  string;
+  payload: IPayLoad;
+}
+
 const initialState = {
   request: false,
   success: false,
-  user: null,
+  user: undefined,
   message: "",
 };
 
-export const userReducer = (state = initialState, action) => {
+
+export const userReducer = (state:IState = initialState, action: IAction) => {
   switch (action.type) {
     case USER_REQUEST: {
       return {
@@ -41,8 +67,8 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         success: false,
         request: false,
-        message: action.payload,
-        user: null,
+        message: action.payload.message,
+        user: undefined,
       };
     }
     case USER_UPDATE_REQUEST: {
@@ -65,7 +91,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         success: false,
         request: false,
-        message: action.payload,
+        message: action.payload.message,
       };
     }
     case USER_SET: {

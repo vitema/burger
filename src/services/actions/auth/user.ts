@@ -35,7 +35,7 @@ export function getUser() {
     } catch (error) {
       dispatch({
         type: USER_FAILED,
-        payload: error,
+        payload: {message:error},
       });
     }
   };
@@ -69,7 +69,7 @@ export function updateUser(postData: IPostData) {
     } catch (error) {
       dispatch({
         type: USER_UPDATE_FAILED,
-        payload: error,
+        payload: {message:error},
       });
     }
   };
