@@ -1,6 +1,6 @@
 import { refreshTokenName, accessTokenName, sendForgotEmail } from "../constants/constants";
 
-export function setCookie(name, value, props) {
+export function setCookie(name: string, value: string|number|boolean, props: { [x: string]: any; expires?: any; } | undefined) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == "number" && exp) {
@@ -23,7 +23,7 @@ export function setCookie(name, value, props) {
   document.cookie = updatedCookie;
 }
 
-export function getCookie(name) {
+export function getCookie(name: string) {
   const matches = document.cookie.match(
     new RegExp(
       "(?:^|; )" +
@@ -34,18 +34,18 @@ export function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function deleteCookie(name) {
-  setCookie(name, null, { expires: -1 });
+export function deleteCookie(name: string) {
+  setCookie(name, "", { expires: -1 });
 }
 
-export function saveTokens(refreshToken, accessToken) {
-  setCookie(refreshTokenName, refreshToken);
-  setCookie(accessTokenName, accessToken);
+export function saveTokens(refreshToken: string, accessToken: string) {
+  setCookie(refreshTokenName, refreshToken, undefined);
+  setCookie(accessTokenName, accessToken, undefined);
 }
 
 export function deleteTokens() {
-  setCookie(refreshTokenName, null, { expires: -1 });
-  setCookie(accessTokenName, null, { expires: -1 });
+  setCookie(refreshTokenName, "", { expires: -1 });
+  setCookie(accessTokenName, "", { expires: -1 });
 }
 
 export function isAuth() {

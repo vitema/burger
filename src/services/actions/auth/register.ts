@@ -1,6 +1,8 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { AppDispatch } from "../../store";
+import { ITokenAction } from "../../../utils/types";
+import { getErrorMessage } from "../../../utils/errors";
 
 export const REGISTER_REQUEST = "REGISTER_REQUEST";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
@@ -14,8 +16,13 @@ interface IPostData {
 
 export function sendRegister(postData: IPostData) {
   return async function (dispatch: AppDispatch) {
-    dispatch({
+    dispatch<ITokenAction>({
       type: REGISTER_REQUEST,
+      payload: {
+        message: "",
+        refreshToken: "",
+        accessToken: "",
+      },
     });
     try {
       const data = await request(`${apiUrl}/auth/register`, {
@@ -26,14 +33,18 @@ export function sendRegister(postData: IPostData) {
         },
         body: JSON.stringify(postData),
       });
-      dispatch({
+      dispatch<ITokenAction>({
         type: REGISTER_SUCCESS,
         payload: data,
       });
     } catch (error) {
-      dispatch({
+      dispatch<ITokenAction>({
         type: REGISTER_FAILED,
-        payload: { message: error },
+        payload: {
+          message: getErrorMessage(error),
+          refreshToken: "",
+          accessToken: "",
+        },
       });
     }
   };

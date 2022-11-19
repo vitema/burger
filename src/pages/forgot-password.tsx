@@ -28,7 +28,7 @@ export function ForgotPasswordPage() {
     const postData = {
       email: email,
     };
-    dispatch(sendForgot(postData, toResetCallBack));
+    dispatch<any>(sendForgot(postData, toResetCallBack));
   };
 
   const toResetCallBack = () => {

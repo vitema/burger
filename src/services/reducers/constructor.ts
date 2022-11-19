@@ -1,3 +1,5 @@
+import { RootState, AppDispatch } from "../store";
+
 import {
   GET_INGREDIENTS,
   ADD_INGREDIENT,
@@ -7,13 +9,29 @@ import {
 } from "../actions/constructor";
 import { bunType } from "../../constants/constants";
 
+
+interface IConstructorState {
+  bun: any;
+  components: any[] ;
+  error: string;
+  
+}
+
+interface IConstructorAction {
+  type:  string;
+  item: any;
+  components: any[]; //todo detail
+  id:string;
+}
+
+
 const initialState = {
   bun: null,
   components: [],
   error: "",
 };
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (state: IConstructorState = initialState, action: IConstructorAction) => {
   switch (action.type) {
     case GET_INGREDIENTS: {
       return state;

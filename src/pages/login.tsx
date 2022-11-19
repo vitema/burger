@@ -35,7 +35,7 @@ export function LoginPage() {
       password: password,
     };
 
-    dispatch(sendLogin(postData));
+    dispatch<any>(sendLogin(postData));
   };
 
 

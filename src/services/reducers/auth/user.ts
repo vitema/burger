@@ -8,32 +8,7 @@ import {
   USER_SET
 } from "../../actions/auth/user";
 
-import { deleteTokens } from "../../../utils/cookie";
-
-
-interface IPayLoad{
-  refreshToken:string;
-  accessToken: string;
-  message: string;
-  user?: IUser
-}
-
-interface IUser {
-  name:string;
-  email: string;
-}
-
-interface IState {
-  request: boolean;
-  success: boolean;
-  message: string;
-  user?: IUser
-}
-
-interface IAction {
-  type:  string;
-  payload: IPayLoad;
-}
+import { IUserState, IUserAction } from "../../../utils/types";
 
 const initialState = {
   request: false,
@@ -43,7 +18,7 @@ const initialState = {
 };
 
 
-export const userReducer = (state:IState = initialState, action: IAction) => {
+export const userReducer = (state:IUserState = initialState, action: IUserAction) => {
   switch (action.type) {
     case USER_REQUEST: {
       return {
@@ -58,7 +33,7 @@ export const userReducer = (state:IState = initialState, action: IAction) => {
         ...state,
         request: false,
         success: true,
-        user: action.payload.user,
+        user: action.payload?.user,
         message: "",
       };
     }
@@ -67,7 +42,7 @@ export const userReducer = (state:IState = initialState, action: IAction) => {
         ...state,
         success: false,
         request: false,
-        message: action.payload.message,
+        message: action.payload?.message,
         user: undefined,
       };
     }
@@ -82,7 +57,7 @@ export const userReducer = (state:IState = initialState, action: IAction) => {
         ...state,
         request: false,
         success: true,
-        user: action.payload.user,
+        user: action.payload?.user,
         message: "",
       };
     }
@@ -91,14 +66,14 @@ export const userReducer = (state:IState = initialState, action: IAction) => {
         ...state,
         success: false,
         request: false,
-        message: action.payload.message,
+        message: action.payload?.message,
       };
     }
     case USER_SET: {
       
       return {
         ...state,
-        user: action.payload.user,
+        user: action.payload?.user,
         request: false
       };
     }

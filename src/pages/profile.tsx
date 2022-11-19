@@ -39,7 +39,7 @@ export function ProfilePage() {
   };
 
   useEffect(() => {
-    dispatch(getUser());
+    dispatch<any>(getUser());
   }, [dispatch]);
 
   useEffect(() => {
@@ -60,12 +60,12 @@ export function ProfilePage() {
       name: name,
       password: password,
     };
-    dispatch(updateUser(postData));
+    dispatch<any>(updateUser(postData));
     setChanged(false);
   };
 
   const cancel = () => {
-    dispatch(getUser());
+    dispatch<any>(getUser());
     setChanged(false);
     setPassword("");
   };

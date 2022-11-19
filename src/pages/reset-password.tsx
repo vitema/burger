@@ -14,6 +14,7 @@ import { sendReset } from "../services/actions/auth/reset";
 import { isAuth, isForgot } from "../utils/cookie";
 
 import { RootState, AppDispatch } from "../services/store";
+import { IRequestAction } from "../utils/types";
 
 export function ResetPasswordPage() {
   const history = useHistory();
@@ -32,7 +33,7 @@ export function ResetPasswordPage() {
       password: password,
       token: token,
     };
-    dispatch(sendReset(postData, toLoginCallBack));
+    dispatch<any>(sendReset(postData, toLoginCallBack));
   };
 
   const toLoginCallBack = () => {

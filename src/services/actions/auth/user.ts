@@ -2,6 +2,9 @@ import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { getCookie } from "../../../utils/cookie";
 import { AppDispatch } from "../../store";
+import { IUserAction } from "../../../utils/types";
+
+import { getErrorMessage } from "../../../utils/errors";
 
 export const USER_REQUEST = "USER_REQUEST";
 export const USER_SUCCESS = "USER_SUCCESS";
@@ -15,8 +18,13 @@ export const USER_SET = "USER_SET";
 
 export function getUser() {
   return async function (dispatch: AppDispatch) {
-    dispatch({
+    dispatch<IUserAction>({
       type: USER_REQUEST,
+      payload: {
+        message:"",
+        refreshToken: "",
+        accessToken: "",
+      },
     });
     try {
       //todo описать data здесь и в других
@@ -28,14 +36,18 @@ export function getUser() {
           Authorization: getCookie("accessToken"),
         },
       });
-      dispatch({
+      dispatch<IUserAction>({
         type: USER_SUCCESS,
         payload: data,
       });
     } catch (error) {
-      dispatch({
+      dispatch<IUserAction>({
         type: USER_FAILED,
-        payload: {message:error},
+        payload: {
+          message: getErrorMessage(error),
+          refreshToken: "",
+          accessToken: "",
+        },
       });
     }
   };
@@ -49,8 +61,13 @@ interface IPostData {
 
 export function updateUser(postData: IPostData) {
   return async function (dispatch: AppDispatch) {
-    dispatch({
+    dispatch<IUserAction>({
       type: USER_UPDATE_REQUEST,
+      payload: {
+        message:"",
+        refreshToken: "",
+        accessToken: "",
+      },
     });
     try {
       const data = await request(`${apiUrl}/auth/user`, {
@@ -62,14 +79,18 @@ export function updateUser(postData: IPostData) {
         },
         body: JSON.stringify(postData),
       });
-      dispatch({
+      dispatch<IUserAction>({
         type: USER_UPDATE_SUCCESS,
         payload: data,
       });
     } catch (error) {
-      dispatch({
+      dispatch<IUserAction>({
         type: USER_UPDATE_FAILED,
-        payload: {message:error},
+        payload: {
+          message: getErrorMessage(error),
+          refreshToken: "",
+          accessToken: "",
+        },
       });
     }
   };

@@ -1,10 +1,14 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { AppDispatch } from "../../store";
+import { ITokenAction } from "../../../utils/types";
+import { getErrorMessage } from "../../../utils/errors";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
+
+
 
 interface IPostData {
   email: string;
@@ -13,8 +17,13 @@ interface IPostData {
 
 export function sendLogin(postData: IPostData) {
   return async function (dispatch: AppDispatch) {
-    dispatch({
+    dispatch<ITokenAction>({
       type: LOGIN_REQUEST,
+      payload: {
+        message: "",
+        refreshToken:"",
+        accessToken:""
+       },
     });
     try {
       const data = await request(`${apiUrl}/auth/login`, {
@@ -25,14 +34,18 @@ export function sendLogin(postData: IPostData) {
         },
         body: JSON.stringify(postData),
       });
-      dispatch({
+      dispatch<ITokenAction>({
         type: LOGIN_SUCCESS,
         payload: data,
       });
     } catch (error) {
-      dispatch({
+      dispatch<ITokenAction>({
         type: LOGIN_FAILED,
-        payload: { message: error },
+        payload: {
+           message: getErrorMessage(error),
+           refreshToken:"",
+           accessToken:""
+          },
       });
     }
   };

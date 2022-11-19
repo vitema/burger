@@ -1,5 +1,5 @@
-import { type } from "os";
 import { saveTokens } from "../../../utils/cookie";
+import { IRequestState, ITokenAction } from "../../../utils/types";
 
 import {
   LOGIN_REQUEST,
@@ -7,22 +7,6 @@ import {
   LOGIN_FAILED,
 } from "../../actions/auth/login";
 
-interface IState {
-  request: boolean;
-  success: boolean;
-  message: string;
-}
-
-interface IPayLoad{
-  refreshToken:string;
-  accessToken: string;
-  message: string;
-}
-
-interface IAction {
-  type:  string;
-  payload: IPayLoad;
-}
 
 const initialState = {
   request: false,
@@ -30,7 +14,7 @@ const initialState = {
   message: "",
 };
 
-export const loginReducer = (state:IState = initialState, action: IAction) => {
+export const loginReducer = (state:IRequestState = initialState, action: ITokenAction): IRequestState => {
   switch (action.type) {
     case LOGIN_REQUEST: {
       return {
@@ -54,7 +38,7 @@ export const loginReducer = (state:IState = initialState, action: IAction) => {
         ...state,
         success: false,
         request: false,
-        message: action.payload.message,
+        message: action.payload?.message,
       };
     }
     default: {

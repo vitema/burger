@@ -1,6 +1,9 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
+import { IRequestAction } from "../../../utils/types";
 import { AppDispatch } from "../../store";
+
+import { getErrorMessage } from "../../../utils/errors";
 
 export const FORGOT_REQUEST = "FORGOT_REQUEST";
 export const FORGOT_SUCCESS = "FORGOT_SUCCESS";
@@ -15,8 +18,9 @@ export function sendForgot(
   toResetCallBack: { (): void; (): void }
 ) {
   return async function (dispatch: AppDispatch) {
-    dispatch({
+    dispatch<IRequestAction>({
       type: FORGOT_REQUEST,
+      payload:""
     });
     try {
       const data = await request(`${apiUrl}/password-reset`, {
@@ -28,15 +32,15 @@ export function sendForgot(
         body: JSON.stringify(postData),
       });
 
-      dispatch({
+      dispatch<IRequestAction>({
         type: FORGOT_SUCCESS,
         payload: data,
       });
       toResetCallBack();
     } catch (error) {
-      dispatch({
+      dispatch<IRequestAction>({
         type: FORGOT_FAILED,
-        payload: error,
+        payload: getErrorMessage(error),
       });
     }
   };

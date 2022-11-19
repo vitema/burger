@@ -1,4 +1,5 @@
 import { saveTokens } from "../../../utils/cookie";
+import { IRequestState, ITokenAction } from "../../../utils/types";
 
 import {
   TOKEN_REQUEST,
@@ -6,31 +7,30 @@ import {
   TOKEN_FAILED,
 } from "../../actions/auth/refresh";
 
-interface IState {
-  request: boolean;
-  success: boolean;
-  message: string;
-  user: any; //todo  типизировать
-}
+// interface IState {
+//   request: boolean;
+//   success: boolean;
+//   message: string;
+//   user: any; //todo  типизировать
+// }
 
-interface IPayLoad{
-  refreshToken:string;
-  accessToken: string;
-  message: string;
-}
+// interface IPayLoad{
+//   refreshToken:string;
+//   accessToken: string;
+//   message: string;
+// }
 
-interface IAction {
-  type:  string;
-  payload: IPayLoad;
-}
+// interface IAction {
+//   type:  string;
+//   payload: IPayLoad;
+// }
 const initialState = {
   request: false,
   success: false,
-  user: null,
   message: "",
 };
 
-export const refreshReducer = (state: IState  = initialState, action: IAction) => {
+export const refreshReducer = (state: IRequestState  = initialState, action: ITokenAction) => {
   switch (action.type) {
     case TOKEN_REQUEST: {
       return {

@@ -5,13 +5,15 @@ import {
   CLEAR_ORDER,
 } from "../actions/order";
 
+ import { IOrderState, IOrderAction } from "../../utils/types";
+
 const initialState = {
   orderRequest: false,
   orderFailed: false,
   order: null,
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state: IOrderState = initialState, action: IOrderAction) => {
   switch (action.type) {
     case GET_ORDER_REQUEST: {
       return {
@@ -52,7 +54,7 @@ export const orderReducer = (state = initialState, action) => {
   }
 };
 
-const getOrderData = (data) => {
+const getOrderData = (data: any) => {
   return {
     number: data.order.number + "",
     status: {
@@ -63,7 +65,7 @@ const getOrderData = (data) => {
   };
 };
 
-const getFailOrderData = () => {
+const getFailOrderData = (): any => {
   return {
     number: "",
     status: {

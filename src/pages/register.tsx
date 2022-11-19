@@ -35,7 +35,7 @@ export function RegisterPage() {
       name: name,
       email: email,
     };
-    dispatch(sendRegister(postData));
+    dispatch<any>(sendRegister(postData));
   };
   if (isAuth()) {
     return <Redirect to={"/"} />;

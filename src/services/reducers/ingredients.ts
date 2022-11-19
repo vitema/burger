@@ -7,13 +7,16 @@ import {
   CLEAR_COUNTS,
 } from "../actions/ingredients";
 
+import { IIngredientsState, IIngredientsAction } from "../../utils/types";
+
+
 const initialState = {
   ingredientsRequest: false,
   ingredientsFailed: false,
   items: [],
 };
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (state: IIngredientsState = initialState, action: IIngredientsAction) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -68,7 +71,8 @@ export const ingredientsReducer = (state = initialState, action) => {
   }
 };
 
-const increment = (id, items) => {
+//todo deatailed
+const increment = (id: string, items: any) => {
   const newItems = [...items];
   const item = newItems.filter((x) => x._id == id)[0];
   if (item.count) {
@@ -79,7 +83,7 @@ const increment = (id, items) => {
   return newItems;
 };
 
-const decrement = (id, items) => {
+const decrement = (id: string, items: any[]) => {
   const newItems = [...items];
   const item = newItems.filter((x) => x._id == id)[0];
   if (item.count) {
@@ -88,7 +92,7 @@ const decrement = (id, items) => {
   return newItems;
 };
 
-const clear = (items) => {
+const clear = (items:any[]) => {
   const newItems = [...items];
   return newItems.map((x) => {
     x.count = 0;

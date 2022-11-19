@@ -6,26 +6,18 @@ import {
 import { setCookie } from "../../../utils/cookie";
 import { sendForgotEmail } from "../../../constants/constants";
 
-interface IState {
-  request: boolean;
-  success: boolean;
-  message: string;
-}
+import { IRequestState, IRequestAction } from "../../../utils/types";
 
-interface IAction {
-  type: string;
-  payload: string;
-}
 
-const initialState: IState = {
+const initialState: IRequestState = {
   request: false,
   success: false,
   message: "",
 };
 
 export const forgotReducer = (
-  state: IState = initialState,
-  action: IAction
+  state: IRequestState = initialState,
+  action: IRequestAction
 ) => {
   switch (action.type) {
     case FORGOT_REQUEST: {
@@ -37,7 +29,7 @@ export const forgotReducer = (
       };
     }
     case FORGOT_SUCCESS: {
-      setCookie(sendForgotEmail, true);
+      setCookie(sendForgotEmail, "true", undefined);
       return {
         ...state,
         request: false,

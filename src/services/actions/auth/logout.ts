@@ -3,6 +3,8 @@ import { request } from "../../../utils/request";
 import { getCookie } from "../../../utils/cookie";
 import { USER_SET } from "./user";
 import { AppDispatch } from "../../store";
+import { IRequestAction, IUserAction } from "../../../utils/types";
+import { getErrorMessage } from "../../../utils/errors";
 
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
@@ -10,8 +12,9 @@ export const LOGOUT_FAILED = "LOGOUT_FAILED";
 
 export function sendLogout(toLoginCallBack: { (): void; (): void }) {
   return async function (dispatch: AppDispatch) {
-    dispatch({
+    dispatch<IRequestAction>({
       type: LOGOUT_REQUEST,
+      payload: "",
     });
     try {
       const postData = {
@@ -26,19 +29,24 @@ export function sendLogout(toLoginCallBack: { (): void; (): void }) {
         },
         body: JSON.stringify(postData),
       });
-      dispatch({
+      dispatch<IRequestAction>({
         type: LOGOUT_SUCCESS,
         payload: data,
       });
-      dispatch({
+      dispatch<IUserAction>({
         type: USER_SET,
-        payload: { user: null },
+        payload: {
+          user: undefined,
+          refreshToken: "",
+          accessToken: "",
+          message: "",
+        },
       });
       toLoginCallBack();
     } catch (error) {
-      dispatch({
+      dispatch<IRequestAction>({
         type: LOGOUT_FAILED,
-        payload: error,
+        payload: getErrorMessage(error),
       });
     }
   };

@@ -1,4 +1,5 @@
 import { saveTokens } from "../../../utils/cookie";
+import { IRequestState, ITokenAction } from "../../../utils/types";
 
 import {
   REGISTER_REQUEST,
@@ -7,22 +8,22 @@ import {
 } from "../../actions/auth/register";
 
 
-interface IState {
-  request: boolean;
-  success: boolean;
-  message: string;
-}
+// interface IState {
+//   request: boolean;
+//   success: boolean;
+//   message: string;
+// }
 
-interface IPayLoad{
-  refreshToken:string;
-  accessToken: string;
-  message: string;
-}
+// interface IPayLoad{
+//   refreshToken:string;
+//   accessToken: string;
+//   message: string;
+// }
 
-interface IAction {
-  type:  string;
-  payload: IPayLoad;
-}
+// interface IAction {
+//   type:  string;
+//   payload: IPayLoad;
+// }
 
 const initialState = {
   request: false,
@@ -30,7 +31,7 @@ const initialState = {
   message: "",
 };
 
-export const registerReducer = (state: IState = initialState, action: IAction) => {
+export const registerReducer = (state: IRequestState = initialState, action: ITokenAction) => {
   switch (action.type) {
     case REGISTER_REQUEST: {
       return {
