@@ -2,6 +2,8 @@ import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import { useHistory } from "react-router-dom";
+import { RootState, AppDispatch } from "../../services/store";
+
 import uuid from "react-uuid";
 import { isAuth } from "../../utils/cookie";
 
@@ -33,13 +35,17 @@ import {
   CLEAR_COUNTS,
 } from "../../services/actions/ingredients";
 
+import { IIngredientsAction, IOrderAction, IConstructorAction, IIngredient } from "../../utils/types";
+
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import BurgerComponent from "../burger-component/burger-component";
 
 const BurgerConstructor = () => {
-  const ingredientsData = useSelector((store) => store.constructorIngredients);
-  const orderData = useSelector((store) => store.order);
+  const ingredientsData = useSelector(
+    (store: RootState) => store.constructorIngredients
+  );
+  const orderData = useSelector((store: RootState) => store.order);
 
   const isDataValid = () => {
     return ingredientsData && ingredientsData.components && ingredientsData.bun;
@@ -47,7 +53,7 @@ const BurgerConstructor = () => {
 
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const history = useHistory();
 
@@ -60,16 +66,24 @@ const BurgerConstructor = () => {
     const allData = [...ingredientsData.components, ingredientsData.bun];
     const ids = allData.map((item) => item._id);
     const postData = { ingredients: ids };
-    dispatch(getOrder(postData));
+    dispatch<any>(getOrder(postData));
     handleOpenModal();
   };
 
   const closeOrder = () => {
     handleCloseModal();
     if (!orderData.orderFailed) {
-      dispatch({ type: CLEAR_INGREDIENTS });
-      dispatch({ type: CLEAR_COUNTS });
-      dispatch({ type: CLEAR_ORDER });
+      dispatch<IIngredientsAction>({
+        type: CLEAR_INGREDIENTS,
+        ingredients: [],
+        id: "",
+      });
+      dispatch<IIngredientsAction>({
+        type: CLEAR_COUNTS,
+        ingredients: [],
+        id: "",
+      });
+      dispatch<IOrderAction>({ type: CLEAR_ORDER, order: undefined });
     }
   };
 
@@ -95,15 +109,16 @@ const BurgerConstructor = () => {
     }),
     // Тут просто добавляем перемещенный ингредиент в заказ
     // выполняем диспатч в стор, в момент "бросания" ингредиента
-    drop(item) {
+    drop(item: any) {
       if (item.type === bunType && ingredientsData.bun) {
-        dispatch({
+        dispatch<IIngredientsAction>({
           type: DECREMENT_COUNT,
           id: ingredientsData.bun._id,
+          ingredients:[]
         });
       }
 
-      dispatch({
+      dispatch<IConstructorAction>({
         type: ADD_INGREDIENT,
         item: {
           ...item,
@@ -114,11 +129,14 @@ const BurgerConstructor = () => {
           // используем библиотеку uuid
           dragId: uuid(),
         },
+        components: [],
+        id:""
       });
 
-      dispatch({
+      dispatch<IIngredientsAction>({
         type: INCREMENT_COUNT,
         id: item._id,
+        ingredients:[]
       });
     },
   });
@@ -131,11 +149,12 @@ const BurgerConstructor = () => {
     }),
     // Тут просто добавляем перемещенный ингредиент в заказ
     // выполняем диспатч в стор, в момент "бросания" ингредиента
-    drop(item) {
+    drop(item: any) {
       if (item.type === bunType && ingredientsData.bun) {
-        dispatch({
+        dispatch<IIngredientsAction>({
           type: DECREMENT_COUNT,
           id: ingredientsData.bun._id,
+          ingredients:[]
         });
       }
 
@@ -152,15 +171,16 @@ const BurgerConstructor = () => {
         },
       });
 
-      dispatch({
+      dispatch<IIngredientsAction>({
         type: INCREMENT_COUNT,
         id: item._id,
+        ingredients:[]
       });
     },
   });
 
   const moveCard = useCallback(
-    (dragIndex, hoverIndex) => {
+    (dragIndex: number, hoverIndex: number) => {
       // Получаем перетаскиваемый ингредиент
       const dragCard = ingredientsData.components[dragIndex];
       const newCards = [...ingredientsData.components];
@@ -174,9 +194,11 @@ const BurgerConstructor = () => {
       // Которая позволяет описывать такую имутабельную логику более декларативно
       // Но для лучше понимания обновления массива,
 
-      dispatch({
+      dispatch<IConstructorAction>({
         type: MOVE_COMPONENT,
         components: newCards,
+        item: undefined,
+        id:""
       });
     },
     [ingredientsData.components, dispatch]

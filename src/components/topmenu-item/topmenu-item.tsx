@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -8,8 +9,17 @@ import {
 
 import styles from "./topmenu-item.module.css";
 
-const TopMenuItem = ({ text, to, icon }) => {
-  let type = "secondary";
+interface TopMenuItemProps {
+  text: string;
+  to: string;
+  icon: string;
+}
+
+const TopMenuItem: FC<TopMenuItemProps> = ({ text, to, icon }) => {
+
+  type TIconTypes = 'secondary' | 'primary';
+
+  let type: TIconTypes= "secondary";
   let className = "text text_type_main-small pl-2 text_color_inactive pl-2";
   const location = useLocation();
 

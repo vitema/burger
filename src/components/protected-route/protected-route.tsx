@@ -1,8 +1,16 @@
+import { FC, PropsWithChildren } from "react";
 import { Route, Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
 import { isAuth } from "../../utils/cookie";
 
-export function ProtectedRoute({ children, ...rest }) {
+ interface ProtectedRouteProps{
+  path:string;
+  exact:boolean
+ }
+
+export const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = ({
+  children,
+  ...rest
+}) => {
   return (
     <Route
       {...rest}
@@ -25,8 +33,5 @@ export function ProtectedRoute({ children, ...rest }) {
       }
     />
   );
-}
-
-ProtectedRoute.propTypes = {
-  children: PropTypes.node.isRequired,
 };
+

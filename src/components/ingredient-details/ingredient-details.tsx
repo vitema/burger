@@ -1,15 +1,19 @@
 import styles from "./ingredient-details.module.css";
 import { useRouteMatch } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RootState } from "../../services/store";
 
 const IngredientDetails = () => {
 
-  const { data } = useSelector((store) => ({
+  const { data } = useSelector((store:RootState) => ({
     data: store.ingredients.items,
     ingredientsFailed: store.ingredients.ingredientsFailed,
   }));
 
-  const { params } = useRouteMatch();
+  interface MatchParams {
+    ingredientId: string;
+  }
+  const { params } = useRouteMatch<MatchParams>();
   const item = data.filter((x) => x._id == params["ingredientId"])[0];
 
   return (

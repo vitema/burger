@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, FC } from "react";
 import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd/dist/hooks";
 
@@ -8,16 +8,25 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-component.module.css";
 
-import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/types";
+import { IIngredient } from "../../utils/types";
 
 import { bunType, dndComponentAccept } from "../../constants/constants";
 
 import { DECREMENT_COUNT } from "../../services/actions/ingredients";
 import { DELETE_COMPONENT } from "../../services/actions/constructor";
 
-const BurgerComponent = ({ item, index, moveCard }) => {
-  const ref = useRef(null);
+interface BurgerComponentProps {
+  item: IIngredient;
+  index: number;
+  moveCard: (dragIndex: number, hoverIndex: number) => void;
+}
+
+const BurgerComponent: FC<BurgerComponentProps> = ({
+  item,
+  index,
+  moveCard,
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop({
     // Указываем тип получаемых элементов, чтобы dnd понимал,
     // в какой контейнер можно класть перетаскиваемый элемент, а в какой нельзя.
@@ -30,7 +39,7 @@ const BurgerComponent = ({ item, index, moveCard }) => {
     },
     // Вызывается, когда перетаскиваемый элемент оказывается над ингредиентом,
     // индекс которого у нас задан в пропсах props.index
-    hover(item, monitor) {
+    hover(item: any, monitor) {
       if (!ref.current) {
         return;
       }
@@ -53,7 +62,10 @@ const BurgerComponent = ({ item, index, moveCard }) => {
       const clientOffset = monitor.getClientOffset();
       // Вычисляем координаты курсора и координаты середины карточки
       // на которую мы навели наш перетаскиваемый ингредиент
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      let hoverClientY = 0;
+      if (clientOffset?.y) {
+        hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      }
       // Условие для перетаскивании элементов сверху вниз
       // Если перетаскиваемый ингредиент пересекает середину
       // текущего ингредиента, то мы идем дальше и выполняем moveCard
@@ -88,7 +100,8 @@ const BurgerComponent = ({ item, index, moveCard }) => {
   if (item.type !== bunType) drag(drop(ref));
   // Прерываем базовую функция для onDrop
   // потому что браузер по умолчанию не сбрасывает наш элемент в контейнер
-  const preventDefault = (e) => e.preventDefault();
+  const preventDefault = (e: { preventDefault: () => any }) =>
+    e.preventDefault();
 
   const dispatch = useDispatch();
 
@@ -113,11 +126,4 @@ const BurgerComponent = ({ item, index, moveCard }) => {
     </div>
   );
 };
-
-BurgerComponent.propTypes = {
-  item: ingredientType.isRequired,
-  index: PropTypes.number.isRequired,
-  moveCard: PropTypes.func.isRequired,
-};
-
 export default BurgerComponent;

@@ -1,6 +1,7 @@
 export const apiUrl = "https://norma.nomoreparties.space/api";
 
-export const availableTypes = {
+//todo dict
+export const availableTypes :any = {
   bun: "Булки",
   sauce: "Соус",
   main: "Начинки",

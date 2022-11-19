@@ -1,10 +1,18 @@
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
-import PropTypes from "prop-types";
+import { useEffect, FC, PropsWithChildren } from "react";
 
 import { availableTypes } from "../../constants/constants";
 
-const IngredientsGroup = ({ groupType, setCurrent, children }) => {
+interface IngredientsGroupProps {
+  groupType: string;
+  setCurrent: (current: string) => void;
+}
+
+const IngredientsGroup: FC<PropsWithChildren<IngredientsGroupProps>> = ({
+  groupType,
+  setCurrent,
+  children,
+}) => {
   const { ref, inView } = useInView({
     /* Optional options */
     rootMargin: "0px 0px -400px 0px",
@@ -25,12 +33,6 @@ const IngredientsGroup = ({ groupType, setCurrent, children }) => {
       {children}
     </div>
   );
-};
-
-IngredientsGroup.propTypes = {
-  groupType: PropTypes.string.isRequired,
-  setCurrent: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
 };
 
 export default IngredientsGroup;

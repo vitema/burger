@@ -1,9 +1,10 @@
+import { FC } from "react";
 import styles from "./order-details.module.css";
-import { orderType } from "../../utils/types";
+import { IOrder } from "../../utils/types";
 import status1Img from "./images/status1.png";
 import status2Img from "./images/status2.webp";
 
-const getStatusImgPath = (status) => {
+const getStatusImgPath = (status: number): string => {
   switch (status) {
     case 1:
       return status1Img;
@@ -14,7 +15,11 @@ const getStatusImgPath = (status) => {
   }
 };
 
-const OrderDetails = ({ orderData }) => {
+interface OrderDetailsProps{
+  orderData: IOrder;
+}
+
+const OrderDetails: FC<OrderDetailsProps> = ({ orderData }) => {
   return (
     <div className={styles.box}>
       <p className="text text_type_digits-large mt-10">{orderData.number}</p>
@@ -30,10 +35,6 @@ const OrderDetails = ({ orderData }) => {
       </p>
     </div>
   );
-};
-
-OrderDetails.propTypes = {
-  orderData: orderType.isRequired,
 };
 
 export default OrderDetails;

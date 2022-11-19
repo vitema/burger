@@ -30,11 +30,16 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import AppHeader from "../app-header/app-header";
 
 import {store} from "../../services/store";
+import { Location } from "history";
 
+type TLocationState={
+  background:Location
+}
 
 function App() {
   const ModalSwitch = () => {
-    const location = useLocation();
+
+    const location = useLocation<TLocationState>();
     const history = useHistory();
 
     const background = location.state && location.state.background;
@@ -45,7 +50,7 @@ function App() {
 
     const dispatch = useDispatch();
     useEffect(() => {
-      dispatch(getIngredients());
+      dispatch<any>(getIngredients());
     }, [dispatch]);
 
     return (

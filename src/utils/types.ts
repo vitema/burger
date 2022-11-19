@@ -98,6 +98,50 @@ export interface IOrderAction {
   order: any;
 }
 
+export interface IIngredient {
+  _id: string;
+  name: string;
+  type: string;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
+  price: number;
+  image: string;
+  image_mobile: string;
+  image_large: string;
+  __v?: number;
+  dragId?: string;
+  index?: number;
+  count?: number;
+};
+
+
+export interface IOrderStatus {
+  value: number;
+  text: string;
+  description?: string;
+};
+
+export interface  IOrder{
+  number: string;
+  status: IOrderStatus;
+};
+
+export interface IConstructorState {
+  bun: any;
+  components: any[] ;
+  error: string;
+  
+}
+
+export interface IConstructorAction {
+  type:  string;
+  item?: IIngredient;
+  components: any[]; //todo detail
+  id:string;
+}
+
 
 
 

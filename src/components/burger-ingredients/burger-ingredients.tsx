@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 
+import { RootState, AppDispatch } from "../../services/store";
+import { IIngredient } from "../../utils/types";
+
 import { availableTypes, bunType } from "../../constants/constants";
 
 
@@ -13,23 +16,23 @@ import IngredientsGroup from "../ingredients-group/ingredients-group";
 import Ingridient from "../burger-ingredient/burger-ingredient";
 
 const BurgerIngredients = () => {
-  const [current, setCurrent] = React.useState();
+  const [current, setCurrent] = React.useState<string>();
 
-  const { data, ingredientsFailed } = useSelector((store) => ({
+  const { data, ingredientsFailed } = useSelector((store:RootState) => ({
     data: store.ingredients.items,
     ingredientsFailed: store.ingredients.ingredientsFailed,
   }));
 
-  const refs = useRef(Object.keys(availableTypes).map(() => createRef()));
+  const refs = useRef<any>(Object.keys(availableTypes).map(() => createRef()));
 
-  const changeTab = (key, index) => {
+  const changeTab = (key:string, index: number) => {
     setCurrent(key);
     refs.current[index].current.scrollIntoView({ behavior: "smooth" });
   };
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const selectItem = (item) => {
+  const selectItem = (item:IIngredient) => {
     dispatch({ type: SET_INGREDIENT, item });
   };
 
@@ -43,7 +46,6 @@ const BurgerIngredients = () => {
       <div className={styles.tabBox}>
         {Object.keys(availableTypes).map((key, index) => (
           <Tab
-            class="mt-5"
             key={key}
             value={key}
             active={current === key}

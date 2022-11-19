@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { useDrag } from "react-dnd/dist/hooks";
 import {
   useLocation,
@@ -10,16 +11,21 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredient.module.css";
 
-import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/types";
-
 import {
   bunType,
   dndComponentsAccept,
   dndIngredientsAccept,
 } from "../../constants/constants";
 
-const BurgerIngredient = ({ item, onClick }) => {
+import { IIngredient } from "../../utils/types";
+
+interface BurgerIngredientProps {
+  item: IIngredient;
+  onClick: () => void;
+}
+
+
+const BurgerIngredient: FC<BurgerIngredientProps>= ({ item, onClick }) => {
   // drag
   // Получаем реф для каждого элемента, который можно перетащить,
   // opacity - возвращается из функции collect
@@ -59,7 +65,7 @@ const BurgerIngredient = ({ item, onClick }) => {
      
         <div className={styles.imgBox}>
           <img src={item.image} alt={item.name} />
-          {item.count > 0 && <Counter count={item.count} size="default" />}
+          {item.count && item.count > 0 && <Counter count={item.count} size="default" />}
         </div>
 
         <div className={styles.priceBox}>
@@ -76,11 +82,6 @@ const BurgerIngredient = ({ item, onClick }) => {
     </li>
      </Link>
   );
-};
-
-BurgerIngredient.propTypes = {
-  item: ingredientType.isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredient;
