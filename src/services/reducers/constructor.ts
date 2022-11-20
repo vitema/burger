@@ -1,4 +1,7 @@
-import { IConstructorState, IConstructorAction,IIngredient } from "../../types/ingredients-types";
+import {
+  IConstructorState,
+  IConstructorAction,
+} from "../../types/ingredients-types";
 
 import {
   GET_INGREDIENTS,

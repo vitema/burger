@@ -13,7 +13,10 @@ const initialState = {
   message: "",
 };
 
-export const refreshReducer = (state: IRequestState  = initialState, action: ITokenAction) => {
+export const refreshReducer = (
+  state: IRequestState = initialState,
+  action: ITokenAction
+) => {
   switch (action.type) {
     case TOKEN_REQUEST: {
       return {

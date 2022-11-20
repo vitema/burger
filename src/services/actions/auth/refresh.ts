@@ -9,7 +9,7 @@ export const TOKEN_REQUEST = "TOKEN_REQUEST";
 export const TOKEN_SUCCESS = "TOKEN_SUCCESS";
 export const TOKEN_FAILED = "TOKEN_FAILED";
 
-export function refreshToken() {
+export function refreshToken(): (dispatch: AppDispatch) => Promise<void> {
   return async function (dispatch: AppDispatch) {
     dispatch<ITokenAction>({
       type: TOKEN_REQUEST,
@@ -27,7 +27,7 @@ export function refreshToken() {
       const data = await request<ITokenPayLoad>(`${apiUrl}/auth/token`, {
         method: "POST",
         headers: {
-          Accept: "application/json",
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(postData),

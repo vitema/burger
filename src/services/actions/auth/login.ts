@@ -1,7 +1,7 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { AppDispatch } from "../../store";
-import { ITokenAction, ITokenPayLoad } from  "../../../types/auth-types";
+import { ITokenAction, ITokenPayLoad } from "../../../types/auth-types";
 import { getErrorMessage } from "../../../utils/errors";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
@@ -13,7 +13,9 @@ interface IPostData {
   password: string;
 }
 
-export function sendLogin(postData: IPostData) {
+export function sendLogin(
+  postData: IPostData
+): (dispatch: AppDispatch) => Promise<void> {
   return async function (dispatch: AppDispatch) {
     dispatch<ITokenAction>({
       type: LOGIN_REQUEST,
@@ -27,7 +29,7 @@ export function sendLogin(postData: IPostData) {
       const data = await request<ITokenPayLoad>(`${apiUrl}/auth/login`, {
         method: "POST",
         headers: {
-          Accept: "application/json",
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(postData),

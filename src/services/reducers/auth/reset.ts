@@ -14,7 +14,10 @@ const initialState = {
   message: "",
 };
 
-export const resetReducer = (state: IRequestState = initialState, action: IRequestAction) => {
+export const resetReducer = (
+  state: IRequestState = initialState,
+  action: IRequestAction
+) => {
   switch (action.type) {
     case RESET_REQUEST: {
       return {

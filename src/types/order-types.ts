@@ -22,6 +22,6 @@ export interface IOrderAction {
 
 export interface IOrderApiResponse {
   success: boolean;
-  name:string,
-  order: IOrder
+  name: string;
+  order: IOrder;
 }

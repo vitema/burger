@@ -13,7 +13,10 @@ const initialState = {
   message: "",
 };
 
-export const registerReducer = (state: IRequestState = initialState, action: ITokenAction) => {
+export const registerReducer = (
+  state: IRequestState = initialState,
+  action: ITokenAction
+) => {
   switch (action.type) {
     case REGISTER_REQUEST: {
       return {

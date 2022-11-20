@@ -7,14 +7,16 @@ import {
   LOGIN_FAILED,
 } from "../../actions/auth/login";
 
-
 const initialState = {
   request: false,
   success: false,
   message: "",
 };
 
-export const loginReducer = (state:IRequestState = initialState, action: ITokenAction): IRequestState => {
+export const loginReducer = (
+  state: IRequestState = initialState,
+  action: ITokenAction
+): IRequestState => {
   switch (action.type) {
     case LOGIN_REQUEST: {
       return {

@@ -14,6 +14,7 @@ import { sendRegister } from "../services/actions/auth/register";
 import { isAuth } from "../utils/cookie";
 
 import { RootState, AppDispatch } from "../services/store";
+import { IUser } from "../types/auth-types";
 
 export function RegisterPage() {
   const history = useHistory();
@@ -30,7 +31,7 @@ export function RegisterPage() {
   const dispatch: AppDispatch = useDispatch();
 
   const save = () => {
-    const postData = {
+    const postData : IUser = {
       password: password,
       name: name,
       email: email,

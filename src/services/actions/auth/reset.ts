@@ -1,20 +1,16 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { AppDispatch } from "../../store";
-import { IRequestAction, IAuthApiResponse } from "../../../types/auth-types";
+import { IRequestAction, IAuthApiResponse, IUser, IReset } from "../../../types/auth-types";
 import { getErrorMessage } from "../../../utils/errors";
 
 export const RESET_REQUEST = "RESET_REQUEST";
 export const RESET_SUCCESS = "RESET_SUCCESS";
 export const RESET_FAILED = "RESET_FAILED";
 
-interface IPostData {
-  password: string;
-  token: string;
-}
 
 export function sendReset(
-  postData: IPostData,
+  postData: IReset,
   toLoginCallBack: { (): void; (): void }
 ): (dispatch: AppDispatch) => Promise<void> {
   return async function (dispatch: AppDispatch) {
@@ -26,7 +22,7 @@ export function sendReset(
       const data = await request<IAuthApiResponse>(`${apiUrl}/password-reset/reset`, {
         method: "POST",
         headers: {
-          Accept: "application/json",
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(postData),

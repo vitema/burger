@@ -29,16 +29,15 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import AppHeader from "../app-header/app-header";
 
-import {store} from "../../services/store";
+import { store } from "../../services/store";
 import { Location } from "history";
 
-type TLocationState={
-  background:Location
-}
+type TLocationState = {
+  background: Location;
+};
 
 function App() {
   const ModalSwitch = () => {
-
     const location = useLocation<TLocationState>();
     const history = useHistory();
 

@@ -28,8 +28,8 @@ export function LoginPage() {
   const [password, setPass] = useState("");
   const [email, setEmail] = useState("");
 
-  const dispatch: AppDispatch  = useDispatch();
-  const logIn = () => {
+  const dispatch: AppDispatch = useDispatch();
+  const logIn = (): void => {
     const postData = {
       email: email,
       password: password,
@@ -38,10 +38,9 @@ export function LoginPage() {
     dispatch<any>(sendLogin(postData));
   };
 
-
   type LocationState = {
     referrer: string;
-  }
+  };
 
   const location = useLocation<LocationState>();
 
@@ -54,7 +53,7 @@ export function LoginPage() {
     );
   }
 
-  const onFormSubmit = (e: { preventDefault: () => void; }) => {
+  const onFormSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     logIn();
   };

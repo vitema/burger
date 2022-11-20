@@ -21,13 +21,12 @@ export function getUser() {
     dispatch<IUserAction>({
       type: USER_REQUEST,
       payload: {
-        message:"",
+        message: "",
         refreshToken: "",
         accessToken: "",
       },
     });
     try {
-      //todo описать data здесь и в других
       const data = await request<IUserPayLoad>(`${apiUrl}/auth/user`, {
         method: "GET",
         headers: {
@@ -64,7 +63,7 @@ export function updateUser(postData: IPostData) {
     dispatch<IUserAction>({
       type: USER_UPDATE_REQUEST,
       payload: {
-        message:"",
+        message: "",
         refreshToken: "",
         accessToken: "",
       },

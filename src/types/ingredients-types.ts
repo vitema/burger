@@ -1,4 +1,3 @@
-
 export interface IIngredientsState {
   ingredientsRequest: boolean;
   ingredientsFailed: boolean;
@@ -6,7 +5,7 @@ export interface IIngredientsState {
 }
 
 export interface IIngredientsAction {
-  ingredients: IIngredient[]; //deatailed
+  ingredients: IIngredient[];
   type: string;
   id: string;
 }
@@ -34,6 +33,14 @@ export interface IIngredientsApiResponse {
   data: IIngredient[];
 }
 
+export interface IIngredientState {
+  item?: IIngredient;
+}
+
+export interface IIngredientAction {
+  item?: IIngredient;
+  type: string;
+}
 
 export interface IConstructorState {
   bun?: IIngredient;

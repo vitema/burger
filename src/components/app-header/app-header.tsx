@@ -18,7 +18,7 @@ const AppHeader = () => {
       </div>
 
       <div className={headerStyles.logo}>
-        <Link to={{ pathname: '/' }}>
+        <Link to={{ pathname: "/" }}>
           <Logo />
         </Link>
       </div>

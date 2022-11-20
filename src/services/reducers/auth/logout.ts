@@ -14,13 +14,16 @@ const initialState = {
   message: "",
 };
 
-export const logoutReducer = (state: IRequestState = initialState, action: IRequestAction): IRequestState => {
+export const logoutReducer = (
+  state: IRequestState = initialState,
+  action: IRequestAction
+): IRequestState => {
   switch (action.type) {
     case LOGOUT_REQUEST: {
       return {
         ...state,
         request: true,
-        success:false,
+        success: false,
         message: "",
       };
     }

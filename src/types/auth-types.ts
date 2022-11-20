@@ -9,7 +9,6 @@ export interface IRequestAction {
   payload: string;
 }
 
-
 export interface ITokenPayLoad {
   refreshToken: string;
   accessToken: string;
@@ -21,10 +20,15 @@ export interface ITokenAction {
   payload: ITokenPayLoad;
 }
 
-
 export interface IUser {
   name: string;
   email: string;
+  password?: string;
+}
+
+export interface IReset {
+  password: string;
+  token: string;
 }
 
 export interface IUserPayLoad {

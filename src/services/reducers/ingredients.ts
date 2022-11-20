@@ -7,8 +7,11 @@ import {
   CLEAR_COUNTS,
 } from "../actions/ingredients";
 
-import { IIngredientsState, IIngredientsAction } from "../../types/ingredients-types";
-
+import {
+  IIngredientsState,
+  IIngredientsAction,
+  IIngredient,
+} from "../../types/ingredients-types";
 
 const initialState = {
   ingredientsRequest: false,
@@ -16,7 +19,10 @@ const initialState = {
   items: [],
 };
 
-export const ingredientsReducer = (state: IIngredientsState = initialState, action: IIngredientsAction) => {
+export const ingredientsReducer = (
+  state: IIngredientsState = initialState,
+  action: IIngredientsAction
+) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -71,8 +77,7 @@ export const ingredientsReducer = (state: IIngredientsState = initialState, acti
   }
 };
 
-//todo deatailed
-const increment = (id: string, items: any) => {
+const increment = (id: string, items: IIngredient[]): IIngredient[] => {
   const newItems = [...items];
   const item = newItems.filter((x) => x._id == id)[0];
   if (item.count) {
@@ -83,7 +88,7 @@ const increment = (id: string, items: any) => {
   return newItems;
 };
 
-const decrement = (id: string, items: any[]) => {
+const decrement = (id: string, items: IIngredient[]): IIngredient[] => {
   const newItems = [...items];
   const item = newItems.filter((x) => x._id == id)[0];
   if (item.count) {
@@ -92,7 +97,7 @@ const decrement = (id: string, items: any[]) => {
   return newItems;
 };
 
-const clear = (items:any[]) => {
+const clear = (items: any[]): IIngredient[] => {
   const newItems = [...items];
   return newItems.map((x) => {
     x.count = 0;

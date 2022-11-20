@@ -23,17 +23,21 @@ export function ProfilePage() {
   const [password, setPassword] = useState("");
   const [isChanged, setChanged] = useState(false);
 
-  const onChangeName = (e: { target: { value: SetStateAction<string> } }) => {
+  const onChangeName = (e: {
+    target: { value: SetStateAction<string> };
+  }): void => {
     setName(e.target.value);
     setChanged(true);
   };
-  const onChangeEmail = (e: { target: { value: SetStateAction<string> } }) => {
+  const onChangeEmail = (e: {
+    target: { value: SetStateAction<string> };
+  }): void => {
     setEmail(e.target.value);
     setChanged(true);
   };
   const onChangePassword = (e: {
     target: { value: SetStateAction<string> };
-  }) => {
+  }): void => {
     setPassword(e.target.value);
     setChanged(true);
   };
@@ -49,12 +53,12 @@ export function ProfilePage() {
     }
   }, [userStore]);
 
-  const onFormSubmit = (e: { preventDefault: () => void }) => {
+  const onFormSubmit = (e: { preventDefault: () => void }): void => {
     e.preventDefault();
     save();
   };
 
-  const save = () => {
+  const save = (): void => {
     const postData = {
       email: email,
       name: name,
@@ -64,7 +68,7 @@ export function ProfilePage() {
     setChanged(false);
   };
 
-  const cancel = () => {
+  const cancel = (): void => {
     dispatch<any>(getUser());
     setChanged(false);
     setPassword("");

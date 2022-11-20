@@ -18,21 +18,21 @@ import { IIngredient } from "../../types/ingredients-types";
 const BurgerIngredients = () => {
   const [current, setCurrent] = React.useState<string>();
 
-  const { data, ingredientsFailed } = useSelector((store:RootState) => ({
+  const { data, ingredientsFailed } = useSelector((store: RootState) => ({
     data: store.ingredients.items,
     ingredientsFailed: store.ingredients.ingredientsFailed,
   }));
 
   const refs = useRef<any>(Object.keys(availableTypes).map(() => createRef()));
 
-  const changeTab = (key:string, index: number) => {
+  const changeTab = (key: string, index: number): void => {
     setCurrent(key);
     refs.current[index].current.scrollIntoView({ behavior: "smooth" });
   };
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const selectItem = (item:IIngredient) => {
+  const selectItem = (item: IIngredient): void => {
     dispatch({ type: SET_INGREDIENT, item });
   };
 

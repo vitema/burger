@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
 
 import {
   BurgerIcon,
@@ -16,10 +15,9 @@ interface TopMenuItemProps {
 }
 
 const TopMenuItem: FC<TopMenuItemProps> = ({ text, to, icon }) => {
+  type TIconTypes = "secondary" | "primary";
 
-  type TIconTypes = 'secondary' | 'primary';
-
-  let type: TIconTypes= "secondary";
+  let type: TIconTypes = "secondary";
   let className = "text text_type_main-small pl-2 text_color_inactive pl-2";
   const location = useLocation();
 
@@ -52,12 +50,6 @@ const TopMenuItem: FC<TopMenuItemProps> = ({ text, to, icon }) => {
       </NavLink>
     </>
   );
-};
-
-TopMenuItem.propTypes = {
-  text: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
 };
 
 export default TopMenuItem;

@@ -31,15 +31,14 @@ export async function request<TResponse>(url:string, options: RequestInit={}): P
   }
 }
 
-function checkResponse(res:Response) {
+async function checkResponse<TResponse>(res:Response): Promise<any> {
   if (res.ok) {
     return res.json();
   }
 
   if (res.status >= 400 && res.status < 500) {
-    return res.json().then((data) => {
-      return Promise.reject(data.message);
-    });
+    const data = await res.json();
+    return await Promise.reject(data.message);
   }
 
   return Promise.reject(
@@ -47,7 +46,7 @@ function checkResponse(res:Response) {
   );
 }
 
-const refreshTokenRequest = async () => {
+async function refreshTokenRequest(): Promise<any> {
   const res = await fetch(`${apiUrl}/auth/token`, {
     method: "POST",
     headers: {
@@ -58,4 +57,4 @@ const refreshTokenRequest = async () => {
     }),
   });
   return checkResponse(res);
-};
+}

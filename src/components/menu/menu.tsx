@@ -13,7 +13,7 @@ const Menu = () => {
 
   const history = useHistory();
 
-  const logout = () => {
+  const logout = (): void => {
     dispatch<any>(sendLogout(toLoginCallBack));
   };
 

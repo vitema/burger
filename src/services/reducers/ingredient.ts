@@ -1,21 +1,18 @@
+import { IIngredient } from "../../types/ingredients-types";
 import { SET_INGREDIENT } from "../actions/ingredient";
-
-
-interface IIngredientState {
-  item:any;
-}
-
-interface IIngredientAction {
-  item: any;
-  type: string;
-}
-
+import {
+  IIngredientState,
+  IIngredientAction,
+} from "../../types/ingredients-types";
 
 const initialState = {
-  item: null,
+  item: undefined,
 };
 
-export const ingredientReducer = (state: IIngredientState = initialState, action:IIngredientAction) => {
+export const ingredientReducer = (
+  state: IIngredientState = initialState,
+  action: IIngredientAction
+) => {
   switch (action.type) {
     case SET_INGREDIENT: {
       return {

@@ -53,8 +53,11 @@ const BurgerConstructor = () => {
   );
   const orderData = useSelector((store: RootState) => store.order);
 
-  const isDataValid = () => {
-    return ingredientsData && ingredientsData.components && ingredientsData.bun;
+  const isDataValid = (): boolean => {
+    return (
+      (ingredientsData && ingredientsData.components && ingredientsData.bun) !=
+      undefined
+    );
   };
 
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
@@ -63,20 +66,22 @@ const BurgerConstructor = () => {
 
   const history = useHistory();
 
-  const getOrderData = () => {
+  const getOrderData = (): void => {
     if (!isAuth()) {
       history.replace({ pathname: "/login" });
       return;
     }
 
-    const allData = [...ingredientsData.components, ingredientsData.bun];
-    const ids = allData.map((item) => item?._id);
-    const postData = { ingredients: ids };
-    dispatch<any>(getOrder(postData));
-    handleOpenModal();
+    if (ingredientsData.bun) {
+      const allData = [...ingredientsData.components, ingredientsData.bun];
+      const ids = allData.map((item) => item._id);
+      const postData = { ingredients: ids };
+      dispatch<any>(getOrder(postData));
+      handleOpenModal();
+    }
   };
 
-  const closeOrder = () => {
+  const closeOrder = (): void => {
     handleCloseModal();
     if (!orderData.orderFailed) {
       dispatch<IIngredientsAction>({
@@ -93,7 +98,7 @@ const BurgerConstructor = () => {
     }
   };
 
-  const getSum = () => {
+  const getSum = (): number => {
     if (!isDataValid()) {
       return 0;
     }
@@ -222,7 +227,7 @@ const BurgerConstructor = () => {
               isLocked={true}
               text={`${ingredientsData.bun?.name} (верх)`}
               price={ingredientsData.bun ? ingredientsData.bun.price : 0}
-              thumbnail={ingredientsData.bun?ingredientsData.bun.image: ""}
+              thumbnail={ingredientsData.bun ? ingredientsData.bun.image : ""}
             />
           </div>
 
@@ -244,7 +249,7 @@ const BurgerConstructor = () => {
               isLocked={true}
               text={`${ingredientsData.bun?.name}  (низ)`}
               price={ingredientsData.bun ? ingredientsData.bun.price : 0}
-              thumbnail={ingredientsData.bun?ingredientsData.bun.image: ""}
+              thumbnail={ingredientsData.bun ? ingredientsData.bun.image : ""}
             />
           </div>
 

@@ -34,25 +34,25 @@ export function getCookie(name: string) :string {
   return matches ? decodeURIComponent(matches[1]) : "";
 }
 
-export function deleteCookie(name: string) {
+export function deleteCookie(name: string): void {
   setCookie(name, "", { expires: -1 });
 }
 
-export function saveTokens(refreshToken: string, accessToken: string) {
+export function saveTokens(refreshToken: string, accessToken: string): void {
   setCookie(refreshTokenName, refreshToken, undefined);
   setCookie(accessTokenName, accessToken, undefined);
 }
 
-export function deleteTokens() {
+export function deleteTokens(): void {
   setCookie(refreshTokenName, "", { expires: -1 });
   setCookie(accessTokenName, "", { expires: -1 });
 }
 
-export function isAuth() {
+export function isAuth(): boolean {
   return getCookie(accessTokenName) ? true : false;
 }
 
-export function isForgot() {
+export function isForgot(): boolean {
   return getCookie(sendForgotEmail) ? true : false;
 }
 

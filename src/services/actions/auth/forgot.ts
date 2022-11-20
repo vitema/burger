@@ -17,7 +17,7 @@ interface IPostData {
 export function sendForgot(
   postData: IPostData,
   toResetCallBack: { (): void; (): void }
-) {
+): (dispatch: AppDispatch) => Promise<void> {
   return async function (dispatch: AppDispatch) {
     dispatch<IRequestAction>({
       type: FORGOT_REQUEST,
@@ -27,7 +27,7 @@ export function sendForgot(
       const data = await request<IAuthApiResponse>(`${apiUrl}/password-reset`, {
         method: "POST",
         headers: {
-          Accept: "application/json",
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(postData),

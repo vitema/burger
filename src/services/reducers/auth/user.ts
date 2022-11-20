@@ -5,7 +5,7 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAILED,
-  USER_SET
+  USER_SET,
 } from "../../actions/auth/user";
 
 import { IUserState, IUserAction } from "../../../types/auth-types";
@@ -17,8 +17,10 @@ const initialState = {
   message: "",
 };
 
-
-export const userReducer = (state:IUserState = initialState, action: IUserAction) => {
+export const userReducer = (
+  state: IUserState = initialState,
+  action: IUserAction
+) => {
   switch (action.type) {
     case USER_REQUEST: {
       return {
@@ -70,11 +72,10 @@ export const userReducer = (state:IUserState = initialState, action: IUserAction
       };
     }
     case USER_SET: {
-      
       return {
         ...state,
         user: action.payload?.user,
-        request: false
+        request: false,
       };
     }
 

@@ -1,6 +1,10 @@
 import React from "react";
 
-const useModal = () => {
+const useModal = (): {
+  modalVisible: boolean;
+  handleOpenModal: () => void;
+  handleCloseModal: () => void;
+} => {
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const handleOpenModal = () => {
@@ -11,7 +15,7 @@ const useModal = () => {
     setModalVisible(false);
   };
 
-  return {modalVisible, handleOpenModal, handleCloseModal}
-}
+  return { modalVisible, handleOpenModal, handleCloseModal };
+};
 
 export default useModal;

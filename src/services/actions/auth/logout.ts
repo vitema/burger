@@ -14,7 +14,10 @@ export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILED = "LOGOUT_FAILED";
 
-export function sendLogout(toLoginCallBack: { (): void; (): void }) {
+export function sendLogout(toLoginCallBack: {
+  (): void;
+  (): void;
+}): (dispatch: AppDispatch) => Promise<void> {
   return async function (dispatch: AppDispatch) {
     dispatch<IRequestAction>({
       type: LOGOUT_REQUEST,
@@ -26,11 +29,12 @@ export function sendLogout(toLoginCallBack: { (): void; (): void }) {
       };
       const data = await request<IAuthApiResponse>(`${apiUrl}/auth/logout`, {
         method: "POST",
-        headers: [
-          ["Accept", "application/json"],
-          ["Content-Type", "application/json"],
-          ["Authorization", getCookie(accessTokenName)],
-        ],
+        headers: 
+        {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": getCookie(accessTokenName)
+        },
         body: JSON.stringify(postData),
       });
       dispatch<IRequestAction>({
