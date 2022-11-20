@@ -31,7 +31,7 @@ export async function request<TResponse>(url:string, options: RequestInit={}): P
   }
 }
 
-async function checkResponse<TResponse>(res:Response): Promise<any> {
+async function checkResponse(res:Response): Promise<any> {
   if (res.ok) {
     return res.json();
   }
