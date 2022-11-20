@@ -23,7 +23,7 @@ export function setCookie(name: string, value: string|number|boolean, props: { [
   document.cookie = updatedCookie;
 }
 
-export function getCookie(name: string) {
+export function getCookie(name: string) :string {
   const matches = document.cookie.match(
     new RegExp(
       "(?:^|; )" +
@@ -31,7 +31,7 @@ export function getCookie(name: string) {
         "=([^;]*)"
     )
   );
-  return matches ? decodeURIComponent(matches[1]) : undefined;
+  return matches ? decodeURIComponent(matches[1]) : "";
 }
 
 export function deleteCookie(name: string) {

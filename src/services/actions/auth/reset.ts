@@ -1,7 +1,7 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { AppDispatch } from "../../store";
-import { IRequestAction } from "../../../utils/types";
+import { IRequestAction, IAuthApiResponse } from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/errors";
 
 export const RESET_REQUEST = "RESET_REQUEST";
@@ -23,7 +23,7 @@ export function sendReset(
       payload: ""
     });
     try {
-      const data = await request(`${apiUrl}/password-reset/reset`, {
+      const data = await request<IAuthApiResponse>(`${apiUrl}/password-reset/reset`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -34,7 +34,7 @@ export function sendReset(
       toLoginCallBack();
       dispatch<IRequestAction>({
         type: RESET_SUCCESS,
-        payload: data,
+        payload: data.message,
       });
     } catch (error) {
       dispatch<IRequestAction>({

@@ -2,7 +2,7 @@ import { apiUrl } from "../../constants/constants";
 import { request } from "../../utils/request";
 import { getCookie } from "../../utils/cookie";
 import { AppDispatch } from "../store";
-import { IOrderAction } from "../../utils/types";
+import { IOrderAction, IOrderApiResponse } from "../../utils/types";
 
 export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
 export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS";
@@ -14,10 +14,10 @@ export function getOrder(postData: { ingredients: any[] }) {
   return async function (dispatch: AppDispatch) {
     dispatch<IOrderAction>({
       type: GET_ORDER_REQUEST,
-      order: null
+      order: undefined
     });
     try {
-      const data = await request(`${apiUrl}/orders`, {
+      const data = await request<IOrderApiResponse>(`${apiUrl}/orders`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -26,14 +26,15 @@ export function getOrder(postData: { ingredients: any[] }) {
         },
         body: JSON.stringify(postData),
       });
+      debugger;
       dispatch<IOrderAction>({
         type: GET_ORDER_SUCCESS,
-        order: data,
+        order: data.order,
       });
     } catch (error) {
       dispatch<IOrderAction>({
         type: GET_ORDER_FAILED,
-        order: null
+        order: undefined
       });
     }
   };

@@ -1,9 +1,9 @@
-import { apiUrl } from "../../../constants/constants";
+import { apiUrl, accessTokenName } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { getCookie } from "../../../utils/cookie";
 import { USER_SET } from "./user";
 import { AppDispatch } from "../../store";
-import { IRequestAction, IUserAction } from "../../../utils/types";
+import { IAuthApiResponse, IRequestAction, IUserAction } from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/errors";
 
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
@@ -20,18 +20,18 @@ export function sendLogout(toLoginCallBack: { (): void; (): void }) {
       const postData = {
         token: getCookie("refreshToken"),
       };
-      const data = await request(`${apiUrl}/auth/logout`, {
+      const data = await request<IAuthApiResponse>(`${apiUrl}/auth/logout`, {
         method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: getCookie("accessToken"),
-        },
+        headers: [
+          ["Accept", "application/json"],
+          ["Content-Type", "application/json"],
+          ["Authorization", getCookie(accessTokenName)],
+        ],
         body: JSON.stringify(postData),
       });
       dispatch<IRequestAction>({
         type: LOGOUT_SUCCESS,
-        payload: data,
+        payload: data.message,
       });
       dispatch<IUserAction>({
         type: USER_SET,

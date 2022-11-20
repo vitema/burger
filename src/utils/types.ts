@@ -27,39 +27,37 @@ export const orderType = PropTypes.shape({
   status: orderStatusType.isRequired,
 });
 
-
 export interface IRequestState {
   request: boolean;
   success: boolean;
   message: string;
-};
+}
 
 export interface IRequestAction {
   type: string;
   payload: string;
-};
+}
 
-
-export interface ITokenPayLoad{
-  refreshToken:string;
+export interface ITokenPayLoad {
+  refreshToken: string;
   accessToken: string;
   message: string;
 }
 
 export interface ITokenAction {
-  type:  string;
+  type: string;
   payload: ITokenPayLoad;
 }
 
-export interface IUserPayLoad{
-  refreshToken:string;
+export interface IUserPayLoad {
+  refreshToken: string;
   accessToken: string;
   message: string;
-  user?: IUser
+  user?: IUser;
 }
 
 export interface IUser {
-  name:string;
+  name: string;
   email: string;
 }
 
@@ -67,35 +65,55 @@ export interface IUserState {
   request: boolean;
   success: boolean;
   message: string;
-  user?: IUser
+  user?: IUser;
 }
 
 export interface IUserAction {
-  type:  string;
+  type: string;
   payload: IUserPayLoad;
 }
 
 export interface IIngredientsState {
-  ingredientsRequest:boolean;
-  ingredientsFailed:boolean;
-  items: any []
+  ingredientsRequest: boolean;
+  ingredientsFailed: boolean;
+  items: any[];
 }
 
 export interface IIngredientsAction {
   ingredients: any[]; //deatailed
   type: string;
-  id:string;
+  id: string;
 }
+
+
+export interface IOrderStatus {
+  value: number;
+  text: string;
+  description?: string;
+}
+
+export interface IOrder {
+  number: string;
+  status: IOrderStatus;
+}
+
 
 export interface IOrderState {
   orderRequest: boolean;
   orderFailed: boolean;
-  order: any;
+  order?: IOrder;
 }
 
 export interface IOrderAction {
-  type:  string;
-  order: any;
+  type: string;
+  order?: IOrder;
+}
+
+
+export interface IOrderApiResponse {
+  success: boolean;
+  name:string,
+  order: IOrder
 }
 
 export interface IIngredient {
@@ -114,35 +132,33 @@ export interface IIngredient {
   dragId?: string;
   index?: number;
   count?: number;
-};
+}
 
-
-export interface IOrderStatus {
-  value: number;
-  text: string;
-  description?: string;
-};
-
-export interface  IOrder{
-  number: string;
-  status: IOrderStatus;
-};
 
 export interface IConstructorState {
   bun: any;
-  components: any[] ;
+  components: any[];
   error: string;
-  
 }
 
 export interface IConstructorAction {
-  type:  string;
+  type: string;
   item?: IIngredient;
   components: any[]; //todo detail
-  id:string;
+  id: string;
 }
 
+//
 
+export interface IAuthApiResponse {
+  success: boolean;
+  message: string;
+}
 
+export interface IIngredientsApiResponse {
+  success: boolean;
+  data: IIngredient[];
+}
 
+ 
 

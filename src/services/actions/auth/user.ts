@@ -1,8 +1,8 @@
-import { apiUrl } from "../../../constants/constants";
+import { apiUrl, accessTokenName } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { getCookie } from "../../../utils/cookie";
 import { AppDispatch } from "../../store";
-import { IUserAction } from "../../../utils/types";
+import { IUserAction, IUserPayLoad } from "../../../utils/types";
 
 import { getErrorMessage } from "../../../utils/errors";
 
@@ -28,12 +28,12 @@ export function getUser() {
     });
     try {
       //todo описать data здесь и в других
-      const data = await request(`${apiUrl}/auth/user`, {
+      const data = await request<IUserPayLoad>(`${apiUrl}/auth/user`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: getCookie("accessToken"),
+          Authorization: getCookie(accessTokenName),
         },
       });
       dispatch<IUserAction>({
@@ -70,7 +70,7 @@ export function updateUser(postData: IPostData) {
       },
     });
     try {
-      const data = await request(`${apiUrl}/auth/user`, {
+      const data = await request<IUserPayLoad>(`${apiUrl}/auth/user`, {
         method: "PATCH",
         headers: {
           Accept: "application/json",

@@ -7,23 +7,6 @@ import {
   TOKEN_FAILED,
 } from "../../actions/auth/refresh";
 
-// interface IState {
-//   request: boolean;
-//   success: boolean;
-//   message: string;
-//   user: any; //todo  типизировать
-// }
-
-// interface IPayLoad{
-//   refreshToken:string;
-//   accessToken: string;
-//   message: string;
-// }
-
-// interface IAction {
-//   type:  string;
-//   payload: IPayLoad;
-// }
 const initialState = {
   request: false,
   success: false,

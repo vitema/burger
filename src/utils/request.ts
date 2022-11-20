@@ -2,7 +2,7 @@ import { apiUrl } from "../constants/constants";
 import { getCookie, saveTokens, deleteTokens } from "./cookie";
 import { refreshTokenName } from "../constants/constants";
 
-export async function request(url, options) {
+export async function request<TResponse>(url:string, options: RequestInit={}): Promise<TResponse> {
   try {
     const res = await fetch(url, options);
     return await checkResponse(res);
@@ -12,7 +12,9 @@ export async function request(url, options) {
       const { refreshToken, accessToken } = await refreshTokenRequest();
       saveTokens(refreshToken, accessToken);
       
-        options.headers.Authorization = accessToken;
+      options.headers = new Headers( options.headers);
+      options.headers.set('Authorization', accessToken);
+
         const res = await fetch(url, options);
         return await checkResponse(res);
       } catch (err) {
@@ -24,10 +26,12 @@ export async function request(url, options) {
     } else {
       return Promise.reject(err);
     }
+
+    return Promise.reject("unknown error");
   }
 }
 
-function checkResponse(res) {
+function checkResponse(res:Response) {
   if (res.ok) {
     return res.json();
   }

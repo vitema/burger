@@ -2,7 +2,7 @@ import { apiUrl } from "../../constants/constants";
 import { request } from "../../utils/request";
 import { AppDispatch } from "../store";
 
-import { IIngredientsState, IIngredientsAction } from "../../utils/types";
+import { IIngredientsState, IIngredientsAction, IIngredientsApiResponse } from "../../utils/types";
 
 export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
@@ -20,7 +20,7 @@ export function getIngredients() {
       id: "",
     });
     try {
-      const data = await request(`${apiUrl}/ingredients`, undefined);
+      const data = await request<IIngredientsApiResponse>(`${apiUrl}/ingredients`, undefined);
       dispatch<IIngredientsAction>({
         type: GET_INGREDIENTS_SUCCESS,
         ingredients: data.data,

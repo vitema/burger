@@ -1,6 +1,6 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
-import { IRequestAction } from "../../../utils/types";
+import { IRequestAction, IAuthApiResponse } from "../../../utils/types";
 import { AppDispatch } from "../../store";
 
 import { getErrorMessage } from "../../../utils/errors";
@@ -23,7 +23,7 @@ export function sendForgot(
       payload:""
     });
     try {
-      const data = await request(`${apiUrl}/password-reset`, {
+      const data = await request<IAuthApiResponse>(`${apiUrl}/password-reset`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -34,7 +34,7 @@ export function sendForgot(
 
       dispatch<IRequestAction>({
         type: FORGOT_SUCCESS,
-        payload: data,
+        payload: data.message,
       });
       toResetCallBack();
     } catch (error) {

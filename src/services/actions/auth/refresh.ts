@@ -2,7 +2,7 @@ import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { getCookie } from "../../../utils/cookie";
 import { AppDispatch } from "../../store";
-import { ITokenAction } from "../../../utils/types";
+import { ITokenAction, ITokenPayLoad } from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/errors";
 
 export const TOKEN_REQUEST = "TOKEN_REQUEST";
@@ -24,7 +24,7 @@ export function refreshToken() {
         token: getCookie("refreshToken"),
       };
 
-      const data = await request(`${apiUrl}/auth/token`, {
+      const data = await request<ITokenPayLoad>(`${apiUrl}/auth/token`, {
         method: "POST",
         headers: {
           Accept: "application/json",

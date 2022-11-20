@@ -1,7 +1,7 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { AppDispatch } from "../../store";
-import { ITokenAction } from "../../../utils/types";
+import { ITokenAction, ITokenPayLoad } from "../../../utils/types";
 import { getErrorMessage } from "../../../utils/errors";
 
 export const REGISTER_REQUEST = "REGISTER_REQUEST";
@@ -25,7 +25,7 @@ export function sendRegister(postData: IPostData) {
       },
     });
     try {
-      const data = await request(`${apiUrl}/auth/register`, {
+      const data = await request<ITokenPayLoad>(`${apiUrl}/auth/register`, {
         method: "POST",
         headers: {
           Accept: "application/json",

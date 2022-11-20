@@ -5,15 +5,18 @@ import {
   CLEAR_ORDER,
 } from "../actions/order";
 
- import { IOrderState, IOrderAction } from "../../utils/types";
+import { IOrderState, IOrderAction, IOrder } from "../../utils/types";
 
 const initialState = {
   orderRequest: false,
   orderFailed: false,
-  order: null,
+  order: undefined,
 };
 
-export const orderReducer = (state: IOrderState = initialState, action: IOrderAction) => {
+export const orderReducer = (
+  state: IOrderState = initialState,
+  action: IOrderAction
+) => {
   switch (action.type) {
     case GET_ORDER_REQUEST: {
       return {
@@ -26,6 +29,7 @@ export const orderReducer = (state: IOrderState = initialState, action: IOrderAc
       };
     }
     case GET_ORDER_SUCCESS: {
+      debugger;
       return {
         ...state,
         // Запрос выполнился успешно, помещаем полученные данные в хранилище
@@ -54,9 +58,13 @@ export const orderReducer = (state: IOrderState = initialState, action: IOrderAc
   }
 };
 
-const getOrderData = (data: any) => {
+const getOrderData = (order: IOrder | undefined) : IOrder => {
+  if (!order) {
+    return getFailOrderData();
+  }
+
   return {
-    number: data.order.number + "",
+    number: order.number,
     status: {
       value: 1,
       text: "Ваш заказ начали готовить",
@@ -65,7 +73,7 @@ const getOrderData = (data: any) => {
   };
 };
 
-const getFailOrderData = (): any => {
+const getFailOrderData = (): IOrder => {
   return {
     number: "",
     status: {
