@@ -13,6 +13,7 @@ import commonStyles from "./page.module.css";
 import { sendLogin } from "../services/actions/auth/login";
 import { isAuth } from "../utils/cookie";
 import { IUser } from "../types/auth-types";
+import { useForm } from "../hooks/useForm";
 
 export function LoginPage() {
   const history = useHistory();
@@ -26,14 +27,13 @@ export function LoginPage() {
     history.replace({ pathname: "/forgot-password" });
   }, [history]);
 
-  const [password, setPass] = useState("");
-  const [email, setEmail] = useState("");
+  const { handleChange, values } = useForm({ "password": "", "email": "" });
 
   const dispatch: AppDispatch = useDispatch();
   const logIn = (): void => {
     const postData: IUser = {
-      email: email,
-      password: password,
+      email: values["email"],
+      password: values["password"],
       name: "",
     };
 
@@ -55,7 +55,7 @@ export function LoginPage() {
     );
   }
 
-  const onFormSubmit = (e: { preventDefault: () => void }) => {
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     logIn();
   };
@@ -67,16 +67,16 @@ export function LoginPage() {
         <form onSubmit={onFormSubmit} className={commonStyles.form}>
           <EmailInput
             placeholder={"E-mail"}
-            name={"name"}
+            name={"email"}
             size={"default"}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={values["email"]}
+            onChange={handleChange}
             extraClass="pb-6"
           />
           <PasswordInput
-            name={"Пароль"}
-            value={password}
-            onChange={(e) => setPass(e.target.value)}
+            name={"password"}
+            value={values["password"]}
+            onChange={handleChange}
             extraClass="pb-6"
           />
           <p className="pb-20">

@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -13,32 +13,24 @@ import Menu from "../components/menu/menu";
 
 import { getUser, updateUser } from "../services/actions/auth/user";
 import { RootState, AppDispatch } from "../services/store";
+import { IUser } from "../types/auth-types";
+
+import { useForm } from "../hooks/useForm";
 
 export function ProfilePage() {
   const dispatch: AppDispatch = useDispatch();
   const userStore = useSelector((store: RootState) => store.user);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { values, setValues } = useForm({
+    name: "",
+    email: "",
+    password: "",
+  });
+
   const [isChanged, setChanged] = useState(false);
 
-  const onChangeName = (e: {
-    target: { value: SetStateAction<string> };
-  }): void => {
-    setName(e.target.value);
-    setChanged(true);
-  };
-  const onChangeEmail = (e: {
-    target: { value: SetStateAction<string> };
-  }): void => {
-    setEmail(e.target.value);
-    setChanged(true);
-  };
-  const onChangePassword = (e: {
-    target: { value: SetStateAction<string> };
-  }): void => {
-    setPassword(e.target.value);
+  const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setValues({ [e.target.name]: e.target.value });
     setChanged(true);
   };
 
@@ -48,21 +40,25 @@ export function ProfilePage() {
 
   useEffect(() => {
     if (userStore.user) {
-      setEmail(userStore.user.email);
-      setName(userStore.user.name);
+      debugger;
+      setValues({
+        ...values,
+        ["email"]: userStore.user.email,
+        ["name"]: userStore.user.name,
+      });
     }
   }, [userStore]);
 
-  const onFormSubmit = (e: { preventDefault: () => void }): void => {
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     save();
   };
 
   const save = (): void => {
-    const postData = {
-      email: email,
-      name: name,
-      password: password,
+    const postData: IUser = {
+      email: values["email"],
+      name: values["name"],
+      password: values["password"],
     };
     dispatch<any>(updateUser(postData));
     setChanged(false);
@@ -71,7 +67,7 @@ export function ProfilePage() {
   const cancel = (): void => {
     dispatch<any>(getUser());
     setChanged(false);
-    setPassword("");
+    setValues({ password: "" });
   };
 
   return (
@@ -87,19 +83,19 @@ export function ProfilePage() {
               error={false}
               errorText={"Ошибка"}
               size={"default"}
-              onChange={onChangeName}
-              value={name}
+              onChange={onChangeValue}
+              value={values["name"]}
               extraClass="pb-6"
             />
             <EmailInput
-              onChange={onChangeEmail}
-              value={email}
+              onChange={onChangeValue}
+              value={values["email"]}
               name={"email"}
               extraClass="pb-6"
             />
             <PasswordInput
-              onChange={onChangePassword}
-              value={password}
+              onChange={onChangeValue}
+              value={values["password"]}
               name={"password"}
               extraClass="pb-6"
             />

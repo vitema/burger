@@ -16,6 +16,8 @@ import { isAuth } from "../utils/cookie";
 import { RootState, AppDispatch } from "../services/store";
 import { IUser } from "../types/auth-types";
 
+import { useForm } from "../hooks/useForm";
+
 export function RegisterPage() {
   const history = useHistory();
   const registerStore = useSelector((store: RootState) => store.register);
@@ -24,17 +26,19 @@ export function RegisterPage() {
     history.replace({ pathname: "/login" });
   }, [history]);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPass] = useState("");
+  const { values, handleChange } = useForm({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const dispatch: AppDispatch = useDispatch();
 
   const save = () => {
     const postData : IUser = {
-      password: password,
-      name: name,
-      email: email,
+      password: values["password"],
+      name: values["name"],
+      email: values["email"],
     };
     dispatch<any>(sendRegister(postData));
   };
@@ -42,7 +46,7 @@ export function RegisterPage() {
     return <Redirect to={"/"} />;
   }
 
-  const onFormSubmit = (e: { preventDefault: () => void; }) => {
+  const onFormSubmit =  (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     save();
   };
@@ -59,20 +63,20 @@ export function RegisterPage() {
             error={false}
             errorText={"Ошибка"}
             size={"default"}
-            onChange={(e) => setName(e.target.value)}
-            value={name}
+            onChange={handleChange}
+            value={values["name"]}
             extraClass="pb-6"
           />
           <EmailInput
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            onChange={handleChange}
+            value={values["email"]}
             name={"email"}
             extraClass="pb-6"
           />
           <PasswordInput
-            name={"Пароль"}
-            onChange={(e) => setPass(e.target.value)}
-            value={password}
+            name={"password"}
+            onChange={handleChange}
+            value={values["password"]}
             extraClass="pb-6"
           />
           <p className="pb-20">
@@ -88,7 +92,7 @@ export function RegisterPage() {
           <Button
             type="secondary"
             size="medium"
-            onClick={login}
+            onClick={ login}
             htmlType="button"
           >
             Войти

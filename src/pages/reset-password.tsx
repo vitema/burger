@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -15,6 +15,7 @@ import { isAuth, isForgot } from "../utils/cookie";
 
 import { RootState, AppDispatch } from "../services/store";
 import { IReset, IUser } from "../types/auth-types";
+import { useForm } from "../hooks/useForm";
 
 export function ResetPasswordPage() {
   const history = useHistory();
@@ -24,14 +25,17 @@ export function ResetPasswordPage() {
     history.replace({ pathname: "/login" });
   }, [history]);
 
-  const [password, setPass] = useState("");
-  const [token, setToken] = useState("");
+  const { values, handleChange } = useForm({
+    token: "",
+    password: "",
+  });
+
   const dispatch: AppDispatch = useDispatch();
 
   const save = (): void => {
-    const postData : IReset = {
-      password: password,
-      token: token,
+    const postData: IReset = {
+      password: values["password"],
+      token: values["token"],
     };
     dispatch<any>(sendReset(postData, toLoginCallBack));
   };
@@ -46,7 +50,7 @@ export function ResetPasswordPage() {
     }
   }, [history]);
 
-  const onFormSubmit = (e: { preventDefault: () => void }) => {
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     save();
   };
@@ -57,20 +61,21 @@ export function ResetPasswordPage() {
         <p className="text text_type_main-medium pb-6">Восстановление пароля</p>
         <form onSubmit={onFormSubmit} className={commonStyles.form}>
           <PasswordInput
-            name={"Введите новый пароль"}
-            onChange={(e) => setPass(e.target.value)}
-            value={password}
+            placeholder={"Введите пароль"}
+            name={"password"}
+            onChange={handleChange}
+            value={values["password"]}
             extraClass="pb-6"
           />
           <Input
             type={"text"}
             placeholder={"Введите текст из письма"}
-            name={"name"}
+            name={"token"}
             error={false}
             errorText={"Ошибка"}
             size={"default"}
-            onChange={(e) => setToken(e.target.value)}
-            value={token}
+            onChange={handleChange}
+            value={values["token"]}
             extraClass="pb-6"
           />
           <p className="pb-20">

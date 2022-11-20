@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../services/store";
@@ -13,6 +13,8 @@ import { sendForgot } from "../services/actions/auth/forgot";
 import commonStyles from "./page.module.css";
 import { IUser } from "../types/auth-types";
 
+import { useForm } from "../hooks/useForm";
+
 export function ForgotPasswordPage() {
   const history = useHistory();
   const forgotStore = useSelector((store: RootState) => store.forgot);
@@ -21,13 +23,13 @@ export function ForgotPasswordPage() {
     history.replace({ pathname: "/login" });
   }, [history]);
 
-  const [email, setEmail] = useState("");
+  const { handleChange, values } = useForm({ email: "" });
 
   const dispatch: AppDispatch = useDispatch();
 
   const sendEmail = () => {
     const postData: IUser = {
-      email: email,
+      email: values["email"],
       name: "",
     };
     dispatch<any>(sendForgot(postData, toResetCallBack));
@@ -41,7 +43,7 @@ export function ForgotPasswordPage() {
     return <Redirect to={"/"} />;
   }
 
-  const onFormSubmit = (e: { preventDefault: () => void }) => {
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     sendEmail();
   };
@@ -54,8 +56,8 @@ export function ForgotPasswordPage() {
             Восстановление пароля
           </p>
           <EmailInput
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            onChange={handleChange}
+            value={values["email"]}
             name={"email"}
             extraClass="pb-6"
           />
