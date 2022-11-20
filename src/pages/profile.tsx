@@ -39,7 +39,6 @@ export function ProfilePage() {
 
   useEffect(() => {
     if (userStore.user) {
-      debugger;
       setValues({
         ...values,
         ["email"]: userStore.user.email,

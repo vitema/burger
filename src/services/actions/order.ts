@@ -28,7 +28,6 @@ export function getOrder(postData: {
         },
         body: JSON.stringify(postData),
       });
-      debugger;
       dispatch<IOrderAction>({
         type: GET_ORDER_SUCCESS,
         order: data.order,

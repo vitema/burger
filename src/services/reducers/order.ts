@@ -29,7 +29,6 @@ export const orderReducer = (
       };
     }
     case GET_ORDER_SUCCESS: {
-      debugger;
       return {
         ...state,
         // Запрос выполнился успешно, помещаем полученные данные в хранилище
