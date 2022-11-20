@@ -2,7 +2,7 @@ import { apiUrl, accessTokenName } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { getCookie } from "../../../utils/cookie";
 import { AppDispatch } from "../../store";
-import { IUserAction, IUserPayLoad } from "../../../utils/types";
+import { IUserAction, IUserPayLoad } from "../../../types/auth-types";
 
 import { getErrorMessage } from "../../../utils/errors";
 

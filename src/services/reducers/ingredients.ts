@@ -7,7 +7,7 @@ import {
   CLEAR_COUNTS,
 } from "../actions/ingredients";
 
-import { IIngredientsState, IIngredientsAction } from "../../utils/types";
+import { IIngredientsState, IIngredientsAction } from "../../types/ingredients-types";
 
 
 const initialState = {

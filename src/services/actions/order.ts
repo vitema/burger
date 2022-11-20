@@ -2,7 +2,7 @@ import { apiUrl } from "../../constants/constants";
 import { request } from "../../utils/request";
 import { getCookie } from "../../utils/cookie";
 import { AppDispatch } from "../store";
-import { IOrderAction, IOrderApiResponse } from "../../utils/types";
+import { IOrderAction, IOrderApiResponse } from "../../types/order-types";
 
 export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
 export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS";

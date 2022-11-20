@@ -5,7 +5,7 @@ import {
   CLEAR_ORDER,
 } from "../actions/order";
 
-import { IOrderState, IOrderAction, IOrder } from "../../utils/types";
+import { IOrderState, IOrderAction, IOrder } from "../../types/order-types";
 
 const initialState = {
   orderRequest: false,

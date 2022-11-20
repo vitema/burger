@@ -1,9 +1,10 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
-import { IRequestAction, IAuthApiResponse } from "../../../utils/types";
+
 import { AppDispatch } from "../../store";
 
 import { getErrorMessage } from "../../../utils/errors";
+import { IRequestAction, IAuthApiResponse } from "../../../types/auth-types";
 
 export const FORGOT_REQUEST = "FORGOT_REQUEST";
 export const FORGOT_SUCCESS = "FORGOT_SUCCESS";

@@ -1,7 +1,7 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { AppDispatch } from "../../store";
-import { IRequestAction, IAuthApiResponse } from "../../../utils/types";
+import { IRequestAction, IAuthApiResponse } from "../../../types/auth-types";
 import { getErrorMessage } from "../../../utils/errors";
 
 export const RESET_REQUEST = "RESET_REQUEST";

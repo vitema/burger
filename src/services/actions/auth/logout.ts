@@ -3,7 +3,11 @@ import { request } from "../../../utils/request";
 import { getCookie } from "../../../utils/cookie";
 import { USER_SET } from "./user";
 import { AppDispatch } from "../../store";
-import { IAuthApiResponse, IRequestAction, IUserAction } from "../../../utils/types";
+import {
+  IAuthApiResponse,
+  IRequestAction,
+  IUserAction,
+} from "../../../types/auth-types";
 import { getErrorMessage } from "../../../utils/errors";
 
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";

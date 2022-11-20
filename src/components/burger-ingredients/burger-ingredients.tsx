@@ -5,15 +5,15 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 
 import { RootState, AppDispatch } from "../../services/store";
-import { IIngredient } from "../../utils/types";
 
 import { availableTypes, bunType } from "../../constants/constants";
-
 
 import { SET_INGREDIENT } from "../../services/actions/ingredient";
 
 import IngredientsGroup from "../ingredients-group/ingredients-group";
 import Ingridient from "../burger-ingredient/burger-ingredient";
+
+import { IIngredient } from "../../types/ingredients-types";
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = React.useState<string>();
@@ -63,8 +63,8 @@ const BurgerIngredients = () => {
               <IngredientsGroup groupType={key} setCurrent={setCurrent}>
                 <ul className={styles.row}>
                   {data
-                    .filter((x) => x.type === key)
-                    .map((item) => (
+                    .filter((x: IIngredient) => x.type === key)
+                    .map((item: IIngredient) => (
                       <Ingridient
                         key={item._id}
                         item={item}

@@ -3,22 +3,10 @@ import {
   RESET_SUCCESS,
   RESET_FAILED,
 } from "../../actions/auth/reset";
-import { IRequestState, IRequestAction } from "../../../utils/types";
+import { IRequestState, IRequestAction } from "../../../types/auth-types";
 
 import { sendForgotEmail } from "../../../constants/constants";
 import { deleteCookie } from "../../../utils/cookie";
-
-
-// interface IState {
-//   request: boolean;
-//   success: boolean;
-//   message: string;
-// }
-
-// interface IAction {
-//   type:  string;
-//   payload: string;
-// }
 
 const initialState = {
   request: false,

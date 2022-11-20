@@ -8,12 +8,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-component.module.css";
 
-import { IIngredient } from "../../utils/types";
-
 import { bunType, dndComponentAccept } from "../../constants/constants";
 
 import { DECREMENT_COUNT } from "../../services/actions/ingredients";
 import { DELETE_COMPONENT } from "../../services/actions/constructor";
+import {IIngredient} from "../../types/ingredients-types";
 
 interface BurgerComponentProps {
   item: IIngredient;

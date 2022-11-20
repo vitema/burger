@@ -2,7 +2,7 @@ import { apiUrl } from "../../constants/constants";
 import { request } from "../../utils/request";
 import { AppDispatch } from "../store";
 
-import { IIngredientsState, IIngredientsAction, IIngredientsApiResponse } from "../../utils/types";
+import { IIngredientsAction, IIngredientsApiResponse } from "../../types/ingredients-types";
 
 export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";

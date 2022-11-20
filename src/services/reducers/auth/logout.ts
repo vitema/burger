@@ -6,7 +6,7 @@ import {
   LOGOUT_FAILED,
 } from "../../actions/auth/logout";
 
-import { IRequestState, IRequestAction } from "../../../utils/types";
+import { IRequestState, IRequestAction } from "../../../types/auth-types";
 
 const initialState = {
   request: false,

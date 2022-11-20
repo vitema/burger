@@ -8,7 +8,7 @@ import {
   USER_SET
 } from "../../actions/auth/user";
 
-import { IUserState, IUserAction } from "../../../utils/types";
+import { IUserState, IUserAction } from "../../../types/auth-types";
 
 const initialState = {
   request: false,

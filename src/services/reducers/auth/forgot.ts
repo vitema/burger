@@ -6,7 +6,7 @@ import {
 import { setCookie } from "../../../utils/cookie";
 import { sendForgotEmail } from "../../../constants/constants";
 
-import { IRequestState, IRequestAction } from "../../../utils/types";
+import { IRequestState, IRequestAction } from "../../../types/auth-types";
 
 
 const initialState: IRequestState = {

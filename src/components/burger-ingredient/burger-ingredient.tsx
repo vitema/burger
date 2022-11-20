@@ -1,9 +1,6 @@
 import { FC } from "react";
 import { useDrag } from "react-dnd/dist/hooks";
-import {
-  useLocation,
-  Link
-} from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 import {
   CurrencyIcon,
@@ -17,15 +14,14 @@ import {
   dndIngredientsAccept,
 } from "../../constants/constants";
 
-import { IIngredient } from "../../utils/types";
+import { IIngredient } from "../../types/ingredients-types";
 
 interface BurgerIngredientProps {
   item: IIngredient;
   onClick: () => void;
 }
 
-
-const BurgerIngredient: FC<BurgerIngredientProps>= ({ item, onClick }) => {
+const BurgerIngredient: FC<BurgerIngredientProps> = ({ item, onClick }) => {
   // drag
   // Получаем реф для каждого элемента, который можно перетащить,
   // opacity - возвращается из функции collect
@@ -47,25 +43,28 @@ const BurgerIngredient: FC<BurgerIngredientProps>= ({ item, onClick }) => {
   const location = useLocation();
   return (
     <Link
-    key={item._id}
-    to={{
-      // Тут мы формируем динамический путь для нашего ингредиента
-      // а также сохраняем в свойство background роут, на котором была открыта наша модалка.
-      pathname: `/ingredients/${item._id}`,
-      state: { background: location },
-    }}
-    className={styles.link}
-  >
-    <li
-      className={styles.column}
-      onClick={onClick}
-      style={{ opacity }}
-      ref={dragRef}
+      key={item._id}
+      to={{
+        // Тут мы формируем динамический путь для нашего ингредиента
+        // а также сохраняем в свойство background роут, на котором была открыта наша модалка.
+        pathname: `/ingredients/${item._id}`,
+        state: { background: location },
+      }}
+      className={styles.link}
     >
-     
+      <li
+        className={styles.column}
+        onClick={onClick}
+        style={{ opacity }}
+        ref={dragRef}
+      >
         <div className={styles.imgBox}>
           <img src={item.image} alt={item.name} />
-          {item.count && item.count > 0 && <Counter count={item.count} size="default" />}
+          {item.count && item.count > 0 ? (
+            <Counter count={item.count} size="default" />
+          ) : (
+            <></>
+          )}
         </div>
 
         <div className={styles.priceBox}>
@@ -78,9 +77,8 @@ const BurgerIngredient: FC<BurgerIngredientProps>= ({ item, onClick }) => {
         <div className={styles.textBox}>
           <p className="text text_type_main-small">{item.name}</p>
         </div>
-     
-    </li>
-     </Link>
+      </li>
+    </Link>
   );
 };
 

@@ -35,15 +35,21 @@ import {
   CLEAR_COUNTS,
 } from "../../services/actions/ingredients";
 
-import { IIngredientsAction, IOrderAction, IConstructorAction, IIngredient } from "../../utils/types";
-
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import BurgerComponent from "../burger-component/burger-component";
 
+import {
+  IIngredientsAction,
+  IConstructorAction,
+  IIngredient,
+  IConstructorState,
+} from "../../types/ingredients-types";
+import { IOrderAction } from "../../types/order-types";
+
 const BurgerConstructor = () => {
   const ingredientsData = useSelector(
-    (store: RootState) => store.constructorIngredients
+    (store: RootState) => store.constructorIngredients as IConstructorState
   );
   const orderData = useSelector((store: RootState) => store.order);
 
@@ -64,7 +70,7 @@ const BurgerConstructor = () => {
     }
 
     const allData = [...ingredientsData.components, ingredientsData.bun];
-    const ids = allData.map((item) => item._id);
+    const ids = allData.map((item) => item?._id);
     const postData = { ingredients: ids };
     dispatch<any>(getOrder(postData));
     handleOpenModal();
@@ -93,8 +99,10 @@ const BurgerConstructor = () => {
     }
 
     return (
-      ingredientsData.components.reduce((sum, item) => sum + item.price, 0) +
-      ingredientsData.bun.price * 2
+      ingredientsData.components.reduce(
+        (sum: number, item: IIngredient) => sum + item.price,
+        0
+      ) + (ingredientsData.bun ? ingredientsData.bun.price * 2 : 0)
     );
   };
 
@@ -114,7 +122,7 @@ const BurgerConstructor = () => {
         dispatch<IIngredientsAction>({
           type: DECREMENT_COUNT,
           id: ingredientsData.bun._id,
-          ingredients:[]
+          ingredients: [],
         });
       }
 
@@ -130,13 +138,13 @@ const BurgerConstructor = () => {
           dragId: uuid(),
         },
         components: [],
-        id:""
+        id: "",
       });
 
       dispatch<IIngredientsAction>({
         type: INCREMENT_COUNT,
         id: item._id,
-        ingredients:[]
+        ingredients: [],
       });
     },
   });
@@ -154,7 +162,7 @@ const BurgerConstructor = () => {
         dispatch<IIngredientsAction>({
           type: DECREMENT_COUNT,
           id: ingredientsData.bun._id,
-          ingredients:[]
+          ingredients: [],
         });
       }
 
@@ -174,7 +182,7 @@ const BurgerConstructor = () => {
       dispatch<IIngredientsAction>({
         type: INCREMENT_COUNT,
         id: item._id,
-        ingredients:[]
+        ingredients: [],
       });
     },
   });
@@ -198,7 +206,7 @@ const BurgerConstructor = () => {
         type: MOVE_COMPONENT,
         components: newCards,
         item: undefined,
-        id:""
+        id: "",
       });
     },
     [ingredientsData.components, dispatch]
@@ -212,29 +220,31 @@ const BurgerConstructor = () => {
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={`${ingredientsData.bun.name} (верх)`}
-              price={ingredientsData.bun.price}
-              thumbnail={ingredientsData.bun.image}
+              text={`${ingredientsData.bun?.name} (верх)`}
+              price={ingredientsData.bun ? ingredientsData.bun.price : 0}
+              thumbnail={ingredientsData.bun?ingredientsData.bun.image: ""}
             />
           </div>
 
           <div className={styles.itemsBox} ref={dropComponentRef}>
-            {ingredientsData.components.map((item, index) => (
-              <BurgerComponent
-                key={item.dragId}
-                index={index}
-                item={item}
-                moveCard={moveCard}
-              />
-            ))}
+            {ingredientsData.components.map(
+              (item: IIngredient, index: number) => (
+                <BurgerComponent
+                  key={item.dragId}
+                  index={index}
+                  item={item}
+                  moveCard={moveCard}
+                />
+              )
+            )}
           </div>
           <div className="pl-6 pr-6">
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={`${ingredientsData.bun.name}  (низ)`}
-              price={ingredientsData.bun.price}
-              thumbnail={ingredientsData.bun.image}
+              text={`${ingredientsData.bun?.name}  (низ)`}
+              price={ingredientsData.bun ? ingredientsData.bun.price : 0}
+              thumbnail={ingredientsData.bun?ingredientsData.bun.image: ""}
             />
           </div>
 

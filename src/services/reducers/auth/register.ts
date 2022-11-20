@@ -1,29 +1,11 @@
 import { saveTokens } from "../../../utils/cookie";
-import { IRequestState, ITokenAction } from "../../../utils/types";
+import { IRequestState, ITokenAction } from "../../../types/auth-types";
 
 import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILED,
 } from "../../actions/auth/register";
-
-
-// interface IState {
-//   request: boolean;
-//   success: boolean;
-//   message: string;
-// }
-
-// interface IPayLoad{
-//   refreshToken:string;
-//   accessToken: string;
-//   message: string;
-// }
-
-// interface IAction {
-//   type:  string;
-//   payload: IPayLoad;
-// }
 
 const initialState = {
   request: false,

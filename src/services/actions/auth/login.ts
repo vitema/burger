@@ -1,7 +1,7 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { AppDispatch } from "../../store";
-import { ITokenAction, ITokenPayLoad } from "../../../utils/types";
+import { ITokenAction, ITokenPayLoad } from  "../../../types/auth-types";
 import { getErrorMessage } from "../../../utils/errors";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";

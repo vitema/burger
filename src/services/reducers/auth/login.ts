@@ -1,5 +1,5 @@
 import { saveTokens } from "../../../utils/cookie";
-import { IRequestState, ITokenAction } from "../../../utils/types";
+import { IRequestState, ITokenAction } from "../../../types/auth-types";
 
 import {
   LOGIN_REQUEST,

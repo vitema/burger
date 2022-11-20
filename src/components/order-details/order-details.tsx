@@ -1,8 +1,10 @@
 import { FC } from "react";
 import styles from "./order-details.module.css";
-import { IOrder } from "../../utils/types";
+
 import status1Img from "./images/status1.png";
 import status2Img from "./images/status2.webp";
+
+import { IOrder } from "../../types/order-types";
 
 const getStatusImgPath = (status: number): string => {
   switch (status) {

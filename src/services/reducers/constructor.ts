@@ -1,4 +1,4 @@
-import { IConstructorState, IConstructorAction } from "../../utils/types";
+import { IConstructorState, IConstructorAction,IIngredient } from "../../types/ingredients-types";
 
 import {
   GET_INGREDIENTS,
@@ -10,7 +10,7 @@ import {
 import { bunType } from "../../constants/constants";
 
 const initialState = {
-  bun: null,
+  bun: undefined,
   components: [],
   error: "",
 };
