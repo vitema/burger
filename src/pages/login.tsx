@@ -12,6 +12,7 @@ import commonStyles from "./page.module.css";
 
 import { sendLogin } from "../services/actions/auth/login";
 import { isAuth } from "../utils/cookie";
+import { IUser } from "../types/auth-types";
 
 export function LoginPage() {
   const history = useHistory();
@@ -30,9 +31,10 @@ export function LoginPage() {
 
   const dispatch: AppDispatch = useDispatch();
   const logIn = (): void => {
-    const postData = {
+    const postData: IUser = {
       email: email,
       password: password,
+      name: "",
     };
 
     dispatch<any>(sendLogin(postData));

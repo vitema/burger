@@ -2,7 +2,7 @@ import { apiUrl, accessTokenName } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { getCookie } from "../../../utils/cookie";
 import { AppDispatch } from "../../store";
-import { IUserAction, IUserPayLoad } from "../../../types/auth-types";
+import { IUser, IUserAction, IUserPayLoad } from "../../../types/auth-types";
 
 import { getErrorMessage } from "../../../utils/errors";
 
@@ -52,13 +52,8 @@ export function getUser() {
   };
 }
 
-interface IPostData {
-  email: string;
-  name: string;
-  password: string;
-}
 
-export function updateUser(postData: IPostData) {
+export function updateUser(postData: IUser) {
   return async function (dispatch: AppDispatch) {
     dispatch<IUserAction>({
       type: USER_UPDATE_REQUEST,

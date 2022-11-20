@@ -1,20 +1,15 @@
 import { apiUrl } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { AppDispatch } from "../../store";
-import { ITokenAction, ITokenPayLoad } from "../../../types/auth-types";
+import { ITokenAction, ITokenPayLoad, IUser } from "../../../types/auth-types";
 import { getErrorMessage } from "../../../utils/errors";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 
-interface IPostData {
-  email: string;
-  password: string;
-}
-
 export function sendLogin(
-  postData: IPostData
+  postData: IUser
 ): (dispatch: AppDispatch) => Promise<void> {
   return async function (dispatch: AppDispatch) {
     dispatch<ITokenAction>({

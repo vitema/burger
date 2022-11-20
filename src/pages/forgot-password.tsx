@@ -11,6 +11,7 @@ import { isAuth } from "../utils/cookie";
 import { sendForgot } from "../services/actions/auth/forgot";
 
 import commonStyles from "./page.module.css";
+import { IUser } from "../types/auth-types";
 
 export function ForgotPasswordPage() {
   const history = useHistory();
@@ -25,8 +26,9 @@ export function ForgotPasswordPage() {
   const dispatch: AppDispatch = useDispatch();
 
   const sendEmail = () => {
-    const postData = {
+    const postData: IUser = {
       email: email,
+      name: "",
     };
     dispatch<any>(sendForgot(postData, toResetCallBack));
   };
