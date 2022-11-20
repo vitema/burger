@@ -1,6 +1,6 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useHistory, Redirect } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 
 import {
   Button,
@@ -13,14 +13,13 @@ import commonStyles from "./page.module.css";
 import { sendRegister } from "../services/actions/auth/register";
 import { isAuth } from "../utils/cookie";
 
-import { RootState, AppDispatch } from "../services/store";
 import { IUser } from "../types/auth-types";
 
 import { useForm } from "../hooks/useForm";
 
 export function RegisterPage() {
   const history = useHistory();
-  const registerStore = useSelector((store: RootState) => store.register);
+  const registerStore = useAppSelector(store => store.register);
 
   const login = useCallback(() => {
     history.replace({ pathname: "/login" });
@@ -32,10 +31,10 @@ export function RegisterPage() {
     password: "",
   });
 
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const save = () => {
-    const postData : IUser = {
+    const postData: IUser = {
       password: values["password"],
       name: values["name"],
       email: values["email"],
@@ -46,7 +45,7 @@ export function RegisterPage() {
     return <Redirect to={"/"} />;
   }
 
-  const onFormSubmit =  (e: React.FormEvent<HTMLFormElement>): void => {
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     save();
   };
@@ -92,7 +91,7 @@ export function RegisterPage() {
           <Button
             type="secondary"
             size="medium"
-            onClick={ login}
+            onClick={login}
             htmlType="button"
           >
             Войти

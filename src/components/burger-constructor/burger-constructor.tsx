@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import { useHistory } from "react-router-dom";
 import { RootState, AppDispatch } from "../../services/store";
@@ -45,13 +45,13 @@ import {
   IIngredient,
   IConstructorState,
 } from "../../types/ingredients-types";
-import { IOrderAction } from "../../types/order-types";
+import { IOrderAction, IOrderState } from "../../types/order-types";
 
 const BurgerConstructor = () => {
-  const ingredientsData = useSelector(
-    (store: RootState) => store.constructorIngredients as IConstructorState
+  const ingredientsData = useAppSelector(
+    (store) => store.constructorIngredients as IConstructorState
   );
-  const orderData = useSelector((store: RootState) => store.order);
+  const orderData = useAppSelector((store) => store.order) as IOrderState;
 
   const isDataValid = (): boolean => {
     return (
@@ -62,7 +62,7 @@ const BurgerConstructor = () => {
 
   const { modalVisible, handleOpenModal, handleCloseModal } = useModal();
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const history = useHistory();
 

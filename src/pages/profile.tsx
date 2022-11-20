@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 
 import {
   Button,
@@ -12,14 +12,13 @@ import commonStyles from "./page.module.css";
 import Menu from "../components/menu/menu";
 
 import { getUser, updateUser } from "../services/actions/auth/user";
-import { RootState, AppDispatch } from "../services/store";
 import { IUser } from "../types/auth-types";
 
 import { useForm } from "../hooks/useForm";
 
 export function ProfilePage() {
-  const dispatch: AppDispatch = useDispatch();
-  const userStore = useSelector((store: RootState) => store.user);
+  const dispatch = useAppDispatch();
+  const userStore = useAppSelector((store) => store.user);
 
   const { values, setValues } = useForm({
     name: "",

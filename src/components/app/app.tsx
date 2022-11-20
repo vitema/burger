@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Provider } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -32,6 +31,8 @@ import AppHeader from "../app-header/app-header";
 import { store } from "../../services/store";
 import { Location } from "history";
 
+import {useAppDispatch} from "../../hooks/useStore";
+
 type TLocationState = {
   background: Location;
 };
@@ -47,7 +48,7 @@ function App() {
       history.goBack();
     };
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     useEffect(() => {
       dispatch<any>(getIngredients());
     }, [dispatch]);

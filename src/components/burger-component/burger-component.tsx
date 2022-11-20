@@ -1,5 +1,5 @@
 import { useRef, FC } from "react";
-import { useDispatch } from "react-redux";
+import {useAppDispatch} from "../../hooks/useStore";
 import { useDrag, useDrop } from "react-dnd/dist/hooks";
 
 import {
@@ -102,7 +102,7 @@ const BurgerComponent: FC<BurgerComponentProps> = ({
   const preventDefault = (e: { preventDefault: () => any }) =>
     e.preventDefault();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <div

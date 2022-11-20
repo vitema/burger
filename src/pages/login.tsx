@@ -1,7 +1,6 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useHistory, Redirect, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../services/store";
+import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 
 import {
   Button,
@@ -17,7 +16,7 @@ import { useForm } from "../hooks/useForm";
 
 export function LoginPage() {
   const history = useHistory();
-  const loginStore = useSelector((store: RootState) => store.login);
+  const loginStore = useAppSelector((store) => store.login);
 
   const register = useCallback(() => {
     history.replace({ pathname: "/register" });
@@ -27,9 +26,9 @@ export function LoginPage() {
     history.replace({ pathname: "/forgot-password" });
   }, [history]);
 
-  const { handleChange, values } = useForm({ "password": "", "email": "" });
+  const { handleChange, values } = useForm({ password: "", email: "" });
 
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const logIn = (): void => {
     const postData: IUser = {
       email: values["email"],

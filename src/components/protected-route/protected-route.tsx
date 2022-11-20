@@ -1,13 +1,8 @@
 import { FC, PropsWithChildren } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect,RouteProps  } from "react-router-dom";
 import { isAuth } from "../../utils/cookie";
 
- interface ProtectedRouteProps{
-  path:string;
-  exact:boolean
- }
-
-export const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = ({
+export const ProtectedRoute: FC<PropsWithChildren<RouteProps>> = ({
   children,
   ...rest
 }) => {

@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 
 import {
   Button,
@@ -13,13 +13,12 @@ import { sendReset } from "../services/actions/auth/reset";
 
 import { isAuth, isForgot } from "../utils/cookie";
 
-import { RootState, AppDispatch } from "../services/store";
-import { IReset, IUser } from "../types/auth-types";
+import { IReset } from "../types/auth-types";
 import { useForm } from "../hooks/useForm";
 
 export function ResetPasswordPage() {
   const history = useHistory();
-  const resetStore = useSelector((store: RootState) => store.reset);
+  const resetStore = useAppSelector((store) => store.reset);
 
   const login = useCallback(() => {
     history.replace({ pathname: "/login" });
@@ -30,7 +29,7 @@ export function ResetPasswordPage() {
     password: "",
   });
 
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const save = (): void => {
     const postData: IReset = {

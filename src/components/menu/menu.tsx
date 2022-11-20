@@ -1,15 +1,14 @@
 import { NavLink, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../services/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 
 import { sendLogout } from "../../services/actions/auth/logout";
 
 import styles from "./menu.module.css";
 
 const Menu = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const logoutStore = useSelector((store:RootState) => store.logout);
+  const logoutStore = useAppSelector(store => store.logout);
 
   const history = useHistory();
 

@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, createRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-
-import { RootState, AppDispatch } from "../../services/store";
 
 import { availableTypes, bunType } from "../../constants/constants";
 
@@ -18,7 +16,7 @@ import { IIngredient } from "../../types/ingredients-types";
 const BurgerIngredients = () => {
   const [current, setCurrent] = React.useState<string>();
 
-  const { data, ingredientsFailed } = useSelector((store: RootState) => ({
+  const { data, ingredientsFailed } = useAppSelector((store) => ({
     data: store.ingredients.items,
     ingredientsFailed: store.ingredients.ingredientsFailed,
   }));
@@ -30,7 +28,7 @@ const BurgerIngredients = () => {
     refs.current[index].current.scrollIntoView({ behavior: "smooth" });
   };
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const selectItem = (item: IIngredient): void => {
     dispatch({ type: SET_INGREDIENT, item });
