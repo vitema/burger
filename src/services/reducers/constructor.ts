@@ -10,6 +10,7 @@ import {
   DELETE_COMPONENT,
   CLEAR_INGREDIENTS,
 } from "../actions/constructor";
+
 import { bunType } from "../../constants/constants";
 
 const initialState = {

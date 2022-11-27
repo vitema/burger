@@ -6,19 +6,28 @@ import { IUser, IUserAction, IUserPayLoad } from "../../../types/auth-types";
 
 import { getErrorMessage } from "../../../utils/errors";
 
-export const USER_REQUEST = "USER_REQUEST";
-export const USER_SUCCESS = "USER_SUCCESS";
-export const USER_FAILED = "USER_FAILED";
+export const USER_REQUEST: "USER_REQUEST" = "USER_REQUEST";
+export const USER_SUCCESS: "USER_SUCCESS" = "USER_SUCCESS";
+export const USER_FAILED: "USER_FAILED" = "USER_FAILED";
 
-export const USER_UPDATE_REQUEST = "USER_REQUEST";
-export const USER_UPDATE_SUCCESS = "USER_SUCCESS";
-export const USER_UPDATE_FAILED = "USER_FAILED";
+export type TGetUserActions =
+  | typeof USER_REQUEST
+  | typeof USER_SUCCESS
+  | typeof USER_FAILED;
 
-export const USER_SET = "USER_SET";
+export const USER_UPDATE_REQUEST: "USER_UPDATE_REQUEST" = "USER_UPDATE_REQUEST";
+export const USER_UPDATE_SUCCESS: "USER_UPDATE_SUCCESS" = "USER_UPDATE_SUCCESS";
+export const USER_UPDATE_FAILED: "USER_UPDATE_FAILED" = "USER_UPDATE_FAILED";
+export const USER_SET: "USER_SET" = "USER_SET";
+export type TUpdateUserActions =
+  | typeof USER_UPDATE_REQUEST
+  | typeof USER_UPDATE_SUCCESS
+  | typeof USER_UPDATE_FAILED
+  | typeof USER_SET;
 
 export function getUser() {
   return async function (dispatch: AppDispatch) {
-    dispatch<IUserAction>({
+    dispatch<IUserAction<TGetUserActions>>({
       type: USER_REQUEST,
       payload: {
         message: "",
@@ -35,12 +44,12 @@ export function getUser() {
           Authorization: getCookie(accessTokenName),
         },
       });
-      dispatch<IUserAction>({
+      dispatch<IUserAction<TGetUserActions>>({
         type: USER_SUCCESS,
         payload: data,
       });
     } catch (error) {
-      dispatch<IUserAction>({
+      dispatch<IUserAction<TGetUserActions>>({
         type: USER_FAILED,
         payload: {
           message: getErrorMessage(error),
@@ -52,10 +61,9 @@ export function getUser() {
   };
 }
 
-
 export function updateUser(postData: IUser) {
   return async function (dispatch: AppDispatch) {
-    dispatch<IUserAction>({
+    dispatch<IUserAction<TUpdateUserActions>>({
       type: USER_UPDATE_REQUEST,
       payload: {
         message: "",
@@ -73,12 +81,12 @@ export function updateUser(postData: IUser) {
         },
         body: JSON.stringify(postData),
       });
-      dispatch<IUserAction>({
+      dispatch<IUserAction<TUpdateUserActions>>({
         type: USER_UPDATE_SUCCESS,
         payload: data,
       });
     } catch (error) {
-      dispatch<IUserAction>({
+      dispatch<IUserAction<TUpdateUserActions>>({
         type: USER_UPDATE_FAILED,
         payload: {
           message: getErrorMessage(error),

@@ -1,3 +1,5 @@
+import { TOrderActions } from "../services/actions/order";
+
 export interface IOrderStatus {
   value: number;
   text: string;
@@ -16,7 +18,7 @@ export interface IOrderState {
 }
 
 export interface IOrderAction {
-  type: string;
+  type: TOrderActions;
   order?: IOrder;
 }
 

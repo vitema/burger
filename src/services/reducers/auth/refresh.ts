@@ -1,11 +1,13 @@
 import { saveTokens } from "../../../utils/cookie";
 import { IRequestState, ITokenAction } from "../../../types/auth-types";
+import { TRefreshActions } from "../../actions/auth/refresh";
 
 import {
   TOKEN_REQUEST,
   TOKEN_SUCCESS,
   TOKEN_FAILED,
 } from "../../actions/auth/refresh";
+
 
 const initialState = {
   request: false,
@@ -15,7 +17,7 @@ const initialState = {
 
 export const refreshReducer = (
   state: IRequestState = initialState,
-  action: ITokenAction
+  action: ITokenAction<TRefreshActions>
 ) => {
   switch (action.type) {
     case TOKEN_REQUEST: {

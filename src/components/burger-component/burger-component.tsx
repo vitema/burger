@@ -118,8 +118,8 @@ const BurgerComponent: FC<BurgerComponentProps> = ({
         price={item.price}
         thumbnail={item.image}
         handleClose={() => {
-          dispatch({ type: DECREMENT_COUNT, id: item._id });
-          dispatch({ type: DELETE_COMPONENT, id: item.dragId });
+          dispatch({ type: DECREMENT_COUNT, id: item._id, ingredients: [] });
+          dispatch({ type: DELETE_COMPONENT, id: item.dragId as string, components:[] });
         }}
       />
     </div>

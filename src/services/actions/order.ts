@@ -3,12 +3,17 @@ import { request } from "../../utils/request";
 import { getCookie } from "../../utils/cookie";
 import { AppDispatch } from "../store";
 import { IOrderAction, IOrderApiResponse } from "../../types/order-types";
-import { IIngredient } from "../../types/ingredients-types";
 
-export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
-export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS";
-export const GET_ORDER_FAILED = "GET_ORDER_FAILED";
-export const CLEAR_ORDER = "CLEAR_ORDER";
+export const GET_ORDER_REQUEST: "GET_ORDER_REQUEST" = "GET_ORDER_REQUEST";
+export const GET_ORDER_SUCCESS: "GET_ORDER_SUCCESS" = "GET_ORDER_SUCCESS";
+export const GET_ORDER_FAILED: "GET_ORDER_FAILED" = "GET_ORDER_FAILED";
+export const CLEAR_ORDER: "CLEAR_ORDER" = "CLEAR_ORDER";
+
+export type TOrderActions =
+  | typeof GET_ORDER_REQUEST
+  | typeof GET_ORDER_SUCCESS
+  | typeof GET_ORDER_FAILED
+  | typeof CLEAR_ORDER;
 
 export function getOrder(postData: {
   ingredients: string[];

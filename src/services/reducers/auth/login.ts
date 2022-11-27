@@ -1,5 +1,6 @@
 import { saveTokens } from "../../../utils/cookie";
 import { IRequestState, ITokenAction } from "../../../types/auth-types";
+import { TLoginActions } from "../../actions/auth/login";
 
 import {
   LOGIN_REQUEST,
@@ -15,7 +16,7 @@ const initialState = {
 
 export const loginReducer = (
   state: IRequestState = initialState,
-  action: ITokenAction
+  action: ITokenAction<TLoginActions>
 ): IRequestState => {
   switch (action.type) {
     case LOGIN_REQUEST: {

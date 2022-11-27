@@ -4,8 +4,8 @@ export interface IRequestState {
   message: string;
 }
 
-export interface IRequestAction {
-  type: string;
+export interface IRequestAction<T> {
+  type: T;
   payload: string;
 }
 
@@ -15,8 +15,8 @@ export interface ITokenPayLoad {
   message: string;
 }
 
-export interface ITokenAction {
-  type: string;
+export interface ITokenAction<T> {
+  type: T;
   payload: ITokenPayLoad;
 }
 
@@ -45,8 +45,8 @@ export interface IUserState {
   user?: IUser;
 }
 
-export interface IUserAction {
-  type: string;
+export interface IUserAction<T> {
+  type: T;
   payload: IUserPayLoad;
 }
 

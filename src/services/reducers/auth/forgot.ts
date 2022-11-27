@@ -7,6 +7,7 @@ import { setCookie } from "../../../utils/cookie";
 import { sendForgotEmail } from "../../../constants/constants";
 
 import { IRequestState, IRequestAction } from "../../../types/auth-types";
+import { TForgotActions } from "../../actions/auth/forgot";
 
 const initialState: IRequestState = {
   request: false,
@@ -16,8 +17,8 @@ const initialState: IRequestState = {
 
 export const forgotReducer = (
   state: IRequestState = initialState,
-  action: IRequestAction
-) => {
+  action: IRequestAction<TForgotActions>
+): IRequestState => {
   switch (action.type) {
     case FORGOT_REQUEST: {
       return {
