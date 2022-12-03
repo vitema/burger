@@ -21,12 +21,11 @@ import { IFeedAction, IFeedOrder, IFeed } from "../../types/feed-types";
 import { IOrder } from "../../types/order-types";
 
 interface FeedTotaltProps {
-  feed: IFeed | undefined;
+  feed: IFeed;
   ingredients: IIngredient[];
 }
 
 const FeedTotal: FC<FeedTotaltProps> = ({ feed, ingredients }) => {
-  const totalCount = 0;
 
   /**created, pending, done, cancelled */
 
@@ -44,11 +43,11 @@ const FeedTotal: FC<FeedTotaltProps> = ({ feed, ingredients }) => {
   };
 
   const doneOrders = chunks(
-    feed?.orders.filter((x) => x.status == "done").slice(0, 30),
+    feed.orders.filter((x) => x.status == "done").slice(0, 30),
     chunkSize
   );
   const pendingOrders = chunks(
-    feed?.orders.filter((x) => x.status == "pending").slice(0, 30),
+    feed.orders.filter((x) => x.status == "pending").slice(0, 30),
     chunkSize
   );
 
@@ -59,10 +58,10 @@ const FeedTotal: FC<FeedTotaltProps> = ({ feed, ingredients }) => {
           <p className="text text_type_main-medium pb-6">Готовы:</p>
 
           <div className={styles.leftCol}>
-            {doneOrders.map((chunk) => (
-              <div>
+            {doneOrders.map((chunk, index) => (
+              <div key={index}>
                 {chunk.map((order) => (
-                  <p className="text text_type_digits-default pr-2">
+                  <p  key={order._id} className="text text_type_digits-default pr-2">
                     {order.number}
                   </p>
                 ))}
@@ -73,10 +72,10 @@ const FeedTotal: FC<FeedTotaltProps> = ({ feed, ingredients }) => {
         <div>
           <p className="text text_type_main-medium pb-6">В работе:</p>
           <div className={styles.rightCol}>
-            {pendingOrders.map((chunk) => (
-              <div>
+            {pendingOrders.map((chunk, index) => (
+              <div key={index}>
                 {chunk.map((order) => (
-                  <p className="text text_type_digits-default pr-2">
+                  <p  key={order._id}  className="text text_type_digits-default pr-2">
                     {order.number}
                   </p>
                 ))}

@@ -74,7 +74,7 @@ function App() {
           <Route path="/feed" exact={true}>
             <FeedPage />
           </Route>
-          <Route path="/feed/:id" exact={true}>
+          <Route path="/feed/:orderId" exact={true}>
             <FeedOrderPage />
           </Route>
           <Route path="/register" exact={true}>

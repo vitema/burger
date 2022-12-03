@@ -10,7 +10,7 @@ import { IFeedState,IFeed, IFeedAction, IFeedOrder } from "../../../types/feed-t
 
 const initialState: IFeedState = {
   wsConnected: false,
-  feed: undefined,
+  feed:  {} as IFeed,
   tolalCost:0
 };
 

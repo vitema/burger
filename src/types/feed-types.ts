@@ -22,13 +22,13 @@ export interface IFeed {
 
 export interface IFeedAction {
   type: TWSActions;
-  payload?: IFeed;
+  payload: IFeed;
 }
 
 
 export interface IFeedState {
   wsConnected: boolean;
-  feed?: IFeed,
+  feed: IFeed,
   tolalCost: number;
 }
 

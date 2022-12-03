@@ -15,3 +15,11 @@ export const dndComponentAccept = "component";
 export const refreshTokenName="refreshToken";
 export const accessTokenName="accessToken";
 export const sendForgotEmail="sendForgotEmail";
+
+
+export const orderStatus: Record<string, string> = {
+  created: "Создан",
+  pending: "Готовится",
+  done: "Выполнен",
+  cancelled: "Отменен",
+};

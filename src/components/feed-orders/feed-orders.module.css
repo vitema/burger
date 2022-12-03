@@ -84,3 +84,9 @@
   margin: 5px 0 0 -24px;
   opacity: 0.2;
 }
+
+.link {
+  flex: 1 0 25%;
+  color: white;
+  text-decoration: none;
+}

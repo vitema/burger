@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, createRef, FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
-
+import { useLocation, Link } from "react-router-dom";
 import {
   Tab,
   CurrencyIcon,
@@ -93,21 +93,19 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients }) => {
       totalCost: 0,
     };
 
-    const bun = ingredients.filter((x) => x.type == bunType)[0];
-    let imgCount = 1;
-    info.images.push({
-      url: bun.image,
-      count: "",
-      id: bun._id,
-      alt: "",
-    });
-
+    let imgCount = 0;
+    // info.images.push({
+    //   url: bun.image,
+    //   count: "",
+    //   id: bun._id,
+    //   alt: "",
+    // });
+    let bunId="";
     ids.forEach((id) => {
       const ingredient = ingredients.filter((y) => y._id == id)[0];
-
-      if (imgCount <= 6) {
-        if (info.images.filter((x) => x.id == ingredient._id).length == 0) {
-          imgCount++;
+      if (info.images.filter((x) => x.id == ingredient._id).length == 0) {
+        imgCount++;
+        if (imgCount <= 6) {
           info.images.push({
             url: ingredient.image,
             count: imgCount == 6 ? `+${ingredients.length - 6}` : "",
@@ -117,47 +115,54 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients }) => {
         }
       }
 
+      if (ingredient.type == bunType){
+          bunId= ingredient._id;
+      }
       info.totalCost +=
         ingredient.type == bunType ? ingredient.price * 2 : ingredient.price;
     });
+
+    const bun = info.images.filter((item) => item.id == bunId)[0];
+    info.images = info.images.filter((item) => item.id !== bunId);
+    info.images.unshift(bun);
+  
 
     return (
       <div className={styles.row}>
         <div className={styles.leftColumn}>
           <div className={styles.row}>
             {info.images.map((img: IImage) => (
-              <>
+              <div key={img.id} className={styles.row}>
                 <div className={styles.imgBox}>
                   <img
                     className={img.count ? styles.imgLast : styles.img}
                     src={img.url}
                     alt={img.alt}
                   />
+                  
                 </div>
                 {img.count ? (
-                  <span className={styles.imgCount}>{img.count}</span>
-                ) : (
-                  <></>
-                )}
-              </>
+                    <span className={styles.imgCount}>{img.count}</span>
+                  ) : (
+                    <></>
+                  )}
+              </div>
+              
             ))}
+            
           </div>
         </div>
         <span className="text text_type_digits-default mt-4">
           {info.totalCost}
         </span>
         <span className="mt-4  ml-2">
-          {" "}
           <CurrencyIcon type="primary" />
         </span>
       </div>
     );
   };
 
-  useEffect(() => {
-    dispatch<IFeedAction>({ type: WS_CONNECTION_START, payload: undefined });
-  }, []);
-
+  const location = useLocation();
   return (
     <div className={styles.box}>
       <p className="text text_type_main-large pb-10">Лента заказов</p>
@@ -165,23 +170,34 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients }) => {
       {data && data.length > 0 && (
         <div className={styles.ingridientsBox}>
           {data.map((item: any) => (
-            <div className={styles.orderBox}>
-              <div className={styles.row}>
-                <div className={styles.leftColumn}>
-                  <span className="text text_type_digits-default">
-                    #{item.number}
+            <Link
+              key={item._id}
+              to={{
+                // Тут мы формируем динамический путь для нашего ингредиента
+                // а также сохраняем в свойство background роут, на котором была открыта наша модалка.
+                pathname: `/feed/${item._id}`,
+                //  state: { background: location },
+              }}
+              className={styles.link}
+            >
+              <div className={styles.orderBox}>
+                <div className={styles.row}>
+                  <div className={styles.leftColumn}>
+                    <span className="text text_type_digits-default">
+                      #{item.number}
+                    </span>
+                  </div>
+                  <span className="text text_type_main-default text_color_inactive pb-6">
+                    {formatDate(item.updatedAt)}
                   </span>
                 </div>
-                <span className="text text_type_main-default text_color_inactive pb-6">
-                  {formatDate(item.updatedAt)}
-                </span>
-              </div>
-              <div className={styles.row}>
-                <p className="text text_type_main-medium pb-6">{item.name}</p>
-              </div>
+                <div className={styles.row}>
+                  <p className="text text_type_main-medium pb-6">{item.name}</p>
+                </div>
 
-              {getIngredientsInfo(item.ingredients)}
-            </div>
+                {getIngredientsInfo(item.ingredients)}
+              </div>
+            </Link>
           ))}
         </div>
       )}
