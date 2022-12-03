@@ -1,0 +1,86 @@
+.tabBox {
+  display: flex;
+  margin-top: 20px;
+}
+
+.ingridientsBox {
+  height: 600px;
+  overflow: scroll;
+  overflow-x: hidden;
+  /* border: 1px solid greenyellow; */
+}
+
+.ingridientsBox::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ingridientsBox::-webkit-scrollbar-track {
+  background-color: #2f2f37;
+}
+
+.ingridientsBox::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.row {
+  display: flex;
+  /* flex-direction: row; */
+  /* flex-wrap: wrap; */
+  /* padding: 24px 16px 0px 16px; 
+ */
+}
+
+.leftColumn {
+  flex-grow: 1;
+}
+
+.box {
+  width: 650px;
+  margin-right: 40px;
+}
+
+.orderBox {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+  padding: 24px;
+
+  width: 584px;
+  /* height: 214px; */
+
+  /* interface/modal-bg */
+
+  background: #1c1c21;
+  /* /card/base */
+
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+}
+
+.img {
+  width: 112px;
+  margin: 5px 0 0 -24px;
+}
+
+.imgBox {
+  width: 64px;
+  height: 64px;
+  border-radius: 100%;
+  margin-right: -10px;
+  border: solid 2px #5a5a9b;
+  background-color: #131316;
+  
+}
+
+.imgCount {
+  /* position: relative; */
+  margin: 20px 0px 20px -35px;
+ 
+}
+
+.imgLast {
+  width: 112px;
+  margin: 5px 0 0 -24px;
+  opacity: 0.2;
+}

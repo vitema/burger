@@ -20,6 +20,8 @@ import {
   OrdersPage,
   OrderPage,
   IngredientPage,
+  FeedPage,
+  FeedOrderPage
 } from "../../pages";
 
 import { getIngredients } from "../../services/actions/ingredients";
@@ -69,6 +71,12 @@ function App() {
           <ProtectedRoute path="/profile/orders/:id" exact={true}>
             <OrderPage />
           </ProtectedRoute>
+          <Route path="/feed" exact={true}>
+            <FeedPage />
+          </Route>
+          <Route path="/feed/:id" exact={true}>
+            <FeedOrderPage />
+          </Route>
           <Route path="/register" exact={true}>
             <RegisterPage />
           </Route>
