@@ -19,7 +19,10 @@ export function FeedPage() {
   }));
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch<IFeedAction>({ type: WS_CONNECTION_START, payload: {} as IFeed });
+    dispatch<IFeedAction>({ type: WS_CONNECTION_START, payload: {
+      feed: {} as IFeed,
+      url: "/all"
+    }});
   }, []);
 
   const { ingredients } = useAppSelector((store) => ({
@@ -31,7 +34,7 @@ export function FeedPage() {
       {feed && feed.orders && feed.orders.length>0 && ingredients && ingredients.length>0 && (
         <div className={commonStyles.row}>
           <div className={commonStyles.row}>
-            <FeedOrders feed={feed} ingredients={ingredients} />
+            <FeedOrders feed={feed} ingredients={ingredients} title={"Лента заказов"} path={"feed"} />
             <FeedTotal feed={feed} ingredients={ingredients} />
           </div>
         </div>

@@ -22,9 +22,11 @@ import { IFeedAction, IFeed } from "../../types/feed-types";
 interface FeedOrderstProps {
   feed: IFeed | undefined;
   ingredients: IIngredient[];
+   title: string;
+   path: string
 }
 
-const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients }) => {
+const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients, title, path }) => {
   const [current, setCurrent] = React.useState<string>();
 
   const data = feed?.orders;
@@ -166,7 +168,7 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients }) => {
   const location = useLocation();
   return (
     <div className={styles.box}>
-      <p className="text text_type_main-large pb-10">Лента заказов</p>
+      <p className="text text_type_main-large pb-10">{title}</p>
 
       {data && data.length > 0 && (
         <div className={styles.ingridientsBox}>
@@ -176,7 +178,7 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients }) => {
               to={{
                 // Тут мы формируем динамический путь для нашего ингредиента
                 // а также сохраняем в свойство background роут, на котором была открыта наша модалка.
-                pathname: `/feed/${item._id}`,
+                pathname: `/${path}/${item._id}`,
                 //  state: { background: location },
               }}
               className={styles.link}

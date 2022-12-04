@@ -20,9 +20,14 @@ export interface IFeed {
 }
 
 
+interface IFeedPayload{
+  feed: IFeed,
+  url: string
+}
+
 export interface IFeedAction {
   type: TWSActions;
-  payload: IFeed;
+  payload: IFeedPayload;
 }
 
 

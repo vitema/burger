@@ -13,8 +13,6 @@ export type TWSActions =
   | typeof WS_CONNECTION_ERROR
   | typeof WS_CONNECTION_CLOSED
   | typeof WS_GET_MESSAGE
-  | typeof WS_SEND_MESSAGE
-  | typeof WS_GET_MESSAGE
 
   
   // export const wsConnectionSuccess = () => {

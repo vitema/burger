@@ -40,7 +40,7 @@ export const wsReducer = (
     case WS_GET_MESSAGE:
       return {
         ...state,
-        feed: action.payload,
+        feed: action.payload.feed,
         total:0
       };
    

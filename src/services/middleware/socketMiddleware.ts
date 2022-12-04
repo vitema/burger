@@ -8,16 +8,12 @@ export const socketMiddleware = (wsUrl: string, wsActions: any) => {
       return (next: (arg0: any) => void) => (action: IFeedAction ) => {
         const { dispatch, getState } = store;
         const { type, payload } = action;
-      //  const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
-       // const { user } = getState().user;
-       //&& user
-        if (type === WS_CONNECTION_START ) {
-         // socket = new WebSocket(`${wsUrl}?token=${user.token}`);
-          socket = new WebSocket(`${wsUrl}`);
+    
+        if (type === WS_CONNECTION_START && payload.url) {
+          socket = new WebSocket(`${wsUrl}${payload.url}`);
         }
         if (socket) {
           socket.onopen = event => {
-           // dispatch({ type: onOpen, payload: event });
             dispatch({ type: WS_CONNECTION_SUCCESS });
           };
   
@@ -30,7 +26,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: any) => {
             const parsedData = JSON.parse(data);
             const { success, ...restParsedData } = parsedData;
   
-            dispatch({ type: WS_GET_MESSAGE, payload: restParsedData });
+            dispatch({ type: WS_GET_MESSAGE, payload: {feed: restParsedData, url: "" }});
           };
   
           // socket.onclose = event => {

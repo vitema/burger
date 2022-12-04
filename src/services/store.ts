@@ -55,7 +55,7 @@ const wsActions = {
 };
 
 
-const enhancer = composeEnhancers(applyMiddleware(thunk,socketMiddleware(`${wsUrl}/all`,wsActions)));
+const enhancer = composeEnhancers(applyMiddleware(thunk,socketMiddleware(`${wsUrl}`,wsActions)));
 
 type TApplicationActions =
   | IRequestAction<TForgotActions>

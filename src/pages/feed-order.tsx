@@ -26,7 +26,10 @@ export function FeedOrderPage() {
     if (!wsConnected) {
       dispatch<IFeedAction>({
         type: WS_CONNECTION_START,
-        payload: {} as IFeed,
+        payload: {
+          feed: {} as IFeed,
+          url: "/all"
+        }
       });
     }
   }, []);
