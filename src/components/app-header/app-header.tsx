@@ -13,7 +13,7 @@ const AppHeader = () => {
           <TopMenuItem to={"/"} text={"Конструктор"} icon={"burger"} />
         </div>
         <div className={headerStyles.menuItem}>
-          <TopMenuItem to={""} text={"Лента заказов"} icon={"list"} />
+          <TopMenuItem to={"/feed"} text={"Лента заказов"} icon={"list"} />
         </div>
       </div>
 

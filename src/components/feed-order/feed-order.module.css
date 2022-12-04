@@ -6,13 +6,13 @@
  */
  align-items:center;
  padding-top: 16px;
+ 
 }
 
 
 
 .box {
   width: 650px;
-  border: solid 2px #5a5a9b;
 }
 
 .ingridientsBox {
@@ -78,4 +78,13 @@
 
 .status{
   color:#00CCCC
+}
+
+.title{
+  text-align: center;
+}
+
+.wideCol{
+  flex-grow: 1;
+
 }

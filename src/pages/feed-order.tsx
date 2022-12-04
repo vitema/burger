@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, createRef, FC } from "react";
+import React, { useEffect, useRef, createRef, FC, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 
@@ -15,29 +15,43 @@ export function FeedOrderPage() {
     orderId: string;
   };
   const dispatch = useAppDispatch();
-  let item: IFeedOrder = {} as IFeedOrder;
 
-  const { feed } = useAppSelector((store) => ({
+  const { feed, wsConnected } = useAppSelector((store) => ({
     feed: store.feed.feed,
+    wsConnected: store.feed.wsConnected,
   }));
   const { params } = useRouteMatch<FeedOrderRouteParams>();
 
   useEffect(() => {
-    dispatch<IFeedAction>({ type: WS_CONNECTION_START, payload: {} as IFeed });
-    
-      item = feed.orders.filter((x) => x._id == params["orderId"])[0];
-   
+    if (!wsConnected) {
+      dispatch<IFeedAction>({
+        type: WS_CONNECTION_START,
+        payload: {} as IFeed,
+      });
+    }
   }, []);
+
+  const [item, setItem] = useState({} as IFeedOrder);
+
+  useEffect(() => {
+    if (feed?.orders) {
+      setItem(feed.orders.filter((x) => x._id == params["orderId"])[0]);
+    }
+  }, [feed]);
 
   const { ingredients } = useAppSelector((store) => ({
     ingredients: store.ingredients.items,
   }));
-
   return (
-    <div className={commonStyles.row}>
-     
-        <FeedOrder order={item} ingredients={ingredients}></FeedOrder>
-    </div>
+    <>
+      {item?.ingredients?.length > 0 ? (
+        <div className={commonStyles.row}>
+          <FeedOrder order={item} ingredients={ingredients}></FeedOrder>
+        </div>
+      ) : (
+        <div>Падажите</div>
+      )}
+    </>
   );
 }
 

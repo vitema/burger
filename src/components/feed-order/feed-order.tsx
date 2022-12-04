@@ -83,6 +83,7 @@ const FeedOrder: FC<FeedOrdertProps> = ({ order, ingredients }) => {
 
   let bunId = "";
   let total = 0;
+  debugger;
   order.ingredients.forEach((id) => {
     const ingredient = ingredients.filter((x) => x._id == id)[0];
 
@@ -118,7 +119,9 @@ const FeedOrder: FC<FeedOrdertProps> = ({ order, ingredients }) => {
 
   return (
     <div className={styles.box}>
-      <p className="text text_type_digits-default pb-10">{order?.number}</p>
+      <div className={styles.title}>
+        <p className="text text_type_digits-default pb-10">#{order?.number}</p>
+      </div>
       <p className="text text_type_main-medium pb-3">{order?.name}</p>
       <div className={styles.status}>
         <p className="text text_type_main-defailt pb-15">
@@ -150,13 +153,17 @@ const FeedOrder: FC<FeedOrdertProps> = ({ order, ingredients }) => {
         ))}
       </div>
       <div className={styles.row}>
-        <span className="text text_type_main-default text_color_inactive pb-6">
-          {formatDate(order?.updatedAt)}
-        </span>
-        <span className="text text_type_digits-default mt-4">{total}</span>
-        <span className="mt-4  ml-2">
-          <CurrencyIcon type="primary" />
-        </span>
+        <div className={styles.wideCol}>
+          <span className="text text_type_main-default text_color_inactive pb-6">
+            {formatDate(order?.updatedAt)}
+          </span>
+        </div>
+        <div>
+          <span className="text text_type_digits-default mt-4">{total}</span>
+          <span className="mt-4  ml-2 ">
+            <CurrencyIcon type="primary" />
+          </span>
+        </div>
       </div>
     </div>
   );

@@ -100,6 +100,7 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients }) => {
     //   id: bun._id,
     //   alt: "",
     // });
+    // debugger;
     let bunId="";
     ids.forEach((id) => {
       const ingredient = ingredients.filter((y) => y._id == id)[0];
@@ -122,9 +123,9 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients }) => {
         ingredient.type == bunType ? ingredient.price * 2 : ingredient.price;
     });
 
-    const bun = info.images.filter((item) => item.id == bunId)[0];
-    info.images = info.images.filter((item) => item.id !== bunId);
-    info.images.unshift(bun);
+    // const bun = info.images.filter((item) => item.id == bunId)[0];
+    // info.images = info.images.filter((item) => item.id !== bunId);
+    // info.images.unshift(bun);
   
 
     return (
