@@ -41,7 +41,7 @@ export const wsReducer = (
       return {
         ...state,
         feed: action.payload.feed,
-        total:0
+        
       };
    
 
