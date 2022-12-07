@@ -16,8 +16,7 @@ import Ingridient from "../burger-ingredient/burger-ingredient";
 
 import { IIngredient } from "../../types/ingredients-types";
 
-import { WS_CONNECTION_START } from "../../services/actions/feed/wsActions";
-import { IFeedAction, IFeed, IFeedOrder } from "../../types/feed-types";
+import { IWSAction, IFeed, IFeedOrder } from "../../types/feed-types";
 
 import { orderStatus } from "../../constants/constants";
 

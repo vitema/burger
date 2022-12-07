@@ -9,19 +9,19 @@ import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import commonStyles from "./page.module.css";
 import FeedOrders from "../components/feed-orders/feed-orders";
 import FeedTotal from "../components/feed-total/feed-total";
-import { IFeedOrder, IFeedAction, IFeed } from "../types/feed-types";
+import { IFeedOrder, IWSAction, IFeed } from "../types/feed-types";
 import { getCookie } from "../utils/cookie";
 import { accessTokenName } from "../constants/constants";
 
-import { WS_CONNECTION_START } from "../services/actions/feed/wsActions";
+import { WS_USER_CONNECTION_START } from "../services/actions/feed/wsUserActions";
 
 export function OrdersPage() {
   const { feed } = useAppSelector((store) => ({
-    feed: store.feed.feed,
+    feed: store.userFeed,
   }));
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch<IFeedAction>({ type: WS_CONNECTION_START, payload: {
+    dispatch<IWSAction>({ type: WS_USER_CONNECTION_START, payload: {
       feed: {} as IFeed,
       url: `?token=${getCookie(accessTokenName).replace('Bearer ', '')}`
     }});
@@ -33,10 +33,10 @@ export function OrdersPage() {
 
   return (
     <>
-      {feed && feed.orders && feed.orders.length>0 && ingredients && ingredients.length>0 && (
+      {feed && feed.feed.orders && feed.feed.orders.length>0 && ingredients && ingredients.length>0 && (
         <div className={commonStyles.row}>
           <div className={commonStyles.row}>
-            <FeedOrders feed={feed} ingredients={ingredients} title={"История заказов"} path={"profile/orders"} />
+            <FeedOrders feed={feed.feed} ingredients={ingredients} title={"История заказов"} path={"profile/orders"} />
           </div>
         </div>
       )}

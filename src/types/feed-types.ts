@@ -25,8 +25,14 @@ interface IFeedPayload{
   url: string
 }
 
-export interface IFeedAction {
-  type: TWSActions;
+// export interface IFeedAction {
+//   type: TWSActions;
+//   payload: IFeedPayload;
+// }
+
+
+export interface IWSAction {
+  type: string;
   payload: IFeedPayload;
 }
 

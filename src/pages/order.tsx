@@ -5,10 +5,10 @@ import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import Menu from "../components/menu/menu";
 
 import commonStyles from "./page.module.css";
-import { IFeedOrder, IFeedAction, IFeed } from "../types/feed-types";
+import { IFeedOrder, IWSAction, IFeed } from "../types/feed-types";
 import FeedOrder from "../components/feed-order/feed-order";
 
-import { WS_CONNECTION_START } from "../services/actions/feed/wsActions";
+import { WS_USER_CONNECTION_START } from "../services/actions/feed/wsUserActions";
 import { getCookie } from "../utils/cookie";
 import { accessTokenName } from "../constants/constants";
 
@@ -19,15 +19,15 @@ export function OrderPage() {
   const dispatch = useAppDispatch();
 
   const { feed, wsConnected } = useAppSelector((store) => ({
-    feed: store.feed.feed,
-    wsConnected: store.feed.wsConnected,
+    feed: store.userFeed.feed,
+    wsConnected: store.userFeed.wsConnected
   }));
   const { params } = useRouteMatch<FeedOrderRouteParams>();
 
   useEffect(() => {
     if (!wsConnected) {
-      dispatch<IFeedAction>({
-        type: WS_CONNECTION_START,
+      dispatch<IWSAction>({
+        type: WS_USER_CONNECTION_START,
         payload: {
           feed: {} as IFeed,
       url: `?token=${getCookie(accessTokenName).replace('Bearer ', '')}`

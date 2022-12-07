@@ -12,6 +12,7 @@ import { registerReducer } from "./auth/register";
 import { resetReducer } from "./auth/reset";
 import { userReducer } from "./auth/user";
 import { wsReducer } from "./feed/wsReducer";
+import { wsUserReducer } from "./feed/wsUserReducer";
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
@@ -25,5 +26,6 @@ export const rootReducer = combineReducers({
   register: registerReducer,
   reset: resetReducer,
   user: userReducer,
-  feed:wsReducer
+  feed:wsReducer,
+  userFeed:wsUserReducer
 });

@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import commonStyles from "./page.module.css";
 import FeedOrders from "../components/feed-orders/feed-orders";
 import FeedTotal from "../components/feed-total/feed-total";
-import { IFeedOrder, IFeedAction, IFeed } from "../types/feed-types";
+import { IFeedOrder, IWSAction, IFeed } from "../types/feed-types";
 
 import { WS_CONNECTION_START } from "../services/actions/feed/wsActions";
 
@@ -19,7 +19,7 @@ export function FeedPage() {
   }));
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch<IFeedAction>({ type: WS_CONNECTION_START, payload: {
+    dispatch<IWSAction>({ type: WS_CONNECTION_START, payload: {
       feed: {} as IFeed,
       url: "/all"
     }});
