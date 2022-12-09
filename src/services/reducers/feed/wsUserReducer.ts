@@ -1,7 +1,6 @@
 import {
-  WS_USER_CONNECTION_SUCCESS,
+  WS_USER_CONNECTION_START,
   WS_USER_CONNECTION_ERROR,
-  WS_USER_CONNECTION_CLOSED,
   WS_USER_GET_MESSAGE,
 } from "../../actions/feed/wsUserActions";
 
@@ -19,7 +18,7 @@ export const wsUserReducer = (
   action: IWSAction
 ) => {
   switch (action.type) {
-    case WS_USER_CONNECTION_SUCCESS:
+    case WS_USER_CONNECTION_START:
       return {
         ...state,
         wsConnected: true,
@@ -31,11 +30,6 @@ export const wsUserReducer = (
         wsConnected: false,
       };
 
-    case WS_USER_CONNECTION_CLOSED:
-      return {
-        ...state,
-        wsConnected: false,
-      };
 
     case WS_USER_GET_MESSAGE:
       let data=action.payload.feed;

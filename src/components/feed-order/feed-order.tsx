@@ -82,7 +82,6 @@ const FeedOrder: FC<FeedOrdertProps> = ({ order, ingredients }) => {
 
   let bunId = "";
   let total = 0;
-  debugger;
   order.ingredients.forEach((id) => {
     const ingredient = ingredients.filter((x) => x._id == id)[0];
 

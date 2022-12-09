@@ -12,6 +12,7 @@ import FeedTotal from "../components/feed-total/feed-total";
 import { IFeedOrder, IWSAction, IFeed } from "../types/feed-types";
 
 import { WS_CONNECTION_START } from "../services/actions/feed/wsActions";
+import { WS_USER_CONNECTION_CLOSE } from "../services/actions/feed/wsUserActions";
 
 export function FeedPage() {
   const { feed } = useAppSelector((store) => ({
@@ -19,9 +20,15 @@ export function FeedPage() {
   }));
   const dispatch = useAppDispatch();
   useEffect(() => {
+
+    dispatch<IWSAction>({ type: WS_USER_CONNECTION_CLOSE, payload: {
+      feed: {} as IFeed,
+      message:""
+    }});
+
     dispatch<IWSAction>({ type: WS_CONNECTION_START, payload: {
       feed: {} as IFeed,
-      url: "/all"
+      message:""
     }});
   }, []);
 
@@ -34,7 +41,7 @@ export function FeedPage() {
       {feed && feed.orders && feed.orders.length>0 && ingredients && ingredients.length>0 && (
         <div className={commonStyles.row}>
           <div className={commonStyles.row}>
-            <FeedOrders feed={feed} ingredients={ingredients} title={"Лента заказов"} path={"feed"} />
+            <FeedOrders feed={feed} ingredients={ingredients} title={"Лента заказов"} path={"feed"} showStatus={false} />
             <FeedTotal feed={feed} ingredients={ingredients} />
           </div>
         </div>

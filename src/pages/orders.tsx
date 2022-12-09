@@ -15,6 +15,7 @@ import { getCookie } from "../utils/cookie";
 import { accessTokenName } from "../constants/constants";
 
 import { WS_USER_CONNECTION_START } from "../services/actions/feed/wsUserActions";
+import { WS_CONNECTION_CLOSE } from "../services/actions/feed/wsActions";
 
 export function OrdersPage() {
   const { feed } = useAppSelector((store) => ({
@@ -22,9 +23,13 @@ export function OrdersPage() {
   }));
   const dispatch = useAppDispatch();
   useEffect(() => {
+    dispatch<IWSAction>({ type: WS_CONNECTION_CLOSE, payload: {
+      feed: {} as IFeed,
+      message:""
+    }});
     dispatch<IWSAction>({ type: WS_USER_CONNECTION_START, payload: {
       feed: {} as IFeed,
-      url: `?token=${getCookie(accessTokenName).replace('Bearer ', '')}`
+      message:""
     }});
   }, []);
 
@@ -38,7 +43,7 @@ export function OrdersPage() {
       {feed && feed.feed.orders && feed.feed.orders.length>0 && ingredients && ingredients.length>0 && (
         <div className={commonStyles.row}>
           <div className={styles.box}>
-            <FeedOrders feed={feed.feed} ingredients={ingredients} title={""} path={"profile/orders"} />
+            <FeedOrders feed={feed.feed} ingredients={ingredients} title={""} path={"profile/orders"} showStatus={true} />
           </div>
         </div>
       )}

@@ -21,8 +21,9 @@ export interface IFeed {
 
 
 interface IFeedPayload{
-  feed: IFeed,
-  url: string
+  feed: IFeed;
+ // url: string
+ message:string;
 }
 
 // export interface IFeedAction {

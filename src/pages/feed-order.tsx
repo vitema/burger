@@ -28,7 +28,7 @@ export function FeedOrderPage() {
         type: WS_CONNECTION_START,
         payload: {
           feed: {} as IFeed,
-          url: "/all"
+          message:""
         }
       });
     }

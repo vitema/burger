@@ -31,7 +31,7 @@ export function OrderPage() {
         type: WS_USER_CONNECTION_START,
         payload: {
           feed: {} as IFeed,
-      url: `?token=${getCookie(accessTokenName).replace('Bearer ', '')}`
+     message:""
         }
       });
     }

@@ -25,19 +25,16 @@ import { socketMiddleware } from "./middleware/socketMiddleware";
 import { TwsActionTypes } from "../../src/services/middleware/socketMiddleware";
 
 import {
-  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_CLOSE,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_START,
-  WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE,
-  WS_SEND_MESSAGE,
 } from "./actions/feed/wsActions";
 
 import {
-  WS_USER_CONNECTION_CLOSED,
+  WS_USER_CONNECTION_CLOSE,
   WS_USER_CONNECTION_ERROR,
   WS_USER_CONNECTION_START,
-  WS_USER_CONNECTION_SUCCESS,
   WS_USER_GET_MESSAGE,
 } from "./actions/feed/wsUserActions";
 
@@ -64,17 +61,21 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const wsActions: TwsActionTypes = {
   connect: {
     type: WS_CONNECTION_START,
-    payload: { url: "", feed: {} as IFeed },
+    payload: { message: "", feed: {} as IFeed },
   },
-  wsMessage: { type: WS_GET_MESSAGE, payload: { url: "", feed: {} as IFeed } },
+  wsMessage: { type: WS_GET_MESSAGE, payload: { message: "", feed: {} as IFeed } },
+  close: { type: WS_CONNECTION_CLOSE, payload: { message: "", feed: {} as IFeed } },
+  wsError:{ type: WS_CONNECTION_ERROR, payload: { message: "", feed: {} as IFeed } },
 };
 
 const wsUserActions: TwsActionTypes = {
   connect: {
     type: WS_USER_CONNECTION_START,
-    payload: { url: "", feed: {} as IFeed },
+    payload: { message: "", feed: {} as IFeed },
   },
-  wsMessage: { type: WS_USER_GET_MESSAGE, payload: { url: "", feed: {} as IFeed } },
+  wsMessage: { type: WS_USER_GET_MESSAGE, payload: { message: "", feed: {} as IFeed } },
+  close: { type: WS_USER_CONNECTION_CLOSE, payload: { message: "", feed: {} as IFeed } },
+  wsError:{ type: WS_USER_CONNECTION_ERROR, payload: { message: "", feed: {} as IFeed } },
 };
 
 const enhancer = composeEnhancers(

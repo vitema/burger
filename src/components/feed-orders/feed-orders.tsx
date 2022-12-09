@@ -18,15 +18,22 @@ import { IIngredient } from "../../types/ingredients-types";
 
 import { WS_CONNECTION_START } from "../../services/actions/feed/wsActions";
 import { IWSAction, IFeed } from "../../types/feed-types";
-
+import { orderStatus } from "../../constants/constants";
 interface FeedOrderstProps {
   feed: IFeed | undefined;
   ingredients: IIngredient[];
-   title: string;
-   path: string
+  title: string;
+  path: string;
+  showStatus: boolean;
 }
 
-const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients, title, path }) => {
+const FeedOrders: FC<FeedOrderstProps> = ({
+  feed,
+  ingredients,
+  title,
+  path,
+  showStatus,
+}) => {
   const [current, setCurrent] = React.useState<string>();
 
   const data = feed?.orders;
@@ -103,7 +110,7 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients, title, path }) =>
     //   alt: "",
     // });
     // debugger;
-    let bunId="";
+    let bunId = "";
     ids.forEach((id) => {
       const ingredient = ingredients.filter((y) => y._id == id)[0];
       if (info.images.filter((x) => x.id == ingredient._id).length == 0) {
@@ -118,8 +125,8 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients, title, path }) =>
         }
       }
 
-      if (ingredient.type == bunType){
-          bunId= ingredient._id;
+      if (ingredient.type == bunType) {
+        bunId = ingredient._id;
       }
       info.totalCost +=
         ingredient.type == bunType ? ingredient.price * 2 : ingredient.price;
@@ -128,9 +135,9 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients, title, path }) =>
     // const bun = info.images.filter((item) => item.id == bunId)[0];
     // info.images = info.images.filter((item) => item.id !== bunId);
     // info.images.unshift(bun);
-  
 
     return (
+      <div className="pt-6">
       <div className={styles.row}>
         <div className={styles.leftColumn}>
           <div className={styles.row}>
@@ -142,17 +149,14 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients, title, path }) =>
                     src={img.url}
                     alt={img.alt}
                   />
-                  
                 </div>
                 {img.count ? (
-                    <span className={styles.imgCount}>{img.count}</span>
-                  ) : (
-                    <></>
-                  )}
+                  <span className={styles.imgCount}>{img.count}</span>
+                ) : (
+                  <></>
+                )}
               </div>
-              
             ))}
-            
           </div>
         </div>
         <span className="text text_type_digits-default mt-4">
@@ -161,6 +165,7 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients, title, path }) =>
         <span className="mt-4  ml-2">
           <CurrencyIcon type="primary" />
         </span>
+      </div>
       </div>
     );
   };
@@ -194,8 +199,18 @@ const FeedOrders: FC<FeedOrderstProps> = ({ feed, ingredients, title, path }) =>
                     {formatDate(item.updatedAt)}
                   </span>
                 </div>
-                <div className={styles.row}>
-                  <p className="text text_type_main-medium pb-6">{item.name}</p>
+                <div className={styles.column}>
+                  <p className="text text_type_main-medium pb-1">{item.name}</p>
+
+                  {showStatus && (
+                    <div
+                      className={item.status == "done" ? styles.doneStatus : ""}
+                    >
+                      <p className="text text_type_main-default">
+                        {orderStatus[item.status]}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {getIngredientsInfo(item.ingredients)}
