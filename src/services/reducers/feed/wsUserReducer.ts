@@ -6,6 +6,7 @@ import {
 } from "../../actions/feed/wsUserActions";
 
 import { IFeedState,IFeed, IWSAction, IFeedOrder } from "../../../types/feed-types";
+import FeedOrder from "../../../components/feed-order/feed-order";
 
 const initialState: IFeedState = {
   wsConnected: false,
@@ -37,10 +38,23 @@ export const wsUserReducer = (
       };
 
     case WS_USER_GET_MESSAGE:
+      let data=action.payload.feed;
+     
+      const result3 = data.orders.sort((obj1, obj2) => {
+        if (obj1.updatedAt > obj2.updatedAt) {
+          return -1;
+        }
+      
+        if (obj1.updatedAt < obj2.updatedAt) {
+          return 1;
+        }
+      
+        return 0;
+      });
+      data.orders=result3;
       return {
         ...state,
-        feed: action.payload.feed,
-        
+       feed:data
       };
    
 

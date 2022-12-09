@@ -7,6 +7,7 @@ import BurgerIngredients from "../components/burger-ingredients/burger-ingredien
 import BurgerConstructor from "../components/burger-constructor/burger-constructor";
 import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import commonStyles from "./page.module.css";
+import styles from "./orders.module.css";
 import FeedOrders from "../components/feed-orders/feed-orders";
 import FeedTotal from "../components/feed-total/feed-total";
 import { IFeedOrder, IWSAction, IFeed } from "../types/feed-types";
@@ -32,15 +33,16 @@ export function OrdersPage() {
   }));
 
   return (
-    <>
+    <div className={commonStyles.row}>
+      <Menu description={"В этом разделе вы можете просмотреть свою историю заказов"} />
       {feed && feed.feed.orders && feed.feed.orders.length>0 && ingredients && ingredients.length>0 && (
         <div className={commonStyles.row}>
-          <div className={commonStyles.row}>
-            <FeedOrders feed={feed.feed} ingredients={ingredients} title={"История заказов"} path={"profile/orders"} />
+          <div className={styles.box}>
+            <FeedOrders feed={feed.feed} ingredients={ingredients} title={""} path={"profile/orders"} />
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
