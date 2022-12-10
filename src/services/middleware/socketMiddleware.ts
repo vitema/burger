@@ -1,14 +1,13 @@
-import {  IFeed, IWSAction, IWSUserAction } from "../../types/feed-types";
+import { IFeed, IWSAction, IWSUserAction } from "../../types/feed-types";
 
 import { Middleware } from "redux";
-import { RootState, AppDispatch, TApplicationActions } from "../store";
-
+import { RootState, AppDispatch } from "../store";
 
 import { wsUrl, accessTokenName } from "../../constants/constants";
 import { getCookie } from "../../utils/cookie";
 import type { MiddlewareAPI } from "redux";
 export type TwsActionTypes = {
-  connect: IWSAction | IWSUserAction ;
+  connect: IWSAction | IWSUserAction;
   close: IWSAction | IWSUserAction;
   wsError: IWSAction | IWSUserAction;
   wsMessage: IWSAction | IWSUserAction;
@@ -22,8 +21,8 @@ export const socketMiddleware = (
     let socket: WebSocket | null = null;
 
     return (next) => (action: IWSAction | IWSUserAction) => {
-      const { dispatch, getState } = store;
-      const { type, payload } = action;
+      const { dispatch } = store;
+      const { type } = action;
 
       const { connect, close, wsMessage, wsError } = actionTypes;
 
@@ -39,14 +38,13 @@ export const socketMiddleware = (
         socket.close();
       }
 
-      // if (type === "WS_CONNECTION_START") {
-      //   // объект класса WebSocket
-      //   socket = new WebSocket(wsUrl);
-      // }
       if (socket) {
         // функция, которая вызывается при ошибке соединения
         socket.onerror = (event) => {
-          dispatch({ type: wsError.type, payload: { feed: {} as IFeed, message: "error websocket" } });
+          dispatch({
+            type: wsError.type,
+            payload: { feed: {} as IFeed, message: "websocket error" },
+          });
         };
 
         // функция, которая вызывается при получения события от сервера
@@ -55,13 +53,9 @@ export const socketMiddleware = (
           const parsedData = JSON.parse(data);
           dispatch({
             type: wsMessage.type,
-            payload: { feed: parsedData, message:"" },
+            payload: { feed: parsedData, message: "" },
           });
         };
-        // функция, которая вызывается при закрытии соединения
-        // socket.onclose = event => {
-        //   dispatch({ type: 'WS_CONNECTION_CLOSED', payload: event });
-        // };
       }
 
       next(action);

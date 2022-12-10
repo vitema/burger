@@ -1,31 +1,18 @@
-
-
 .box {
-  width:  580px;
-  border: 1px solid greenyellow; 
+  width: 580px;
   padding-top: 80px;
 }
 
-
 .row {
   display: flex;
-  /* flex-direction: row; */
-  /* flex-wrap: wrap; */
-  /* padding: 24px 16px 0px 16px; 
- */
 }
 
 .leftCol {
   display: flex;
   width: 350px;
-  color: #00CCCC;
- 
+  color: #00cccc;
 }
 
 .rightCol {
   display: flex;
-  
 }
-
-
-

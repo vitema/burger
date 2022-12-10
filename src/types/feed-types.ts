@@ -72,7 +72,6 @@ export interface IWSUserAction {
 export interface IFeedState {
   wsConnected: boolean;
   feed: IFeed,
-  tolalCost: number;
   message:string
 }
 

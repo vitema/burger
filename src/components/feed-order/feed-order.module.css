@@ -1,15 +1,8 @@
 .row {
   display: flex;
-  /* flex-direction: row; */
-  /* flex-wrap: wrap; */
-  /* padding: 24px 16px 0px 16px; 
- */
- align-items:center;
- padding-top: 16px;
- 
+  align-items: center;
+  padding-top: 16px;
 }
-
-
 
 .box {
   width: 650px;
@@ -19,7 +12,6 @@
   height: 300px;
   overflow: scroll;
   overflow-x: hidden;
-  /* border: 1px solid greenyellow; */
   padding-bottom: 40px;
 }
 
@@ -47,8 +39,8 @@
   margin-right: -10px;
   border: solid 2px #5a5a9b;
   background-color: #131316;
-  
 }
+
 .name {
   flex-grow: 2;
 }
@@ -59,15 +51,12 @@
 
 .price {
   display: flex;
-  align-items:center;
+  align-items: center;
   text-align: right;
-  
 }
 
 .imgCount {
-  /* position: relative; */
   margin: 20px 0px 20px -35px;
- 
 }
 
 .imgLast {
@@ -76,15 +65,14 @@
   opacity: 0.2;
 }
 
-.status{
-  color:#00CCCC
+.status {
+  color: #00cccc;
 }
 
-.title{
+.title {
   text-align: center;
 }
 
-.wideCol{
+.wideCol {
   flex-grow: 1;
-
 }

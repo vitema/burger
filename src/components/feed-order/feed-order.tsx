@@ -1,50 +1,33 @@
-import React, { useEffect, useRef, createRef, FC, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
+import { useEffect, FC, useState } from "react";
+import { useAppSelector } from "../../hooks/useStore";
 import { useRouteMatch } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-import {
-  Tab,
-  CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./feed-order.module.css";
 
-import { availableTypes, bunType } from "../../constants/constants";
-
-import { SET_INGREDIENT } from "../../services/actions/ingredient";
-
-import IngredientsGroup from "../ingredients-group/ingredients-group";
-import Ingridient from "../burger-ingredient/burger-ingredient";
+import { bunType, orderStatus } from "../../constants/constants";
 
 import { IIngredient } from "../../types/ingredients-types";
-
-import { IFeedOrder, IFeedOrderAction } from "../../types/feed-types";
-
-import { orderStatus } from "../../constants/constants";
-import { useDispatch } from "react-redux";
 import { getFeedOrder } from "../../services/actions/feed/feedOrder";
-
+import { IFeedOrder, IFeedOrderAction } from "../../types/feed-types";
 
 interface IOrderIngredient extends IIngredient {
   count: number;
 }
 
-
-interface IOrderState  {
+interface IOrderState {
   orderIngredients: IOrderIngredient[];
   total: number;
 }
 
-
 const FeedOrder: FC = () => {
- 
   interface MatchParams {
     orderNumber: string;
   }
   const { params } = useRouteMatch<MatchParams>();
-  const orderNumber = Number.parseInt(params["orderNumber"])
- 
- 
- 
+  const orderNumber = Number.parseInt(params["orderNumber"]);
+
   const formatDate = (date: string | undefined): string => {
     if (!date) {
       return "";
@@ -87,18 +70,15 @@ const FeedOrder: FC = () => {
   function getDayDiff(startDate: Date, endDate: Date): number {
     const msInDay = 24 * 60 * 60 * 1000;
 
-    // 👇️ explicitly calling getTime()
     return Math.round(
       Math.abs(endDate.getTime() - startDate.getTime()) / msInDay
     );
   }
 
- 
-
-
-  const [orderState, setOrderState] = useState<IOrderState>({orderIngredients:[], total:0});
-
-  let bunId = "";
+  const [orderState, setOrderState] = useState<IOrderState>({
+    orderIngredients: [],
+    total: 0,
+  });
 
   const dispatch = useDispatch();
 
@@ -119,13 +99,17 @@ const FeedOrder: FC = () => {
   }, [order]);
 
   const fillData = () => {
-    let tmporderIngredients:IOrderIngredient[] = [];
-    let total=0;
+    let tmporderIngredients: IOrderIngredient[] = [];
+    let total = 0;
+    let bunId = "";
+
     order?.ingredients.forEach((id) => {
       const ingredient = ingredients.filter((x) => x._id == id)[0];
 
       if (ingredient) {
-        let exists = tmporderIngredients.filter((x) => x._id == ingredient._id)[0];
+        let exists = tmporderIngredients.filter(
+          (x) => x._id == ingredient._id
+        )[0];
 
         if (exists) {
           exists.count++;
@@ -150,16 +134,12 @@ const FeedOrder: FC = () => {
       }
     });
 
-    setOrderState({orderIngredients:tmporderIngredients, total:total});
+    setOrderState({ orderIngredients: tmporderIngredients, total: total });
   };
-
-  // const bun = orderIngredients.filter((item) => item._id == bunId)[0];
-  // orderIngredients = orderIngredients.filter((item) => item._id !== bunId);
-  // orderIngredients.unshift(bun);
 
   return (
     <>
-      {orderState.orderIngredients.length>0 && (
+      {orderState.orderIngredients.length > 0 && (
         <div className={styles.box}>
           <div className={styles.title}>
             <p className="text text_type_digits-default pb-10">
@@ -169,7 +149,7 @@ const FeedOrder: FC = () => {
           <p className="text text_type_main-medium pb-3">{order?.name}</p>
           <div className={styles.status}>
             <p className="text text_type_main-defailt pb-15">
-              {orderStatus[(order as IFeedOrder).status]} 
+              {orderStatus[(order as IFeedOrder).status]}
             </p>
           </div>
           <p className="text text_type_main-medium pb-6">Состав:</p>
@@ -187,7 +167,6 @@ const FeedOrder: FC = () => {
                 <div className={styles.name}>
                   <div className={styles.nameText}>
                     <p className="text text_type_main-defailt pl-6">
-                      {" "}
                       {item.name}
                     </p>
                   </div>

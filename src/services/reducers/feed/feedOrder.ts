@@ -5,7 +5,10 @@ import {
   CLEAR_FEEDORDER,
 } from "../../actions/feed/feedOrder";
 
-import { IFeedOrderState, IFeedOrderAction, IFeedOrder } from "../../../types/feed-types";
+import {
+  IFeedOrderState,
+  IFeedOrderAction,
+} from "../../../types/feed-types";
 
 const initialState = {
   orderRequest: false,
@@ -56,4 +59,3 @@ export const feedOrderReducer = (
     }
   }
 };
-

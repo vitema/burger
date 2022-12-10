@@ -1,34 +1,15 @@
-import React, { useEffect, useRef, createRef, FC } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
+import { FC } from "react";
 
-import {
-  Tab,
-  CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./feed-total.module.css";
-
-import { availableTypes, bunType } from "../../constants/constants";
-
-import { SET_INGREDIENT } from "../../services/actions/ingredient";
-
-import IngredientsGroup from "../ingredients-group/ingredients-group";
-import Ingridient from "../burger-ingredient/burger-ingredient";
-
 import { IIngredient } from "../../types/ingredients-types";
-
-import { WS_CONNECTION_START } from "../../services/actions/feed/wsActions";
-import {  IFeedOrder, IFeed } from "../../types/feed-types";
-import { IOrder } from "../../types/order-types";
+import { IFeedOrder, IFeed } from "../../types/feed-types";
 
 interface FeedTotaltProps {
   feed: IFeed;
   ingredients: IIngredient[];
 }
 
-const FeedTotal: FC<FeedTotaltProps> = ({ feed, ingredients }) => {
-
-  /**created, pending, done, cancelled */
-
+const FeedTotal: FC<FeedTotaltProps> = ({ feed }) => {
   const chunkSize = 10;
   const chunks = function (array: IFeedOrder[] | undefined, size: number) {
     var results: IFeedOrder[][] = [];
@@ -61,7 +42,10 @@ const FeedTotal: FC<FeedTotaltProps> = ({ feed, ingredients }) => {
             {doneOrders.map((chunk, index) => (
               <div key={index}>
                 {chunk.map((order) => (
-                  <p  key={order._id} className="text text_type_digits-default pr-2">
+                  <p
+                    key={order._id}
+                    className="text text_type_digits-default pr-2"
+                  >
                     {order.number}
                   </p>
                 ))}
@@ -75,7 +59,10 @@ const FeedTotal: FC<FeedTotaltProps> = ({ feed, ingredients }) => {
             {pendingOrders.map((chunk, index) => (
               <div key={index}>
                 {chunk.map((order) => (
-                  <p  key={order._id}  className="text text_type_digits-default pr-2">
+                  <p
+                    key={order._id}
+                    className="text text_type_digits-default pr-2"
+                  >
                     {order.number}
                   </p>
                 ))}

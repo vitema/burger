@@ -1,19 +1,25 @@
-import React, { useEffect, useRef, createRef, FC } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
+import { FC } from "react";
 import { useLocation, Link } from "react-router-dom";
-import {
-  Tab,
-  CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./feed-orders.module.css";
 
-import { availableTypes, bunType } from "../../constants/constants";
-
+import { bunType, orderStatus } from "../../constants/constants";
 
 import { IIngredient } from "../../types/ingredients-types";
+import { IFeed, IFeedOrder } from "../../types/feed-types";
 
-import {  IFeed, IFeedOrder } from "../../types/feed-types";
-import { orderStatus } from "../../constants/constants";
+interface IImage {
+  url: string;
+  count: string;
+  id: string;
+  alt: string;
+}
+
+interface IIngredientsInfo {
+  images: IImage[];
+  totalCost: number;
+}
+
 interface FeedOrderstProps {
   feed: IFeed | undefined;
   ingredients: IIngredient[];
@@ -29,11 +35,7 @@ const FeedOrders: FC<FeedOrderstProps> = ({
   path,
   showStatus,
 }) => {
-  const [current, setCurrent] = React.useState<string>();
-
   const data = feed?.orders;
-
-  const dispatch = useAppDispatch();
 
   const formatDate = (date: string): string => {
     const today = new Date();
@@ -79,18 +81,6 @@ const FeedOrders: FC<FeedOrderstProps> = ({
     );
   }
 
-  interface IImage {
-    url: string;
-    count: string;
-    id: string;
-    alt: string;
-  }
-
-  interface IIngredientsInfo {
-    images: IImage[];
-    totalCost: number;
-  }
-
   const getIngredientsInfo = (ids: string[]) => {
     let info: IIngredientsInfo = {
       images: [],
@@ -98,14 +88,7 @@ const FeedOrders: FC<FeedOrderstProps> = ({
     };
 
     let imgCount = 0;
-    // info.images.push({
-    //   url: bun.image,
-    //   count: "",
-    //   id: bun._id,
-    //   alt: "",
-    // });
-    // debugger;
-    let bunId = "";
+
     ids.forEach((id) => {
       const ingredient = ingredients.filter((y) => y._id == id)[0];
       if (info.images.filter((x) => x.id == ingredient._id).length == 0) {
@@ -120,47 +103,40 @@ const FeedOrders: FC<FeedOrderstProps> = ({
         }
       }
 
-      if (ingredient.type == bunType) {
-        bunId = ingredient._id;
-      }
       info.totalCost +=
         ingredient.type == bunType ? ingredient.price * 2 : ingredient.price;
     });
 
-    // const bun = info.images.filter((item) => item.id == bunId)[0];
-    // info.images = info.images.filter((item) => item.id !== bunId);
-    // info.images.unshift(bun);
-
     return (
       <div className="pt-6">
-      <div className={styles.row}>
-        <div className={styles.leftColumn}>
-          <div className={styles.row}>
-            {info.images.map((img: IImage) => (
-              <div key={img.id} className={styles.row}>
-                <div className={styles.imgBox}>
-                  <img
-                    className={img.count ? styles.imgLast : styles.img}
-                    src={img.url}
-                    alt={img.alt}
-                  />
+        <div className={styles.row}>
+          <div className={styles.leftColumn}>
+            <div className={styles.row}>
+              {info.images.map((img: IImage) => (
+                <div key={img.id} className={styles.row}>
+                  <div className={styles.imgBox}>
+                    <img
+                      className={img.count ? styles.imgLast : styles.img}
+                      src={img.url}
+                      alt={img.alt}
+                    />
+                  </div>
+                  {img.count ? (
+                    <span className={styles.imgCount}>{img.count}</span>
+                  ) : (
+                    <></>
+                  )}
                 </div>
-                {img.count ? (
-                  <span className={styles.imgCount}>{img.count}</span>
-                ) : (
-                  <></>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+          <span className="text text_type_digits-default mt-4">
+            {info.totalCost}
+          </span>
+          <span className="mt-4  ml-2">
+            <CurrencyIcon type="primary" />
+          </span>
         </div>
-        <span className="text text_type_digits-default mt-4">
-          {info.totalCost}
-        </span>
-        <span className="mt-4  ml-2">
-          <CurrencyIcon type="primary" />
-        </span>
-      </div>
       </div>
     );
   };
@@ -177,7 +153,7 @@ const FeedOrders: FC<FeedOrderstProps> = ({
               key={item._id}
               to={{
                 pathname: `/${path}/${item.number}`,
-                 state: { background: location },
+                state: { background: location },
               }}
               className={styles.link}
             >

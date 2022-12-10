@@ -4,58 +4,56 @@ import {
   WS_USER_GET_MESSAGE,
 } from "../../actions/feed/wsUserActions";
 
-import { IFeedState,IFeed, IWSUserAction, IFeedOrder } from "../../../types/feed-types";
-import FeedOrder from "../../../components/feed-order/feed-order";
+import {
+  IFeedState,
+  IFeed,
+  IWSUserAction,
+  IFeedOrder,
+} from "../../../types/feed-types";
 
 const initialState: IFeedState = {
   wsConnected: false,
-  feed:  {} as IFeed,
-  tolalCost:0,
-  message: ""
+  feed: {} as IFeed,
+  message: "",
 };
 
-export const wsUserReducer = (
-  state = initialState,
-  action: IWSUserAction
-) => {
+export const wsUserReducer = (state = initialState, action: IWSUserAction) => {
   switch (action.type) {
     case WS_USER_CONNECTION_START:
       return {
         ...state,
         wsConnected: true,
-        message: ""
+        message: "",
       };
 
     case WS_USER_CONNECTION_ERROR:
       return {
         ...state,
         wsConnected: false,
-        message: action.payload.message
+        message: action.payload.message,
       };
-
 
     case WS_USER_GET_MESSAGE:
-      let data=action.payload.feed;
-     
-      const result3 = data.orders.sort((obj1, obj2) => {
-        if (obj1.updatedAt > obj2.updatedAt) {
-          return -1;
-        }
-      
-        if (obj1.updatedAt < obj2.updatedAt) {
-          return 1;
-        }
-      
-        return 0;
-      });
-      data.orders=result3;
       return {
         ...state,
-       feed:data
+        feed: {
+          ...action.payload.feed ,
+          orders: action.payload.feed.orders.sort(orderCompareFunc)
+        }
       };
-   
 
     default:
       return state;
   }
+};
+
+const orderCompareFunc = (obj1: IFeedOrder, obj2: IFeedOrder) => {
+  if (obj1.updatedAt > obj2.updatedAt) {
+    return -1;
+  }
+
+  if (obj1.updatedAt < obj2.updatedAt) {
+    return 1;
+  }
+  return 0;
 };

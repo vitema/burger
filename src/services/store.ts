@@ -8,7 +8,7 @@ import {
 import thunk, { ThunkAction } from "redux-thunk";
 
 import { rootReducer } from "../services/reducers/rootReducer";
-import { IConstructorAction } from "../types/ingredients-types";
+import { IConstructorAction, IIngredientsAction } from "../types/ingredients-types";
 import {
   IRequestAction,
   ITokenAction,
@@ -23,7 +23,6 @@ import { TResetActions } from "./actions/auth/reset";
 import { TGetUserActions, TUpdateUserActions } from "./actions/auth/user";
 import { socketMiddleware } from "./middleware/socketMiddleware";
 import { TwsActionTypes } from "../../src/services/middleware/socketMiddleware";
-import { TWSUserActions } from "./actions/feed/wsUserActions";
 import { IFeedOrderAction } from "../types/feed-types";
 import { IOrderAction } from "../types/order-types";
 
@@ -41,7 +40,6 @@ import {
   WS_USER_GET_MESSAGE,
 } from "./actions/feed/wsUserActions";
 
-import { wsUrl } from "../constants/constants";
 import { IFeed, IWSAction,  } from "../types/feed-types";
 
 declare global {
@@ -51,15 +49,6 @@ declare global {
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-// const wsActions = {
-//   wsInit: WS_CONNECTION_START,
-//   wsSendMessage: WS_SEND_MESSAGE,
-//   onOpen: WS_CONNECTION_SUCCESS,
-//   onClose: WS_CONNECTION_CLOSED,
-//   onError: WS_CONNECTION_ERROR,
-//   onMessage: WS_GET_MESSAGE
-// };
 
 const wsActions: TwsActionTypes = {
   connect: {
@@ -102,6 +91,8 @@ export type TApplicationActions =
   | IWSAction
   | IFeedOrderAction
   | IOrderAction
+  | IIngredientsAction
+  
  
 
 export const store = createStore(rootReducer, enhancer);
