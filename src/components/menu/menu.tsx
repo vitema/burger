@@ -31,6 +31,7 @@ const Menu: FC<MenuProps> = ({ description }) => {
         to={{ pathname: `/profile` }}
         className={styles.link}
         activeClassName={styles.active}
+        exact={true}
       >
         <p className="text text_type_main-medium pb-6">Профиль</p>
       </NavLink>
@@ -38,6 +39,7 @@ const Menu: FC<MenuProps> = ({ description }) => {
         to={{ pathname: `/profile/orders` }}
         className={styles.link}
         activeClassName={styles.active}
+        exact={true}
       >
         <p className="text text_type_main-medium pb-6">История заказов</p>
       </NavLink>

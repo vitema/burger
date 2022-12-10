@@ -51,13 +51,11 @@ export function OrderPage() {
   }));
   return (
     <>
-      {item?.ingredients?.length > 0 ? (
+      {item?.ingredients?.length > 0 && (
         <div className={commonStyles.row}>
           <FeedOrder ></FeedOrder>
         </div>
-      ) : (
-        <div>Падажите</div>
-      )}
+      ) }
     </>
   );
 }
