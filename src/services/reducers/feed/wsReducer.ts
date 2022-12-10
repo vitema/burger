@@ -4,7 +4,7 @@ import {
   WS_GET_MESSAGE,
 } from "../../actions/feed/wsActions";
 
-import { IFeedState, IFeed, IWSAction } from "../../../types/feed-types";
+import { IFeedState, IFeed, IWSAction, IFeedOrder } from "../../../types/feed-types";
 
 const initialState: IFeedState = {
   wsConnected: false,
@@ -37,3 +37,8 @@ export const wsReducer = (state = initialState, action: IWSAction) => {
       return state;
   }
 };
+
+
+
+
+

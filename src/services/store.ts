@@ -8,7 +8,10 @@ import {
 import thunk, { ThunkAction } from "redux-thunk";
 
 import { rootReducer } from "../services/reducers/rootReducer";
-import { IConstructorAction, IIngredientsAction } from "../types/ingredients-types";
+import {
+  IConstructorAction,
+  IIngredientsAction,
+} from "../types/ingredients-types";
 import {
   IRequestAction,
   ITokenAction,
@@ -40,7 +43,7 @@ import {
   WS_USER_GET_MESSAGE,
 } from "./actions/feed/wsUserActions";
 
-import { IFeed, IWSAction,  } from "../types/feed-types";
+import { IFeed, IWSAction } from "../types/feed-types";
 
 declare global {
   interface Window {
@@ -55,9 +58,18 @@ const wsActions: TwsActionTypes = {
     type: WS_CONNECTION_START,
     payload: { message: "", feed: {} as IFeed },
   },
-  wsMessage: { type: WS_GET_MESSAGE, payload: { message: "", feed: {} as IFeed } },
-  close: { type: WS_CONNECTION_CLOSE, payload: { message: "", feed: {} as IFeed } },
-  wsError:{ type: WS_CONNECTION_ERROR, payload: { message: "", feed: {} as IFeed } },
+  wsMessage: {
+    type: WS_GET_MESSAGE,
+    payload: { message: "", feed: {} as IFeed },
+  },
+  close: {
+    type: WS_CONNECTION_CLOSE,
+    payload: { message: "", feed: {} as IFeed },
+  },
+  wsError: {
+    type: WS_CONNECTION_ERROR,
+    payload: { message: "", feed: {} as IFeed },
+  },
 };
 
 const wsUserActions: TwsActionTypes = {
@@ -65,9 +77,18 @@ const wsUserActions: TwsActionTypes = {
     type: WS_USER_CONNECTION_START,
     payload: { message: "", feed: {} as IFeed },
   },
-  wsMessage: { type: WS_USER_GET_MESSAGE, payload: { message: "", feed: {} as IFeed } },
-  close: { type: WS_USER_CONNECTION_CLOSE, payload: { message: "", feed: {} as IFeed } },
-  wsError:{ type: WS_USER_CONNECTION_ERROR, payload: { message: "", feed: {} as IFeed } },
+  wsMessage: {
+    type: WS_USER_GET_MESSAGE,
+    payload: { message: "", feed: {} as IFeed },
+  },
+  close: {
+    type: WS_USER_CONNECTION_CLOSE,
+    payload: { message: "", feed: {} as IFeed },
+  },
+  wsError: {
+    type: WS_USER_CONNECTION_ERROR,
+    payload: { message: "", feed: {} as IFeed },
+  },
 };
 
 const enhancer = composeEnhancers(
@@ -91,9 +112,7 @@ export type TApplicationActions =
   | IWSAction
   | IFeedOrderAction
   | IOrderAction
-  | IIngredientsAction
-  
- 
+  | IIngredientsAction;
 
 export const store = createStore(rootReducer, enhancer);
 export type RootState = ReturnType<typeof store.getState>;

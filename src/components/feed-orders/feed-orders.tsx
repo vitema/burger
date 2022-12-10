@@ -13,6 +13,7 @@ interface IImage {
   count: string;
   id: string;
   alt: string;
+  type:string;
 }
 
 interface IIngredientsInfo {
@@ -99,6 +100,7 @@ const FeedOrders: FC<FeedOrderstProps> = ({
             count: imgCount == 6 ? `+${ingredients.length - 6}` : "",
             id: ingredient._id,
             alt: ingredient.name,
+            type: ingredient.type
           });
         }
       }
@@ -106,6 +108,8 @@ const FeedOrders: FC<FeedOrderstProps> = ({
       info.totalCost +=
         ingredient.type == bunType ? ingredient.price * 2 : ingredient.price;
     });
+
+    info.images=info.images.sort(ingredientsCompareFunc)
 
     return (
       <div className="pt-6">
@@ -139,6 +143,17 @@ const FeedOrders: FC<FeedOrderstProps> = ({
         </div>
       </div>
     );
+  };
+
+  const ingredientsCompareFunc = (obj1: IImage, obj2: IImage) => {
+    if (obj1.type > obj2.type) {
+      return 1;
+    }
+
+    if (obj1.type < obj2.type) {
+      return -1;
+    }
+    return 0;
   };
 
   const location = useLocation();
