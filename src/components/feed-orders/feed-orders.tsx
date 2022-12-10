@@ -12,7 +12,7 @@ import { availableTypes, bunType } from "../../constants/constants";
 
 import { IIngredient } from "../../types/ingredients-types";
 
-import {  IFeed } from "../../types/feed-types";
+import {  IFeed, IFeedOrder } from "../../types/feed-types";
 import { orderStatus } from "../../constants/constants";
 interface FeedOrderstProps {
   feed: IFeed | undefined;
@@ -172,12 +172,12 @@ const FeedOrders: FC<FeedOrderstProps> = ({
 
       {data && data.length > 0 && (
         <div className={styles.ingridientsBox}>
-          {data.map((item: any) => (
+          {data.map((item: IFeedOrder) => (
             <Link
               key={item._id}
               to={{
-                pathname: `/${path}/${item._id}`,
-                state: { background: location },
+                pathname: `/${path}/${item.number}`,
+                 state: { background: location },
               }}
               className={styles.link}
             >

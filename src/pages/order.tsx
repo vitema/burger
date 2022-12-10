@@ -53,7 +53,7 @@ export function OrderPage() {
     <>
       {item?.ingredients?.length > 0 ? (
         <div className={commonStyles.row}>
-          <FeedOrder order={item} ingredients={ingredients}></FeedOrder>
+          <FeedOrder ></FeedOrder>
         </div>
       ) : (
         <div>Падажите</div>

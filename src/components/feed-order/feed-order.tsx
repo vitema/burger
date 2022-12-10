@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, createRef, FC } from "react";
+import React, { useEffect, useRef, createRef, FC, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
+import { useRouteMatch } from "react-router-dom";
 
 import {
   Tab,
@@ -16,20 +17,34 @@ import Ingridient from "../burger-ingredient/burger-ingredient";
 
 import { IIngredient } from "../../types/ingredients-types";
 
-import {  IFeedOrder } from "../../types/feed-types";
+import { IFeedOrder, IFeedOrderAction } from "../../types/feed-types";
 
 import { orderStatus } from "../../constants/constants";
+import { useDispatch } from "react-redux";
+import { getFeedOrder } from "../../services/actions/feed/feedOrder";
 
-interface FeedOrdertProps {
-  order: IFeedOrder;
-  ingredients: IIngredient[];
-}
 
 interface IOrderIngredient extends IIngredient {
   count: number;
 }
 
-const FeedOrder: FC<FeedOrdertProps> = ({ order, ingredients }) => {
+
+interface IOrderState  {
+  orderIngredients: IOrderIngredient[];
+  total: number;
+}
+
+
+const FeedOrder: FC = () => {
+ 
+  interface MatchParams {
+    orderNumber: string;
+  }
+  const { params } = useRouteMatch<MatchParams>();
+  const orderNumber = Number.parseInt(params["orderNumber"])
+ 
+ 
+ 
   const formatDate = (date: string | undefined): string => {
     if (!date) {
       return "";
@@ -78,92 +93,134 @@ const FeedOrder: FC<FeedOrdertProps> = ({ order, ingredients }) => {
     );
   }
 
-  let orderIngredients: IOrderIngredient[] = [];
+ 
+
+
+  const [orderState, setOrderState] = useState<IOrderState>({orderIngredients:[], total:0});
 
   let bunId = "";
-  let total = 0;
-  order.ingredients.forEach((id) => {
-    const ingredient = ingredients.filter((x) => x._id == id)[0];
 
-    if (ingredient) {
-      let exists = orderIngredients.filter((x) => x._id == ingredient._id)[0];
+  const dispatch = useDispatch();
 
-      if (exists) {
-        exists.count++;
-        if (ingredient.type == bunType) {
+  useEffect(() => {
+    dispatch<any>(getFeedOrder(orderNumber));
+  }, []);
+
+  const { order } = useAppSelector((store) => ({
+    order: store.feedOrder.order,
+  }));
+
+  const { ingredients } = useAppSelector((store) => ({
+    ingredients: store.ingredients.items,
+  }));
+
+  useEffect(() => {
+    fillData();
+  }, [order]);
+
+  const fillData = () => {
+    let tmporderIngredients:IOrderIngredient[] = [];
+    let total=0;
+    order?.ingredients.forEach((id) => {
+      const ingredient = ingredients.filter((x) => x._id == id)[0];
+
+      if (ingredient) {
+        let exists = tmporderIngredients.filter((x) => x._id == ingredient._id)[0];
+
+        if (exists) {
           exists.count++;
-          bunId = ingredient._id;
-        }
-      } else {
-        let count = 1;
-        if (ingredient.type == bunType) {
-          count = 2;
-          bunId = ingredient._id;
-        }
+          if (ingredient.type == bunType) {
+            exists.count++;
+            bunId = ingredient._id;
+          }
+        } else {
+          let count = 1;
+          if (ingredient.type == bunType) {
+            count = 2;
+            bunId = ingredient._id;
+          }
 
-        orderIngredients.push({
-          ...ingredient,
-          count: count,
-        });
+          tmporderIngredients.push({
+            ...ingredient,
+            count: count,
+          });
 
-        total += ingredient.price * count;
+          total += ingredient.price * count;
+        }
       }
-    }
-  });
+    });
 
-  const bun = orderIngredients.filter((item) => item._id == bunId)[0];
-  orderIngredients = orderIngredients.filter((item) => item._id !== bunId);
-  orderIngredients.unshift(bun);
+    setOrderState({orderIngredients:tmporderIngredients, total:total});
+  };
+
+  // const bun = orderIngredients.filter((item) => item._id == bunId)[0];
+  // orderIngredients = orderIngredients.filter((item) => item._id !== bunId);
+  // orderIngredients.unshift(bun);
 
   return (
-    <div className={styles.box}>
-      <div className={styles.title}>
-        <p className="text text_type_digits-default pb-10">#{order?.number}</p>
-      </div>
-      <p className="text text_type_main-medium pb-3">{order?.name}</p>
-      <div className={styles.status}>
-        <p className="text text_type_main-defailt pb-15">
-          {orderStatus[order?.status]}
-        </p>
-      </div>
-      <p className="text text_type_main-medium pb-6">Состав:</p>
+    <>
+      {orderState.orderIngredients.length>0 && (
+        <div className={styles.box}>
+          <div className={styles.title}>
+            <p className="text text_type_digits-default pb-10">
+              #{order?.number}
+            </p>
+          </div>
+          <p className="text text_type_main-medium pb-3">{order?.name}</p>
+          <div className={styles.status}>
+            <p className="text text_type_main-defailt pb-15">
+              {orderStatus[(order as IFeedOrder).status]} 
+            </p>
+          </div>
+          <p className="text text_type_main-medium pb-6">Состав:</p>
 
-      <div className={styles.ingridientsBox}>
-        {orderIngredients.map((item) => (
-          <div className={styles.row} key={item._id}>
-            <div className={styles.imgBox}>
-              <img className={styles.img} src={item.image} alt={item.name} />
-            </div>
-            <div className={styles.name}>
-              <div className={styles.nameText}>
-                <p className="text text_type_main-defailt pl-6"> {item.name}</p>
+          <div className={styles.ingridientsBox}>
+            {orderState.orderIngredients.map((item) => (
+              <div className={styles.row} key={item._id}>
+                <div className={styles.imgBox}>
+                  <img
+                    className={styles.img}
+                    src={item.image}
+                    alt={item.name}
+                  />
+                </div>
+                <div className={styles.name}>
+                  <div className={styles.nameText}>
+                    <p className="text text_type_main-defailt pl-6">
+                      {" "}
+                      {item.name}
+                    </p>
+                  </div>
+                </div>
+                <div className={styles.price}>
+                  <span className="text text_type_digits-default">
+                    {item.count} x {item.price}
+                  </span>
+                  <span className="ml-2 mr-6">
+                    <CurrencyIcon type="primary" />
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className={styles.price}>
-              <span className="text text_type_digits-default">
-                {item.count} x {item.price}
+            ))}
+          </div>
+          <div className={styles.row}>
+            <div className={styles.wideCol}>
+              <span className="text text_type_main-default text_color_inactive pb-6">
+                {formatDate(order?.updatedAt)}
               </span>
-              <span className="ml-2 mr-6">
+            </div>
+            <div>
+              <span className="text text_type_digits-default mt-4">
+                {orderState.total}
+              </span>
+              <span className="mt-4  ml-2 ">
                 <CurrencyIcon type="primary" />
               </span>
             </div>
           </div>
-        ))}
-      </div>
-      <div className={styles.row}>
-        <div className={styles.wideCol}>
-          <span className="text text_type_main-default text_color_inactive pb-6">
-            {formatDate(order?.updatedAt)}
-          </span>
         </div>
-        <div>
-          <span className="text text_type_digits-default mt-4">{total}</span>
-          <span className="mt-4  ml-2 ">
-            <CurrencyIcon type="primary" />
-          </span>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 export default FeedOrder;

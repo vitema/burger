@@ -24,6 +24,8 @@ import { TGetUserActions, TUpdateUserActions } from "./actions/auth/user";
 import { socketMiddleware } from "./middleware/socketMiddleware";
 import { TwsActionTypes } from "../../src/services/middleware/socketMiddleware";
 import { TWSUserActions } from "./actions/feed/wsUserActions";
+import { IFeedOrderAction } from "../types/feed-types";
+import { IOrderAction } from "../types/order-types";
 
 import {
   WS_CONNECTION_CLOSE,
@@ -98,6 +100,8 @@ export type TApplicationActions =
   | IUserAction<TUpdateUserActions>
   | IConstructorAction
   | IWSAction
+  | IFeedOrderAction
+  | IOrderAction
  
 
 export const store = createStore(rootReducer, enhancer);

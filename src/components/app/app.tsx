@@ -106,10 +106,19 @@ function App() {
               }
             />
             <Route
-              path="/feed/:orderId"
+              path="/feed/:orderNumber"
               children={
                 <Modal onClose={handleModalClose} header="">
-                  
+                  <FeedOrder />
+                </Modal>
+              }
+            />
+
+            <Route
+              path="/profile/orders/:orderNumber"
+              children={
+                <Modal onClose={handleModalClose} header="">
+                  <FeedOrder />
                 </Modal>
               }
             />
