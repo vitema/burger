@@ -1,4 +1,5 @@
-import {TWSActions} from "../services/actions/feed/wsActions"
+import { TWSUserActions } from "../services/actions/feed/wsUserActions";
+import { TWSActions } from "../services/actions/feed/wsActions";
 
 
 export interface IFeedOrder {
@@ -32,16 +33,27 @@ interface IFeedPayload{
 // }
 
 
+// export interface IWSBaseAction {
+//   type: string;
+//   payload: IFeedPayload;
+// }
+
+
 export interface IWSAction {
-  type: string;
+  type: TWSActions;
   payload: IFeedPayload;
 }
 
+export interface IWSUserAction {
+  type: TWSUserActions;
+  payload: IFeedPayload;
+}
 
 export interface IFeedState {
   wsConnected: boolean;
   feed: IFeed,
   tolalCost: number;
+  message:string
 }
 
 

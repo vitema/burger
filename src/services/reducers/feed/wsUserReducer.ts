@@ -4,30 +4,33 @@ import {
   WS_USER_GET_MESSAGE,
 } from "../../actions/feed/wsUserActions";
 
-import { IFeedState,IFeed, IWSAction, IFeedOrder } from "../../../types/feed-types";
+import { IFeedState,IFeed, IWSUserAction, IFeedOrder } from "../../../types/feed-types";
 import FeedOrder from "../../../components/feed-order/feed-order";
 
 const initialState: IFeedState = {
   wsConnected: false,
   feed:  {} as IFeed,
-  tolalCost:0
+  tolalCost:0,
+  message: ""
 };
 
 export const wsUserReducer = (
   state = initialState,
-  action: IWSAction
+  action: IWSUserAction
 ) => {
   switch (action.type) {
     case WS_USER_CONNECTION_START:
       return {
         ...state,
         wsConnected: true,
+        message: ""
       };
 
     case WS_USER_CONNECTION_ERROR:
       return {
         ...state,
         wsConnected: false,
+        message: action.payload.message
       };
 
 

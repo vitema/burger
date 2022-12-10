@@ -16,7 +16,7 @@ import Ingridient from "../burger-ingredient/burger-ingredient";
 
 import { IIngredient } from "../../types/ingredients-types";
 
-import { IWSAction, IFeed, IFeedOrder } from "../../types/feed-types";
+import {  IFeedOrder } from "../../types/feed-types";
 
 import { orderStatus } from "../../constants/constants";
 

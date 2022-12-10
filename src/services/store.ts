@@ -23,6 +23,7 @@ import { TResetActions } from "./actions/auth/reset";
 import { TGetUserActions, TUpdateUserActions } from "./actions/auth/user";
 import { socketMiddleware } from "./middleware/socketMiddleware";
 import { TwsActionTypes } from "../../src/services/middleware/socketMiddleware";
+import { TWSUserActions } from "./actions/feed/wsUserActions";
 
 import {
   WS_CONNECTION_CLOSE,
@@ -39,7 +40,7 @@ import {
 } from "./actions/feed/wsUserActions";
 
 import { wsUrl } from "../constants/constants";
-import { IFeed, IWSAction } from "../types/feed-types";
+import { IFeed, IWSAction,  } from "../types/feed-types";
 
 declare global {
   interface Window {
@@ -96,7 +97,8 @@ export type TApplicationActions =
   | IUserAction<TGetUserActions>
   | IUserAction<TUpdateUserActions>
   | IConstructorAction
-  | IWSAction;
+  | IWSAction
+ 
 
 export const store = createStore(rootReducer, enhancer);
 export type RootState = ReturnType<typeof store.getState>;

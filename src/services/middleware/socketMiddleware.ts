@@ -1,4 +1,4 @@
-import { IWSAction, IFeed } from "../../types/feed-types";
+import {  IFeed, IWSAction, IWSUserAction } from "../../types/feed-types";
 
 import { Middleware } from "redux";
 import { RootState, AppDispatch, TApplicationActions } from "../store";
@@ -8,10 +8,10 @@ import { wsUrl, accessTokenName } from "../../constants/constants";
 import { getCookie } from "../../utils/cookie";
 import type { MiddlewareAPI } from "redux";
 export type TwsActionTypes = {
-  connect: IWSAction;
-  close: IWSAction;
-  wsError: IWSAction;
-  wsMessage: IWSAction;
+  connect: IWSAction | IWSUserAction ;
+  close: IWSAction | IWSUserAction;
+  wsError: IWSAction | IWSUserAction;
+  wsMessage: IWSAction | IWSUserAction;
 };
 
 export const socketMiddleware = (
@@ -21,7 +21,7 @@ export const socketMiddleware = (
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
 
-    return (next) => (action: IWSAction) => {
+    return (next) => (action: IWSAction | IWSUserAction) => {
       const { dispatch, getState } = store;
       const { type, payload } = action;
 

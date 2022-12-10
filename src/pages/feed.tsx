@@ -9,19 +9,20 @@ import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import commonStyles from "./page.module.css";
 import FeedOrders from "../components/feed-orders/feed-orders";
 import FeedTotal from "../components/feed-total/feed-total";
-import { IFeedOrder, IWSAction, IFeed } from "../types/feed-types";
+import { IFeedOrder,  IFeed,IWSUserAction,IWSAction } from "../types/feed-types";
 
 import { WS_CONNECTION_START } from "../services/actions/feed/wsActions";
 import { WS_USER_CONNECTION_CLOSE } from "../services/actions/feed/wsUserActions";
 
 export function FeedPage() {
-  const { feed } = useAppSelector((store) => ({
+  const { feed, message } = useAppSelector((store) => ({
     feed: store.feed.feed,
+    message: store.feed.message
   }));
   const dispatch = useAppDispatch();
   useEffect(() => {
 
-    dispatch<IWSAction>({ type: WS_USER_CONNECTION_CLOSE, payload: {
+    dispatch<IWSUserAction>({ type: WS_USER_CONNECTION_CLOSE, payload: {
       feed: {} as IFeed,
       message:""
     }});
@@ -46,6 +47,7 @@ export function FeedPage() {
           </div>
         </div>
       )}
+       <p className="text text_type_main-medium p-6">{message}</p>
     </>
   );
 }

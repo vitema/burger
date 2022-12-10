@@ -10,16 +10,19 @@ import commonStyles from "./page.module.css";
 import styles from "./orders.module.css";
 import FeedOrders from "../components/feed-orders/feed-orders";
 import FeedTotal from "../components/feed-total/feed-total";
-import { IFeedOrder, IWSAction, IFeed } from "../types/feed-types";
+import { IFeedOrder,  IFeed } from "../types/feed-types";
+import { TWSUserActions } from "../services/actions/feed/wsUserActions";
 import { getCookie } from "../utils/cookie";
 import { accessTokenName } from "../constants/constants";
+import {IWSUserAction,IWSAction } from "../types/feed-types"
 
 import { WS_USER_CONNECTION_START } from "../services/actions/feed/wsUserActions";
 import { WS_CONNECTION_CLOSE } from "../services/actions/feed/wsActions";
 
 export function OrdersPage() {
-  const { feed } = useAppSelector((store) => ({
+  const { feed, message } = useAppSelector((store) => ({
     feed: store.userFeed,
+    message: store.userFeed.message,
   }));
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -27,7 +30,7 @@ export function OrdersPage() {
       feed: {} as IFeed,
       message:""
     }});
-    dispatch<IWSAction>({ type: WS_USER_CONNECTION_START, payload: {
+    dispatch<IWSUserAction>({ type: WS_USER_CONNECTION_START, payload: {
       feed: {} as IFeed,
       message:""
     }});

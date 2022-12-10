@@ -9,15 +9,10 @@ import styles from "./feed-orders.module.css";
 
 import { availableTypes, bunType } from "../../constants/constants";
 
-import { SET_INGREDIENT } from "../../services/actions/ingredient";
-
-import IngredientsGroup from "../ingredients-group/ingredients-group";
-import Ingridient from "../burger-ingredient/burger-ingredient";
 
 import { IIngredient } from "../../types/ingredients-types";
 
-import { WS_CONNECTION_START } from "../../services/actions/feed/wsActions";
-import { IWSAction, IFeed } from "../../types/feed-types";
+import {  IFeed } from "../../types/feed-types";
 import { orderStatus } from "../../constants/constants";
 interface FeedOrderstProps {
   feed: IFeed | undefined;
@@ -181,10 +176,8 @@ const FeedOrders: FC<FeedOrderstProps> = ({
             <Link
               key={item._id}
               to={{
-                // Тут мы формируем динамический путь для нашего ингредиента
-                // а также сохраняем в свойство background роут, на котором была открыта наша модалка.
                 pathname: `/${path}/${item._id}`,
-                //  state: { background: location },
+                state: { background: location },
               }}
               className={styles.link}
             >

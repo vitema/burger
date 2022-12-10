@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import Menu from "../components/menu/menu";
 
 import commonStyles from "./page.module.css";
-import { IFeedOrder, IWSAction, IFeed } from "../types/feed-types";
+import { IFeedOrder, IWSUserAction, IFeed } from "../types/feed-types";
 import FeedOrder from "../components/feed-order/feed-order";
 
 import { WS_USER_CONNECTION_START } from "../services/actions/feed/wsUserActions";
@@ -27,7 +27,7 @@ export function OrderPage() {
 
   useEffect(() => {
     if (!wsConnected) {
-      dispatch<IWSAction>({
+      dispatch<IWSUserAction>({
         type: WS_USER_CONNECTION_START,
         payload: {
           feed: {} as IFeed,

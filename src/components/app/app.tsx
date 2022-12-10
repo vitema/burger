@@ -21,7 +21,7 @@ import {
   OrderPage,
   IngredientPage,
   FeedPage,
-  FeedOrderPage
+  FeedOrderPage,
 } from "../../pages";
 
 import { getIngredients } from "../../services/actions/ingredients";
@@ -33,7 +33,8 @@ import AppHeader from "../app-header/app-header";
 import { store } from "../../services/store";
 import { Location } from "history";
 
-import {useAppDispatch} from "../../hooks/useStore";
+import { useAppDispatch } from "../../hooks/useStore";
+import FeedOrder from "../feed-order/feed-order";
 
 type TLocationState = {
   background: Location;
@@ -95,14 +96,24 @@ function App() {
         </Switch>
 
         {background && (
-          <Route
-            path="/ingredients/:ingredientId"
-            children={
-              <Modal onClose={handleModalClose} header="Детали ингридиента">
-                <IngredientDetails />
-              </Modal>
-            }
-          />
+          <>
+            <Route
+              path="/ingredients/:ingredientId"
+              children={
+                <Modal onClose={handleModalClose} header="Детали ингридиента">
+                  <IngredientDetails />
+                </Modal>
+              }
+            />
+            <Route
+              path="/feed/:orderId"
+              children={
+                <Modal onClose={handleModalClose} header="">
+                  
+                </Modal>
+              }
+            />
+          </>
         )}
       </>
     );
