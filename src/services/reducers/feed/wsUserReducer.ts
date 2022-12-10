@@ -6,14 +6,13 @@ import {
 
 import {
   IFeedState,
-  IFeed,
   IWSUserAction,
   IFeedOrder,
 } from "../../../types/feed-types";
 
 const initialState: IFeedState = {
   wsConnected: false,
-  feed: {} as IFeed,
+  feed: undefined,
   message: "",
 };
 
@@ -37,9 +36,10 @@ export const wsUserReducer = (state = initialState, action: IWSUserAction) => {
       return {
         ...state,
         feed: {
-          ...action.payload.feed ,
-          orders: action.payload.feed.orders.sort(orderCompareFunc)
-        }
+          ...action.payload.feed!,
+          orders: action.payload.feed!.orders.sort(orderCompareFunc),
+        },
+        message: "",
       };
 
     default:

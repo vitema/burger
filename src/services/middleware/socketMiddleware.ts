@@ -43,7 +43,7 @@ export const socketMiddleware = (
         socket.onerror = (event) => {
           dispatch({
             type: wsError.type,
-            payload: { feed: {} as IFeed, message: "websocket error" },
+            payload: { feed: undefined, message: "websocket error" },
           });
         };
 

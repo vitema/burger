@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import commonStyles from "./page.module.css";
 import FeedOrders from "../components/feed-orders/feed-orders";
 import FeedTotal from "../components/feed-total/feed-total";
-import { IFeed, IWSAction } from "../types/feed-types";
+import { IWSAction } from "../types/feed-types";
 
 import {
   WS_CONNECTION_START,
@@ -23,7 +23,7 @@ export function FeedPage() {
     dispatch<IWSAction>({
       type: WS_CONNECTION_START,
       payload: {
-        feed: {} as IFeed,
+        feed: undefined,
         message: "",
       },
     });
@@ -32,7 +32,7 @@ export function FeedPage() {
       dispatch<IWSAction>({
         type: WS_CONNECTION_CLOSE,
         payload: {
-          feed: {} as IFeed,
+          feed: undefined,
           message: "",
         },
       });
@@ -45,7 +45,7 @@ export function FeedPage() {
 
   return (
     <>
-      {feed?.orders?.length > 0 && (
+      {feed && feed.orders?.length > 0 && (
         <div className={commonStyles.row}>
           <div className={commonStyles.row}>
             <FeedOrders

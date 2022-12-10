@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import commonStyles from "./page.module.css";
 import styles from "./orders.module.css";
 import FeedOrders from "../components/feed-orders/feed-orders";
-import { IWSUserAction, IFeed } from "../types/feed-types";
+import { IWSUserAction } from "../types/feed-types";
 
 import {
   WS_USER_CONNECTION_START,
@@ -14,14 +14,14 @@ import {
 export function OrdersPage() {
   const { feed, message } = useAppSelector((store) => ({
     feed: store.userFeed.feed,
-    message: store.userFeed.message,
+    message: store.feed.message,
   }));
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch<IWSUserAction>({
       type: WS_USER_CONNECTION_START,
       payload: {
-        feed: {} as IFeed,
+        feed: undefined,
         message: "",
       },
     });
@@ -30,7 +30,7 @@ export function OrdersPage() {
       dispatch<IWSUserAction>({
         type: WS_USER_CONNECTION_CLOSE,
         payload: {
-          feed: {} as IFeed,
+          feed: undefined,
           message: "",
         },
       });
@@ -48,7 +48,7 @@ export function OrdersPage() {
           "В этом разделе вы можете просмотреть свою историю заказов"
         }
       />
-      {feed?.orders?.length > 0 && (
+      {feed && feed.orders?.length > 0 && (
         <div className={commonStyles.row}>
           <div className={styles.box}>
             <FeedOrders
@@ -61,6 +61,7 @@ export function OrdersPage() {
           </div>
         </div>
       )}
+      <p className="text text_type_main-medium p-6">{message}</p>
     </div>
   );
 }

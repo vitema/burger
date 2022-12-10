@@ -56,38 +56,38 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const wsActions: TwsActionTypes = {
   connect: {
     type: WS_CONNECTION_START,
-    payload: { message: "", feed: {} as IFeed },
+    payload: { message: "", feed: undefined },
   },
   wsMessage: {
     type: WS_GET_MESSAGE,
-    payload: { message: "", feed: {} as IFeed },
+    payload: { message: "", feed: undefined },
   },
   close: {
     type: WS_CONNECTION_CLOSE,
-    payload: { message: "", feed: {} as IFeed },
+    payload: { message: "", feed: undefined },
   },
   wsError: {
     type: WS_CONNECTION_ERROR,
-    payload: { message: "", feed: {} as IFeed },
+    payload: { message: "", feed: undefined},
   },
 };
 
 const wsUserActions: TwsActionTypes = {
   connect: {
     type: WS_USER_CONNECTION_START,
-    payload: { message: "", feed: {} as IFeed },
+    payload: { message: "", feed: undefined},
   },
   wsMessage: {
     type: WS_USER_GET_MESSAGE,
-    payload: { message: "", feed: {} as IFeed },
+    payload: { message: "", feed: undefined},
   },
   close: {
     type: WS_USER_CONNECTION_CLOSE,
-    payload: { message: "", feed: {} as IFeed },
+    payload: { message: "", feed: undefined },
   },
   wsError: {
     type: WS_USER_CONNECTION_ERROR,
-    payload: { message: "", feed: {} as IFeed },
+    payload: { message: "", feed:undefined },
   },
 };
 

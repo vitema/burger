@@ -31,7 +31,7 @@ export interface IFeed {
 }
 
 interface IFeedPayload {
-  feed: IFeed;
+  feed?: IFeed;
   message: string;
 }
 
@@ -47,6 +47,6 @@ export interface IWSUserAction {
 
 export interface IFeedState {
   wsConnected: boolean;
-  feed: IFeed;
+  feed?: IFeed;
   message: string;
 }
