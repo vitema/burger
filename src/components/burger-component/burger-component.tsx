@@ -1,5 +1,5 @@
 import { useRef, FC } from "react";
-import {useAppDispatch} from "../../hooks/useStore";
+import { useAppDispatch } from "../../hooks/useStore";
 import { useDrag, useDrop } from "react-dnd/dist/hooks";
 
 import {
@@ -12,7 +12,7 @@ import { bunType, dndComponentAccept } from "../../constants/constants";
 
 import { DECREMENT_COUNT } from "../../services/actions/ingredients";
 import { DELETE_COMPONENT } from "../../services/actions/constructor";
-import {IIngredient} from "../../types/ingredients-types";
+import { IIngredient } from "../../types/ingredients-types";
 
 interface BurgerComponentProps {
   item: IIngredient;
@@ -118,8 +118,12 @@ const BurgerComponent: FC<BurgerComponentProps> = ({
         price={item.price}
         thumbnail={item.image}
         handleClose={() => {
-          dispatch({ type: DECREMENT_COUNT, id: item._id });
-          dispatch({ type: DELETE_COMPONENT, id: item.dragId });
+          dispatch({ type: DECREMENT_COUNT, id: item._id, ingredients: [] });
+          dispatch({
+            type: DELETE_COMPONENT,
+            id: item.dragId as string,
+            components: [],
+          });
         }}
       />
     </div>

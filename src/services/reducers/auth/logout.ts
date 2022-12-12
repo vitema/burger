@@ -7,6 +7,7 @@ import {
 } from "../../actions/auth/logout";
 
 import { IRequestState, IRequestAction } from "../../../types/auth-types";
+import { TLogoutActions } from "../../actions/auth/logout";
 
 const initialState = {
   request: false,
@@ -16,7 +17,7 @@ const initialState = {
 
 export const logoutReducer = (
   state: IRequestState = initialState,
-  action: IRequestAction
+  action: IRequestAction<TLogoutActions>
 ): IRequestState => {
   switch (action.type) {
     case LOGOUT_REQUEST: {

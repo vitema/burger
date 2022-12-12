@@ -1,3 +1,7 @@
+import { TConstructorActions } from "../services/actions/constructor";
+import { TIngredientActions } from "../services/actions/ingredient";
+import { TIngredientsActions } from "../services/actions/ingredients";
+
 export interface IIngredientsState {
   ingredientsRequest: boolean;
   ingredientsFailed: boolean;
@@ -6,7 +10,7 @@ export interface IIngredientsState {
 
 export interface IIngredientsAction {
   ingredients: IIngredient[];
-  type: string;
+  type: TIngredientsActions;
   id: string;
 }
 
@@ -39,7 +43,7 @@ export interface IIngredientState {
 
 export interface IIngredientAction {
   item?: IIngredient;
-  type: string;
+  type: TIngredientActions;
 }
 
 export interface IConstructorState {
@@ -49,7 +53,7 @@ export interface IConstructorState {
 }
 
 export interface IConstructorAction {
-  type: string;
+  type: TConstructorActions;
   item?: IIngredient;
   components: IIngredient[];
   id: string;

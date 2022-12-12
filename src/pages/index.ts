@@ -7,6 +7,8 @@ import { ProfilePage } from "./profile";
 import { OrdersPage } from "./orders";
 import { OrderPage } from "./order";
 import { IngredientPage } from "./ingredient";
+import { FeedPage } from "./feed";
+import { FeedOrderPage } from "./feed-order";
 export {
   HomePage,
   LoginPage,
@@ -17,4 +19,6 @@ export {
   OrdersPage,
   OrderPage,
   IngredientPage,
+  FeedPage,
+  FeedOrderPage
 };

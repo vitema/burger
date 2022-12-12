@@ -2,7 +2,6 @@ import { useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import { useHistory } from "react-router-dom";
-import { RootState, AppDispatch } from "../../services/store";
 
 import uuid from "react-uuid";
 import { isAuth } from "../../utils/cookie";
@@ -46,6 +45,7 @@ import {
   IConstructorState,
 } from "../../types/ingredients-types";
 import { IOrderAction, IOrderState } from "../../types/order-types";
+import { TIngredientActions } from "../../services/actions/ingredient";
 
 const BurgerConstructor = () => {
   const ingredientsData = useAppSelector(
@@ -84,9 +84,9 @@ const BurgerConstructor = () => {
   const closeOrder = (): void => {
     handleCloseModal();
     if (!orderData.orderFailed) {
-      dispatch<IIngredientsAction>({
+      dispatch<IConstructorAction>({
         type: CLEAR_INGREDIENTS,
-        ingredients: [],
+        components: [],
         id: "",
       });
       dispatch<IIngredientsAction>({
@@ -171,7 +171,7 @@ const BurgerConstructor = () => {
         });
       }
 
-      dispatch({
+      dispatch<IConstructorAction>({
         type: ADD_INGREDIENT,
         item: {
           ...item,
@@ -182,6 +182,8 @@ const BurgerConstructor = () => {
           // используем библиотеку uuid
           dragId: uuid(),
         },
+        components: [],
+        id: "",
       });
 
       dispatch<IIngredientsAction>({

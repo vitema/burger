@@ -12,7 +12,11 @@ interface ModalProps {
   onClose: () => void;
 }
 
-const Modal : FC<PropsWithChildren<ModalProps>> = ({  header, onClose, children }) => {
+const Modal: FC<PropsWithChildren<ModalProps>> = ({
+  header,
+  onClose,
+  children,
+}) => {
   useKeyDown("Escape", onClose);
 
   return (

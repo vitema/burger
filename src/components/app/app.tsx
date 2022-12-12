@@ -20,6 +20,8 @@ import {
   OrdersPage,
   OrderPage,
   IngredientPage,
+  FeedPage,
+  FeedOrderPage,
 } from "../../pages";
 
 import { getIngredients } from "../../services/actions/ingredients";
@@ -31,7 +33,8 @@ import AppHeader from "../app-header/app-header";
 import { store } from "../../services/store";
 import { Location } from "history";
 
-import {useAppDispatch} from "../../hooks/useStore";
+import { useAppDispatch } from "../../hooks/useStore";
+import FeedOrder from "../feed-order/feed-order";
 
 type TLocationState = {
   background: Location;
@@ -69,6 +72,12 @@ function App() {
           <ProtectedRoute path="/profile/orders/:id" exact={true}>
             <OrderPage />
           </ProtectedRoute>
+          <Route path="/feed" exact={true}>
+            <FeedPage />
+          </Route>
+          <Route path="/feed/:orderId" exact={true}>
+            <FeedOrderPage />
+          </Route>
           <Route path="/register" exact={true}>
             <RegisterPage />
           </Route>
@@ -87,14 +96,33 @@ function App() {
         </Switch>
 
         {background && (
-          <Route
-            path="/ingredients/:ingredientId"
-            children={
-              <Modal onClose={handleModalClose} header="Детали ингридиента">
-                <IngredientDetails />
-              </Modal>
-            }
-          />
+          <>
+            <Route
+              path="/ingredients/:ingredientId"
+              children={
+                <Modal onClose={handleModalClose} header="Детали ингридиента">
+                  <IngredientDetails />
+                </Modal>
+              }
+            />
+            <Route
+              path="/feed/:orderNumber"
+              children={
+                <Modal onClose={handleModalClose} header="">
+                  <FeedOrder />
+                </Modal>
+              }
+            />
+
+            <Route
+              path="/profile/orders/:orderNumber"
+              children={
+                <Modal onClose={handleModalClose} header="">
+                  <FeedOrder />
+                </Modal>
+              }
+            />
+          </>
         )}
       </>
     );

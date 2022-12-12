@@ -7,13 +7,24 @@ import {
   IIngredientsApiResponse,
 } from "../../types/ingredients-types";
 
-export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
-export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
-export const GET_INGREDIENTS_FAILED = "GET_INGREDIENTS_FAILED";
+export const GET_INGREDIENTS_REQUEST: "GET_INGREDIENTS_REQUEST" =
+  "GET_INGREDIENTS_REQUEST";
+export const GET_INGREDIENTS_SUCCESS: "GET_INGREDIENTS_SUCCESS" =
+  "GET_INGREDIENTS_SUCCESS";
+export const GET_INGREDIENTS_FAILED: "GET_INGREDIENTS_FAILED" =
+  "GET_INGREDIENTS_FAILED";
 
-export const INCREMENT_COUNT = "INCREMENT_COUNT";
-export const DECREMENT_COUNT = "DECREMENT_COUNT";
-export const CLEAR_COUNTS = "CLEAR_COUNTS";
+export const INCREMENT_COUNT: "INCREMENT_COUNT" = "INCREMENT_COUNT";
+export const DECREMENT_COUNT: "DECREMENT_COUNT" = "DECREMENT_COUNT";
+export const CLEAR_COUNTS: "CLEAR_COUNTS" = "CLEAR_COUNTS";
+
+export type TIngredientsActions =
+  | typeof GET_INGREDIENTS_REQUEST
+  | typeof GET_INGREDIENTS_SUCCESS
+  | typeof GET_INGREDIENTS_FAILED
+  | typeof INCREMENT_COUNT
+  | typeof DECREMENT_COUNT
+  | typeof CLEAR_COUNTS;
 
 export function getIngredients() {
   return async function (dispatch: AppDispatch) {

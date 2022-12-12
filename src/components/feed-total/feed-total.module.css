@@ -1,0 +1,18 @@
+.box {
+  width: 580px;
+  padding-top: 80px;
+}
+
+.row {
+  display: flex;
+}
+
+.leftCol {
+  display: flex;
+  width: 350px;
+  color: #00cccc;
+}
+
+.rightCol {
+  display: flex;
+}

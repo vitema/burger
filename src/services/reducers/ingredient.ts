@@ -1,4 +1,3 @@
-import { IIngredient } from "../../types/ingredients-types";
 import { SET_INGREDIENT } from "../actions/ingredient";
 import {
   IIngredientState,

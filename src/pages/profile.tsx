@@ -70,7 +70,7 @@ export function ProfilePage() {
 
   return (
     <div className={commonStyles.row}>
-      <Menu />
+      <Menu description={"В этом разделе вы можете изменить свои персональные данные"} />
       {userStore.user && (
         <div className={commonStyles.inputs}>
           <form onSubmit={onFormSubmit} className={commonStyles.form}>

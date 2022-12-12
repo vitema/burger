@@ -1,8 +1,8 @@
 import { apiUrl, accessTokenName } from "../../../constants/constants";
 import { request } from "../../../utils/request";
 import { getCookie } from "../../../utils/cookie";
-import { USER_SET } from "./user";
-import { AppDispatch } from "../../store";
+import { USER_SET, TUpdateUserActions } from "./user";
+import { AppDispatch, AppThunk } from "../../store";
 import {
   IAuthApiResponse,
   IRequestAction,
@@ -10,16 +10,21 @@ import {
 } from "../../../types/auth-types";
 import { getErrorMessage } from "../../../utils/errors";
 
-export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const LOGOUT_FAILED = "LOGOUT_FAILED";
+export const LOGOUT_REQUEST: "LOGOUT_REQUEST" = "LOGOUT_REQUEST";
+export const LOGOUT_SUCCESS: "LOGOUT_SUCCESS" = "LOGOUT_SUCCESS";
+export const LOGOUT_FAILED: "LOGOUT_FAILED" = "LOGOUT_FAILED";
 
-export function sendLogout(toLoginCallBack: {
+export type TLogoutActions =
+  | typeof LOGOUT_REQUEST
+  | typeof LOGOUT_SUCCESS
+  | typeof LOGOUT_FAILED;
+
+export const sendLogout: AppThunk = (toLoginCallBack: {
   (): void;
   (): void;
-}): (dispatch: AppDispatch) => Promise<void> {
+}): ((dispatch: AppDispatch) => Promise<void>) => {
   return async function (dispatch: AppDispatch) {
-    dispatch<IRequestAction>({
+    dispatch<IRequestAction<TLogoutActions>>({
       type: LOGOUT_REQUEST,
       payload: "",
     });
@@ -29,19 +34,18 @@ export function sendLogout(toLoginCallBack: {
       };
       const data = await request<IAuthApiResponse>(`${apiUrl}/auth/logout`, {
         method: "POST",
-        headers: 
-        {
-          "Accept": "application/json",
+        headers: {
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": getCookie(accessTokenName)
+          Authorization: getCookie(accessTokenName),
         },
         body: JSON.stringify(postData),
       });
-      dispatch<IRequestAction>({
+      dispatch<IRequestAction<TLogoutActions>>({
         type: LOGOUT_SUCCESS,
         payload: data.message,
       });
-      dispatch<IUserAction>({
+      dispatch<IUserAction<TUpdateUserActions>>({
         type: USER_SET,
         payload: {
           user: undefined,
@@ -52,10 +56,10 @@ export function sendLogout(toLoginCallBack: {
       });
       toLoginCallBack();
     } catch (error) {
-      dispatch<IRequestAction>({
+      dispatch<IRequestAction<TLogoutActions>>({
         type: LOGOUT_FAILED,
         payload: getErrorMessage(error),
       });
     }
   };
-}
+};

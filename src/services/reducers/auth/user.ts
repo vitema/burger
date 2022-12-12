@@ -9,6 +9,7 @@ import {
 } from "../../actions/auth/user";
 
 import { IUserState, IUserAction } from "../../../types/auth-types";
+import { TGetUserActions, TUpdateUserActions } from "../../actions/auth/user";
 
 const initialState = {
   request: false,
@@ -19,7 +20,7 @@ const initialState = {
 
 export const userReducer = (
   state: IUserState = initialState,
-  action: IUserAction
+  action: IUserAction<TGetUserActions> | IUserAction<TUpdateUserActions>
 ) => {
   switch (action.type) {
     case USER_REQUEST: {

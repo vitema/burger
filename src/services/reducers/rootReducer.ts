@@ -11,11 +11,15 @@ import { refreshReducer } from "./auth/refresh";
 import { registerReducer } from "./auth/register";
 import { resetReducer } from "./auth/reset";
 import { userReducer } from "./auth/user";
+import { wsReducer } from "./feed/wsReducer";
+import { wsUserReducer } from "./feed/wsUserReducer";
+import { feedOrderReducer } from "./feed/feedOrder";
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   constructorIngredients: constructorReducer,
   order: orderReducer,
+  feedOrder: feedOrderReducer,
   ingredient: ingredientReducer,
   forgot: forgotReducer,
   login: loginReducer,
@@ -24,4 +28,6 @@ export const rootReducer = combineReducers({
   register: registerReducer,
   reset: resetReducer,
   user: userReducer,
+  feed:wsReducer,
+  userFeed:wsUserReducer
 });

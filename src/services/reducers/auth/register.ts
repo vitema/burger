@@ -1,5 +1,6 @@
 import { saveTokens } from "../../../utils/cookie";
 import { IRequestState, ITokenAction } from "../../../types/auth-types";
+import { TRegisterActions } from "../../actions/auth/register";
 
 import {
   REGISTER_REQUEST,
@@ -15,7 +16,7 @@ const initialState = {
 
 export const registerReducer = (
   state: IRequestState = initialState,
-  action: ITokenAction
+  action: ITokenAction<TRegisterActions>
 ) => {
   switch (action.type) {
     case REGISTER_REQUEST: {

@@ -4,6 +4,7 @@ import {
   RESET_FAILED,
 } from "../../actions/auth/reset";
 import { IRequestState, IRequestAction } from "../../../types/auth-types";
+import { TResetActions } from "../../actions/auth/reset";
 
 import { sendForgotEmail } from "../../../constants/constants";
 import { deleteCookie } from "../../../utils/cookie";
@@ -16,7 +17,7 @@ const initialState = {
 
 export const resetReducer = (
   state: IRequestState = initialState,
-  action: IRequestAction
+  action: IRequestAction<TResetActions>
 ) => {
   switch (action.type) {
     case RESET_REQUEST: {

@@ -1,25 +1,27 @@
 import { useEffect } from "react";
-import Menu from "../components/menu/menu";
 import { useAppDispatch, useAppSelector } from "../hooks/useStore";
+
 import commonStyles from "./page.module.css";
-import styles from "./orders.module.css";
 import FeedOrders from "../components/feed-orders/feed-orders";
-import { IWSUserAction } from "../types/feed-types";
+import FeedTotal from "../components/feed-total/feed-total";
+import { IWSAction } from "../types/feed-types";
 
 import {
-  WS_USER_CONNECTION_START,
-  WS_USER_CONNECTION_CLOSE,
-} from "../services/actions/feed/wsUserActions";
+  WS_CONNECTION_START,
+  WS_CONNECTION_CLOSE,
+} from "../services/actions/feed/wsActions";
 
-export function OrdersPage() {
+export function FeedPage() {
   const { feed, message } = useAppSelector((store) => ({
-    feed: store.userFeed.feed,
+    feed: store.feed.feed,
     message: store.feed.message,
   }));
+
   const dispatch = useAppDispatch();
+
   useEffect(() => {
-    dispatch<IWSUserAction>({
-      type: WS_USER_CONNECTION_START,
+    dispatch<IWSAction>({
+      type: WS_CONNECTION_START,
       payload: {
         feed: undefined,
         message: "",
@@ -27,8 +29,8 @@ export function OrdersPage() {
     });
 
     return () => {
-      dispatch<IWSUserAction>({
-        type: WS_USER_CONNECTION_CLOSE,
+      dispatch<IWSAction>({
+        type: WS_CONNECTION_CLOSE,
         payload: {
           feed: undefined,
           message: "",
@@ -42,28 +44,24 @@ export function OrdersPage() {
   }));
 
   return (
-    <div className={commonStyles.row}>
-      <Menu
-        description={
-          "В этом разделе вы можете просмотреть свою историю заказов"
-        }
-      />
+    <>
       {feed && feed.orders?.length > 0 && (
         <div className={commonStyles.row}>
-          <div className={styles.box}>
+          <div className={commonStyles.row}>
             <FeedOrders
               feed={feed}
               ingredients={ingredients}
-              title={""}
-              path={"profile/orders"}
-              showStatus={true}
+              title={"Лента заказов"}
+              path={"feed"}
+              showStatus={false}
             />
+            <FeedTotal feed={feed} ingredients={ingredients} />
           </div>
         </div>
       )}
       <p className="text text_type_main-medium p-6">{message}</p>
-    </div>
+    </>
   );
 }
 
-export default OrdersPage;
+export default FeedPage;
