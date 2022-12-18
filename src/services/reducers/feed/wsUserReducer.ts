@@ -33,6 +33,7 @@ export const wsUserReducer = (state = initialState, action: IWSUserAction) => {
       };
 
     case WS_USER_GET_MESSAGE:
+      debugger;
       return {
         ...state,
         feed: {
