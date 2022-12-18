@@ -78,6 +78,7 @@ export const ingredientsReducer = (
 };
 
 const increment = (id: string, items: IIngredient[]): IIngredient[] => {
+ console.log(items);
   const newItems = [...items];
   const item = newItems.filter((x) => x._id == id)[0];
   if (item.count) {

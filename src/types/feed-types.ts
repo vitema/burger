@@ -30,7 +30,7 @@ export interface IFeed {
   success: boolean;
 }
 
-interface IFeedPayload {
+export interface IFeedPayload {
   feed?: IFeed;
   message: string;
 }
