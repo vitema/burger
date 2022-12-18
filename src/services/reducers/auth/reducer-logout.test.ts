@@ -36,7 +36,6 @@ describe("logout reducer", () => {
     });
 
     expect(mockedDeleteTokens).toHaveBeenCalledTimes(1);
-
   });
 
   it("should handle LOGOUT_FAILED", () => {

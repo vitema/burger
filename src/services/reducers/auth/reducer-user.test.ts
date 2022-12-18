@@ -9,7 +9,6 @@ import {
 } from "../../actions/auth/user";
 
 import { userReducer } from "./user";
-import { setCookie } from "../../../utils/cookie";
 
 const payload = {
   refreshToken: "refreshToken",
@@ -27,7 +26,7 @@ describe("user reducer", () => {
     expect(
       userReducer(undefined, {
         type: USER_REQUEST,
-        payload: payload
+        payload: payload,
       })
     ).toEqual({
       request: true,
@@ -41,7 +40,7 @@ describe("user reducer", () => {
     expect(
       userReducer(undefined, {
         type: USER_SUCCESS,
-        payload: payload
+        payload: payload,
       })
     ).toEqual({
       request: false,
@@ -68,13 +67,13 @@ describe("user reducer", () => {
             email: "email",
             password: "password",
           },
-        }
+        },
       })
     ).toEqual({
       success: false,
       request: false,
       message: "message",
-      user: undefined
+      user: undefined,
     });
   });
 
@@ -82,7 +81,7 @@ describe("user reducer", () => {
     expect(
       userReducer(undefined, {
         type: USER_UPDATE_REQUEST,
-        payload: payload
+        payload: payload,
       })
     ).toEqual({
       request: true,
@@ -96,7 +95,7 @@ describe("user reducer", () => {
     expect(
       userReducer(undefined, {
         type: USER_UPDATE_SUCCESS,
-        payload: payload
+        payload: payload,
       })
     ).toEqual({
       request: false,
@@ -123,13 +122,13 @@ describe("user reducer", () => {
             email: "email",
             password: "password",
           },
-        }
+        },
       })
     ).toEqual({
       success: false,
       request: false,
       message: "message",
-      user: undefined
+      user: undefined,
     });
   });
 
@@ -137,7 +136,7 @@ describe("user reducer", () => {
     expect(
       userReducer(undefined, {
         type: USER_SET,
-        payload: payload
+        payload: payload,
       })
     ).toEqual({
       success: false,

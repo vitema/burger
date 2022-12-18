@@ -8,16 +8,16 @@ import {
 import { wsReducer } from "./wsReducer";
 
 const payload: IFeedPayload = {
-   feed: {
+  feed: {
     orders: [
       {
-          ingredients: [],
-          _id: "id1",
-          status: "status",
-          number: 1,
-          createdAt: "2000-01-01",
-          updatedAt: "2000-01-01",
-          name: "name",
+        ingredients: [],
+        _id: "id1",
+        status: "status",
+        number: 1,
+        createdAt: "2000-01-01",
+        updatedAt: "2000-01-01",
+        name: "name",
       },
       {
         ingredients: [],
@@ -27,7 +27,7 @@ const payload: IFeedPayload = {
         createdAt: "2000-01-01",
         updatedAt: "2000-02-01",
         name: "name",
-    }
+      },
     ],
     total: 1,
     totalToday: 1,
@@ -37,15 +37,14 @@ const payload: IFeedPayload = {
 };
 
 describe("wsReducer reducer", () => {
-
   it("should handle WS_CONNECTION_START", () => {
     expect(
       wsReducer(undefined, {
         type: WS_CONNECTION_START,
-        payload:  {
+        payload: {
           feed: undefined,
           message: "message",
-        }
+        },
       })
     ).toEqual({
       wsConnected: true,
@@ -58,10 +57,10 @@ describe("wsReducer reducer", () => {
     expect(
       wsReducer(undefined, {
         type: WS_CONNECTION_ERROR,
-        payload:  {
+        payload: {
           feed: undefined,
           message: "message",
-        }
+        },
       })
     ).toEqual({
       wsConnected: false,
@@ -75,7 +74,6 @@ describe("wsReducer reducer", () => {
       wsReducer(undefined, {
         type: WS_GET_MESSAGE,
         payload: payload,
-        
       })
     ).toEqual({
       wsConnected: false,
@@ -83,6 +81,4 @@ describe("wsReducer reducer", () => {
       feed: payload.feed,
     });
   });
-
- 
 });

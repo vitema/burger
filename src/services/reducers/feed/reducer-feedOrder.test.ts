@@ -6,7 +6,6 @@ import {
 } from "../../actions/feed/feedOrder";
 
 import { feedOrderReducer } from "./feedOrder";
-import { setCookie } from "../../../utils/cookie";
 
 const order = {
   ingredients: [],
@@ -41,15 +40,7 @@ describe("feedOrder reducer", () => {
     ).toEqual({
       orderRequest: false,
       orderFailed: false,
-      order: {
-        ingredients: [],
-        _id: "id",
-        status: "status",
-        number: 1,
-        createdAt: "2000-01-01",
-        updatedAt: "2000-01-01",
-        name: "name",
-      },
+      order: order,
     });
   });
 

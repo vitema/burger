@@ -71,7 +71,7 @@ describe("constructor reducer", () => {
   });
 
   it("should handle INCREMENT_COUNT", () => {
-    const state={
+    const state = {
       ingredientsRequest: false,
       ingredientsFailed: true,
       items: [item],
@@ -93,7 +93,7 @@ describe("constructor reducer", () => {
   });
 
   it("should handle DECREMENT_COUNT", () => {
-    const state={
+    const state = {
       ingredientsRequest: false,
       ingredientsFailed: true,
       items: [item],
@@ -114,9 +114,8 @@ describe("constructor reducer", () => {
     expect(item.count).toEqual(1);
   });
 
-
   it("should handle CLEAR_COUNTS", () => {
-    const state={
+    const state = {
       ingredientsRequest: false,
       ingredientsFailed: true,
       items: [item],

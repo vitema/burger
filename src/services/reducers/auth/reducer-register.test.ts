@@ -5,12 +5,12 @@ import {
 } from "../../actions/auth/register";
 
 import { registerReducer } from "./register";
-import {saveTokens} from "../../../utils/cookie"
+import { saveTokens } from "../../../utils/cookie";
 jest.mock("../../../utils/cookie");
-const mockedSaveTokens= jest.mocked(saveTokens);
+const mockedSaveTokens = jest.mocked(saveTokens);
 
 describe("register reducer", () => {
-   it("should handle REGISTER_REQUEST", () => {
+  it("should handle REGISTER_REQUEST", () => {
     expect(
       registerReducer(undefined, {
         type: REGISTER_REQUEST,
@@ -43,7 +43,7 @@ describe("register reducer", () => {
       message: "",
     });
 
-    expect(mockedSaveTokens).toBeCalledWith("refreshToken","accessToken" );
+    expect(mockedSaveTokens).toBeCalledWith("refreshToken", "accessToken");
     expect(mockedSaveTokens).toHaveBeenCalledTimes(1);
   });
 

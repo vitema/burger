@@ -6,7 +6,6 @@ import {
 
 import { resetReducer } from "./reset";
 import { deleteCookie } from "../../../utils/cookie";
-import { sendForgotEmail } from "../../../constants/constants";
 
 jest.mock("../../../utils/cookie");
 const mockedDeleteCookie = jest.mocked(deleteCookie);

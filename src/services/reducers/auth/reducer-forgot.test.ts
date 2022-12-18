@@ -12,15 +12,12 @@ jest.mock("../../../utils/cookie");
 const mockedSetCookie = jest.mocked(setCookie);
 
 describe("forgot reducer", () => {
-   it("should handle FORGOT_REQUEST", () => {
+  it("should handle FORGOT_REQUEST", () => {
     expect(
-      forgotReducer(
-        undefined,
-        {
-          type: FORGOT_REQUEST,
-          payload: ""
-        }
-      )
+      forgotReducer(undefined, {
+        type: FORGOT_REQUEST,
+        payload: "",
+      })
     ).toEqual({
       request: true,
       success: false,
@@ -30,32 +27,26 @@ describe("forgot reducer", () => {
 
   it("should handle FORGOT_SUCCESS", () => {
     expect(
-      forgotReducer(
-        undefined,
-        {
-          type: FORGOT_SUCCESS,
-          payload: ""
-        }
-      )
+      forgotReducer(undefined, {
+        type: FORGOT_SUCCESS,
+        payload: "",
+      })
     ).toEqual({
       request: false,
       success: true,
       message: "",
     });
 
-    expect(mockedSetCookie).toBeCalledWith(sendForgotEmail,"true", undefined)
-    expect(mockedSetCookie).toBeCalledTimes(1)
+    expect(mockedSetCookie).toBeCalledWith(sendForgotEmail, "true", undefined);
+    expect(mockedSetCookie).toBeCalledTimes(1);
   });
 
   it("should handle FORGOT_FAILED", () => {
     expect(
-      forgotReducer(
-        undefined,
-        {
-          type: FORGOT_FAILED,
-          payload: "test",
-        }
-      )
+      forgotReducer(undefined, {
+        type: FORGOT_FAILED,
+        payload: "test",
+      })
     ).toEqual({
       success: false,
       request: false,

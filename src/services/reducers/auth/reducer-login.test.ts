@@ -5,12 +5,12 @@ import {
 } from "../../actions/auth/login";
 
 import { loginReducer } from "./login";
-import {saveTokens} from "../../../utils/cookie"
+import { saveTokens } from "../../../utils/cookie";
 jest.mock("../../../utils/cookie");
-const mockedSaveTokens= jest.mocked(saveTokens);
+const mockedSaveTokens = jest.mocked(saveTokens);
 
 describe("login reducer", () => {
-   it("should handle LOGIN_REQUEST", () => {
+  it("should handle LOGIN_REQUEST", () => {
     expect(
       loginReducer(undefined, {
         type: LOGIN_REQUEST,
@@ -43,7 +43,7 @@ describe("login reducer", () => {
       message: "",
     });
 
-    expect(mockedSaveTokens).toBeCalledWith("refreshToken","accessToken" );
+    expect(mockedSaveTokens).toBeCalledWith("refreshToken", "accessToken");
     expect(mockedSaveTokens).toHaveBeenCalledTimes(1);
   });
 

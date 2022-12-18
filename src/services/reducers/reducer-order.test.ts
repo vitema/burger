@@ -40,7 +40,7 @@ describe("constructor reducer", () => {
     expect(
       orderReducer(undefined, {
         type: GET_ORDER_REQUEST,
-        order:order
+        order: order,
       })
     ).toEqual({
       orderRequest: true,
@@ -53,7 +53,7 @@ describe("constructor reducer", () => {
     expect(
       orderReducer(undefined, {
         type: GET_ORDER_SUCCESS,
-        order:order
+        order: order,
       })
     ).toEqual({
       orderRequest: false,
@@ -65,7 +65,7 @@ describe("constructor reducer", () => {
           text: "Ваш заказ начали готовить",
           description: "Дождитесь готовности на орбитальной станции",
         },
-      }
+      },
     });
   });
 
@@ -73,7 +73,7 @@ describe("constructor reducer", () => {
     expect(
       orderReducer(undefined, {
         type: GET_ORDER_FAILED,
-        order:order
+        order: order,
       })
     ).toEqual({
       orderRequest: false,
@@ -85,7 +85,7 @@ describe("constructor reducer", () => {
           text: "При оформлении заказа произошла ошибка",
           description: "Обратитесь к администратору",
         },
-      }
+      },
     });
   });
 
@@ -93,12 +93,12 @@ describe("constructor reducer", () => {
     expect(
       orderReducer(undefined, {
         type: CLEAR_ORDER,
-        order:order
+        order: order,
       })
     ).toEqual({
       orderRequest: false,
       orderFailed: false,
-      order: undefined
+      order: undefined,
     });
   });
 });
